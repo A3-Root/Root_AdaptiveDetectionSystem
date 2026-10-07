@@ -29,6 +29,7 @@ if (!MSET(firedBlows)) exitWith {};
 // automatic fire: one broadcast per second is plenty
 if (time < (_unit getVariable [QGVAR(nextFiredEvent), 0])) exitWith {};
 _unit setVariable [QGVAR(nextFiredEvent), time + 1];
+_unit setVariable [QGVAR(lastFired), CBA_missionTime, true];
 
 private _suppressed = ((_unit weaponAccessories _weapon) param [0, ""]) != "";
 private _radius = [MSET(firedRadius), MSET(firedRadiusSuppressed)] select _suppressed;

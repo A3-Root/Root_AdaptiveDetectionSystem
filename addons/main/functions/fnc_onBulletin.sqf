@@ -50,7 +50,7 @@ private _covered = _unit getVariable [QGVAR(cover), false];
             private _entry = [_grp, _unit, false] call FUNC(classify);
             if ((_entry select D_STATE) != ST_COMPROMISED) then {
                 _entry set [D_SUSP, ((_entry select D_SUSP) max MSET(shareSuspicion)) min (MSET(identifyThreshold) - 1)];
-                _entry set [D_STATE, ST_SEARCHING];
+                [_grp, _entry, ST_SEARCHING, format ["radio bulletin from %1 (%2): area alert", [groupId _source, "informant/zeus"] select (isNull _source), _reason]] call FUNC(setState);
                 [_grp, true] call FUNC(publishData);
             };
         };

@@ -32,4 +32,14 @@ private _now = CBA_missionTime;
 private _list = (_veh getVariable [QGVAR(burnedBy), []]) select {(_x select 0) != _side && {(_x select 1) > _now}};
 _list pushBack [_side, _now + _duration, _pos, _range];
 _veh setVariable [QGVAR(burnedBy), _list, true];
+
+// The plate is reported too, so any vehicle carrying it is recognised once the plate is read
+private _plate = getPlateNumber _veh;
+if (_plate != "") then {
+    private _plates = (missionNamespace getVariable [QGVAR(burnedPlates), []]) select {
+        (_x select 1) > _now && {!((_x select 0) == _plate && {(_x select 2) == _side})}
+    };
+    _plates pushBack [_plate, _now + _duration, _side, _pos, _range];
+    missionNamespace setVariable [QGVAR(burnedPlates), _plates, true];
+};
 RLOG_2("%1 burned for %2",_veh,_side);

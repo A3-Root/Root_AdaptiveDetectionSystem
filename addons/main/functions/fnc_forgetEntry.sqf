@@ -30,7 +30,7 @@ _entry set [D_AGED, false];
 _entry set [D_LASTEXP, -1000];
 [_grp, _entry, false] call FUNC(behaviourHooks);
 
-if (_unit getVariable [QGVAR(cover), false]) then { [_grp, _entry, true] call FUNC(setIgnored); };
+if (_unit getVariable [QGVAR(cover), false]) then { [_grp, _entry, true, "forgotten while still covered"] call FUNC(setIgnored); };
 
 [_grp, true] call FUNC(publishData);
-RLOG_2("%1 forgot %2",_grp,_unit);
+if (RADS_DEBUG) then { [_grp, _entry, "FORGOT", format ["no contact for %1 s (forgetTarget) -> UNAWARE, fooled again=%2", MSET(forgetAfter), _entry select D_IGNORED]] call FUNC(debugReport); };

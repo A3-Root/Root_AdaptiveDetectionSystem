@@ -11,7 +11,7 @@
  * 2: Unit's vehicle <OBJECT>
  *
  * Return Value:
- * [exposure <NUMBER>, hostile in same vehicle <BOOL>, best observer <OBJECT>]
+ * [exposure <NUMBER>, hostile in same vehicle <BOOL>, best observer <OBJECT>, best observer factors <ARRAY>]
  *
  * Public: No
  */
@@ -61,6 +61,7 @@ private _light = sunOrMoon;
 
 private _best = 0;
 private _bestObserver = objNull;
+private _bestParts = [];
 
 {
     private _observer = _x;
@@ -109,8 +110,9 @@ private _bestObserver = objNull;
         if (_exposure > _best) then {
             _best = _exposure;
             _bestObserver = _observer;
+            _bestParts = [_visibility, _angle, _fov, _distanceFactor, _behaviour, _skill, _lightFactor, _close, _aim];
         };
     };
 } forEach _observers;
 
-[_best, false, _bestObserver]
+[_best, false, _bestObserver, _bestParts]

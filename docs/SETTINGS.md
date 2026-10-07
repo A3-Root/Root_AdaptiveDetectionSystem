@@ -56,7 +56,7 @@ Variable names are `root_rads_main_<name>`.
 | Identify threshold (%) | `identifyThreshold` | 100 | 10 - 100 | Group identifies the player and engages. |
 | Close identification range (m) | `identifyRange` | 40 | 5 - 500 | Inside this range distance does not reduce exposure. |
 | Distance falloff exponent | `distanceCurve` | 1.5 | 0.25 - 4 | Shape of exposure falloff between close range and max range. Higher = drops faster. |
-| Face-to-face range (m) | `instantRange` | 18 | 0 - 100 | Within this range an observer looking into the vehicle gets a large bonus. |
+| Face-to-face range (m) | `instantRange` | 6 | 0 - 100 | Within this range an observer looking into the vehicle gets a large bonus. |
 | Face-to-face multiplier | `instantMult` | 4 | 1 - 10 | Exposure multiplier inside face-to-face range. |
 | Minimum close exposure | `minCloseExposure` | 40% | 0 - 100% | Minimum visibility assumed inside face-to-face range even through a closed hull. |
 | Vehicle hull blocks sight | `hullBlocks` | true |  | Ray-cast respects the vehicle's own view geometry (glass lets partial sight through). Off = only terrain/objects block. |
@@ -222,13 +222,21 @@ Variable names are `root_rads_main_<name>`.
 |---|---|---|---|---|
 | Detect ramming | `ramDetect` | true |  | A covered vehicle driving into or over hostile AI alerts their group at once. |
 | Ramming speed (km/h) | `ramSpeed` | 5 | 1 - 60 | Minimum speed for contact to count as ramming. |
-| Ramming suspicion (%) | `ramSuspicion` | 75 | 0 - 99 | Suspicion given to the rammed group (they become SUSPICIOUS at least). |
+| Ramming suspicion (%) | `ramSuspicion` | 50 | 0 - 99 | Suspicion given to the rammed group (they become SUSPICIOUS at least). |
 | Ramming = identified | `ramCompromise` | false |  | The rammed group identifies the driver outright instead of becoming suspicious. |
 | Fresh vehicle after identification | `swapForgive` | true |  | An identified unit that gets into a different vehicle unseen is only suspected, not identified. The old vehicle stays known. |
-| Unseen time before swap (s) | `swapMinUnseen` | 15 | 0 - 300 | The group must not have seen the unit for this long when it gets into the new vehicle. |
+| Unseen time before swap (s) | `swapMinUnseen` | 2 | 0 - 300 | The group must not have seen the unit for this long (and must not see it now) when it gets into the new vehicle. |
 | Swap suspicion (%) | `swapBaseSuspicion` | 30 | 0 - 99 | Starting suspicion after the first vehicle swap. |
 | Repeat swap penalty (%) | `swapPenalty` | 30 | 0 - 100 | Extra starting suspicion per previous swap. Once it reaches the identify threshold, swapping no longer works. |
 | Swap memory (s) | `swapMemory` | 900 | 60 - 7200 | How long a group remembers previous swaps. |
+
+## Number Plates
+
+| Setting | Name | Default | Range / options | Description |
+|---|---|---|---|---|
+| Recognise reported number plates | `plateRecognition` | true |  | A burned/reported vehicle's plate (ZEN Plate Number attribute, setPlateNumber) is reported too. Any vehicle carrying that plate is identified as soon as the plate is read, at any suspicion and on any vehicle side. |
+| Plate reading range (m) | `plateReadRange` | 50 | 5 - 300 | Observers must be this close (with line of sight) to read a plate. |
+| Reported plate = COMBAT | `plateCombat` | true |  | A group that reads a reported plate goes COMBAT at once. |
 
 ## AI Reactions
 
@@ -255,7 +263,10 @@ Variable names are `root_rads_main_<name>`.
 
 | Setting | Name | Default | Range / options | Description |
 |---|---|---|---|---|
-| Debug log | `debugLog` | false |  | Write state transitions to the RPT. |
+| Debug log | `debugLog` | false |  | Write detailed RADS events to the RPT of the machine that owns the AI (server/HC) and of the player: identifications with full history, state changes, ramming, hits, shots, shares, bulletins, swaps, cover changes. |
+| Debug log detail | `debugDetail` | Also large single jumps | Events and reports only / Also large single jumps / Every evaluation (very verbose) | What else is written besides events and identification reports. |
+| Large jump threshold (%) | `debugJump` | 8 | 1 - 100 | With 'Also large single jumps', an evaluation that adds at least this much suspicion is logged on its own. |
+| History length | `debugHistory` | 15 | 1 - 60 | Evaluations kept per group and unit and printed with every report (what led up to it). |
 | Publish suspicion for debug | `debugPublish` | false |  | Group owners broadcast suspicion every evaluation so overlays/Zeus inspect stay live (network cost). |
 | Debug overlay *(client)* | `debugOverlay` | false |  | Draw each nearby group's suspicion toward you (needs 'Publish suspicion' for live values). |
 | Show zone markers | `showZoneMarkers` | false |  | Create map markers for detection zones (visible to everyone). |

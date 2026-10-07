@@ -39,7 +39,9 @@
 #define D_AGED 12
 #define D_SWAPS 13
 #define D_SWAPTIME 14
-#define NEW_ENTRY(unit) [unit, 0, ST_UNAWARE, -1000, time, 0, false, 0, false, false, -1000, vehicle unit, false, 0, -1e6]
+#define D_COMPVEH 15
+#define D_HISTORY 16
+#define NEW_ENTRY(unit) [unit, 0, ST_UNAWARE, -1000, time, 0, false, 0, false, false, -1000, vehicle unit, false, 0, -1e6, objNull, []]
 
 #define ST_UNAWARE 0
 #define ST_SUSPICIOUS 1

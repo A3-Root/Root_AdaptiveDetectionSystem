@@ -34,3 +34,12 @@ private _fnc_clear = {
 if (_withVehicle && {!isNull objectParent _object}) then {
     [vehicle _object, QGVAR(burnedBy)] call _fnc_clear;
 };
+
+// Reported plates of the vehicle
+private _plate = getPlateNumber (vehicle _object);
+if (_plate != "") then {
+    private _plates = (missionNamespace getVariable [QGVAR(burnedPlates), []]) select {
+        (_x select 0) != _plate || {_sides isNotEqualTo [] && {!((_x select 2) in _sides)}}
+    };
+    missionNamespace setVariable [QGVAR(burnedPlates), _plates, true];
+};

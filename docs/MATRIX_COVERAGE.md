@@ -43,6 +43,7 @@ How each scenario in `matrix.txt` is handled. The matrix is a guideline, not a s
 | VISDMG | Visible damage (body, glass, wheels, fire) multiplies build (`damageInfluence`). Above `damageVisibleAt` the group is SUSPICIOUS on sight (`damageFloorScale`). |
 | RAM | Ramming / running over: the driver's client reports hostile AI it touches at once (`ramDetect`, `ramSpeed`) → SUSPICIOUS (`ramSuspicion`) or identified (`ramCompromise`). |
 | GEARVOID | Optional: hostile-looking gear voids cover (`gearVoidsCover` + per-item toggles) → vanilla instant combat. |
+| PLATE | Reported number plates (`plateRecognition`): every burn also reports the plate. A group that reads it (`plateReadRange`) identifies at once and goes COMBAT (`plateCombat`), whatever the suspicion or vehicle. |
 | THRESH | `identifyThreshold` reached → `ignoreTarget` lifted + `reveal` (`revealKA`). |
 
 ## Scenarios 1-150
@@ -132,7 +133,7 @@ How each scenario in `matrix.txt` is handled. The matrix is a guideline, not a s
 | 81 | Enemy AI enters the same vehicle as undercover player | SAMEVEH |
 | 82 | Undercover player sits in vehicle while enemy AI searches vehicle | LOITER, HOOKS |
 | 83 | Enemy AI searches vehicle but has no reason to suspect it | BUILD |
-| 84 | Enemy AI has stale knowledge of player but sees same vehicle later | BURNED, MEMORY |
+| 84 | Enemy AI has stale knowledge of player but sees same vehicle later | BURNED, MEMORY, PLATE |
 | 85 | Enemy AI has stale knowledge of player but sees different vehicle | MEMORY, WANTED |
 | 86 | Enemy AI has completely forgotten player and sees civilian vehicle | FORGET |
 | 87 | Player is undercover but another BLUFOR player is openly engaging enemy | PERUNIT |
@@ -208,34 +209,35 @@ How each scenario in `matrix.txt` is handled. The matrix is a guideline, not a s
 | 152 | Visibly damaged / burning vehicle | Visible damage multiplies build. Above `damageVisibleAt` the vehicle is suspicious on sight. |
 | 153 | Ramming or running over AI | Driver-side contact check, immediate SUSPICIOUS (or identification). |
 | 154 | Swap vehicles after being identified | Out of sight → only suspected. Repeats escalate (`swapPenalty`). Old vehicle burned. |
-| 155 | Hostile-looking gear | `gearVoidsCover`: own military uniform / helmet / vest / visible weapon voids cover. |
-| 156 | Stolen vehicle seen or near its owners | Last AI crew is recorded; owners within `theftRadius` or with line of sight burn the vehicle and identify the thief (`theftEnabled`). |
-| 157 | Witnesses killed before reporting | Sharing and bulletins check for survivors / a conscious radioman at send time. Silencing them keeps the knowledge local. |
-| 158 | Radioman long-range alert | `bulletinChance` roll per identifying group with a radioman (`radiomanMode`). After `bulletinDelayMin/Max` it burns the vehicle and marks the unit wanted for that side within `bulletinRange`. |
-| 159 | Civilian informants | Civilians who see an entry or a hostile act may report it after `informantDelay` (`informantsEnabled`, `informantChance`). |
-| 160 | Several players in one vehicle | `compromiseCrew`: identifying one occupant identifies the covered crew for that group. |
-| 161 | Player's AI squadmates riding along | `coverAIPassengers`: covered while a covered player is aboard, otherwise the AI would engage the vehicle. |
-| 162 | Mixed crew (exempt player / other-side AI aboard) | `mixedCrewMode`: ignore / exposure penalty / void cover. |
-| 163 | Open vehicles (quad, bike, RHIB) | `openVehicleMode` + `openVehicleClasses` + `openVehicleMult`. |
-| 164 | Helicopters / planes / boats | `allowAir`, `allowBoats`, `altitudeFalloff`. |
-| 165 | Night, NVG, fog, rain | `nightMult`, `nvgNightMult`, `fogInfluence`, `rainInfluence` (checkVisibility itself ignores light and fog). |
-| 166 | Uniform / helmet / vest / NVG by day / visible weapon | Gear multipliers (`uniformCivMult`, `uniformObserverMult`, `uniformHostileMult`, `helmetMult`, `vestMult`, `nvgDayMult`, `weaponVisibleMult`). |
-| 167 | Weapon light or laser on at night | `lightMult` when the seat exposes the weapon. |
-| 168 | Aiming a turret / FFV weapon at AI | `aimMult` inside `aimAngle`. |
-| 169 | Damaged or burning vehicle | `damageInfluence`. |
-| 170 | Horn at a checkpoint | `hornMult` for 10 s. |
-| 171 | Restricted base / checkpoint / safe town | Detection zones (Zeus/3DEN/API), with optional side filter, delay, duration and daytime window. |
-| 172 | Heat after firing | `heatDuration`: no cover for a while after shooting. |
-| 173 | Zeus remote-controlling an AI | Remote-controlled units never count as observers. |
-| 174 | Player-led AI groups, PvP enemies | Only AI-led groups observe; player-controlled enemies are ignored by RADS. |
-| 175 | Headless client / setGroupOwner mid-suspicion | State is mirrored on transitions and rehydrated by the new owner; ignore states re-applied. |
-| 176 | Captive units / other undercover scripts | `captiveStandDown`: RADS leaves captive units alone. |
-| 177 | ACE handcuffed / surrendering | compat_ace cover condition: no cover. |
-| 178 | ACE unconscious observers / radiomen | Cannot observe, cannot send bulletins. |
-| 179 | Respawn, disconnect, JIP | Cover cleared on death. Null units purged. Zones and object state are public vars. |
-| 180 | Late-joining players and 'all players' profiles | 3DEN Unit Cover 'All players' is picked up by late joiners. |
-| 181 | Groups spawned mid-mission, side relations changed | Picked up every cycle; hostility evaluated live (`getFriend`). |
-| 182 | Vehicle hopping between two covered vehicles | Old cover dropped first, so witnesses of the swap re-classify. |
+| 155 | Same plate on another vehicle (ZEN Plate Number) | Plate reported with the burn. Reading it identifies the occupants even in a different vehicle; changing the plate escapes it. |
+| 156 | Hostile-looking gear | `gearVoidsCover`: own military uniform / helmet / vest / visible weapon voids cover. |
+| 157 | Stolen vehicle seen or near its owners | Last AI crew is recorded; owners within `theftRadius` or with line of sight burn the vehicle and identify the thief (`theftEnabled`). |
+| 158 | Witnesses killed before reporting | Sharing and bulletins check for survivors / a conscious radioman at send time. Silencing them keeps the knowledge local. |
+| 159 | Radioman long-range alert | `bulletinChance` roll per identifying group with a radioman (`radiomanMode`). After `bulletinDelayMin/Max` it burns the vehicle and marks the unit wanted for that side within `bulletinRange`. |
+| 160 | Civilian informants | Civilians who see an entry or a hostile act may report it after `informantDelay` (`informantsEnabled`, `informantChance`). |
+| 161 | Several players in one vehicle | `compromiseCrew`: identifying one occupant identifies the covered crew for that group. |
+| 162 | Player's AI squadmates riding along | `coverAIPassengers`: covered while a covered player is aboard, otherwise the AI would engage the vehicle. |
+| 163 | Mixed crew (exempt player / other-side AI aboard) | `mixedCrewMode`: ignore / exposure penalty / void cover. |
+| 164 | Open vehicles (quad, bike, RHIB) | `openVehicleMode` + `openVehicleClasses` + `openVehicleMult`. |
+| 165 | Helicopters / planes / boats | `allowAir`, `allowBoats`, `altitudeFalloff`. |
+| 166 | Night, NVG, fog, rain | `nightMult`, `nvgNightMult`, `fogInfluence`, `rainInfluence` (checkVisibility itself ignores light and fog). |
+| 167 | Uniform / helmet / vest / NVG by day / visible weapon | Gear multipliers (`uniformCivMult`, `uniformObserverMult`, `uniformHostileMult`, `helmetMult`, `vestMult`, `nvgDayMult`, `weaponVisibleMult`). |
+| 168 | Weapon light or laser on at night | `lightMult` when the seat exposes the weapon. |
+| 169 | Aiming a turret / FFV weapon at AI | `aimMult` inside `aimAngle`. |
+| 170 | Damaged or burning vehicle | `damageInfluence`. |
+| 171 | Horn at a checkpoint | `hornMult` for 10 s. |
+| 172 | Restricted base / checkpoint / safe town | Detection zones (Zeus/3DEN/API), with optional side filter, delay, duration and daytime window. |
+| 173 | Heat after firing | `heatDuration`: no cover for a while after shooting. |
+| 174 | Zeus remote-controlling an AI | Remote-controlled units never count as observers. |
+| 175 | Player-led AI groups, PvP enemies | Only AI-led groups observe; player-controlled enemies are ignored by RADS. |
+| 176 | Headless client / setGroupOwner mid-suspicion | State is mirrored on transitions and rehydrated by the new owner; ignore states re-applied. |
+| 177 | Captive units / other undercover scripts | `captiveStandDown`: RADS leaves captive units alone. |
+| 178 | ACE handcuffed / surrendering | compat_ace cover condition: no cover. |
+| 179 | ACE unconscious observers / radiomen | Cannot observe, cannot send bulletins. |
+| 180 | Respawn, disconnect, JIP | Cover cleared on death. Null units purged. Zones and object state are public vars. |
+| 181 | Late-joining players and 'all players' profiles | 3DEN Unit Cover 'All players' is picked up by late joiners. |
+| 182 | Groups spawned mid-mission, side relations changed | Picked up every cycle; hostility evaluated live (`getFriend`). |
+| 183 | Vehicle hopping between two covered vehicles | Old cover dropped first, so witnesses of the swap re-classify. |
 
 ## Engine limits
 

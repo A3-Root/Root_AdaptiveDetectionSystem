@@ -37,9 +37,10 @@ _entry set [D_LASTEXP, time];
 _entry set [D_LASTUPD, time];
 _entry set [D_VEH, _veh];
 _entry set [D_AGED, false];
-[_grp, _entry, false] call FUNC(setIgnored);
+[_grp, _entry, false, "identified: " + _reason] call FUNC(setIgnored);
 [_grp, _entry, false] call FUNC(behaviourHooks);
 
+_entry set [D_COMPVEH, _veh];
 if (_already) exitWith {};
 _entry set [D_COMPTIME, time];
 
@@ -64,7 +65,9 @@ if (_veh != _unit && {MSET(burnOnIdentify)}) then {
 };
 
 [_grp, true] call FUNC(publishData);
-RLOG_3("%1 IDENTIFIED %2 (%3)",_grp,_unit,_reason);
+if (RADS_DEBUG) then {
+    [_grp, _entry, "IDENTIFIED", format ["%1 | primary=%2 bulletinRoll=%3 crewCascade=%4 shareMode=%5 instantRadius=%6", _reason, _primary, _bulletin && _primary, MSET(compromiseCrew), MSET(shareMode), MSET(shareInstantRadius)]] call FUNC(debugReport);
+};
 [QGVAR(compromised), [_grp, _unit, _reason, side _grp]] call CBA_fnc_globalEvent;
 
 if (MSET(compromiseCrew) && _veh != _unit) then {

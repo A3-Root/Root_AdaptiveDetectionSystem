@@ -29,44 +29,11 @@ if (_entry isEqualTo []) then {
     _entry = NEW_ENTRY(_unit);
     _data set [_key, _entry];
 };
-private _previousVeh = _entry select D_VEH;
-private _swapped = false;
 _entry set [D_LASTUPD, time];
 _entry set [D_VEH, vehicle _unit];
 
-if ((_entry select D_STATE) == ST_COMPROMISED) then {
-    // Identified earlier, now climbing into a different vehicle out of this group's sight: they lose
-    // the unit and only suspect the new vehicle. Every repeat starts them more suspicious, until
-    // swapping no longer works. The old vehicle stays known (burned).
-    if !(_atEntry
-        && {MSET(swapForgive)}
-        && {_unit getVariable [QGVAR(cover), false]}
-        && {vehicle _unit != _previousVeh}
-        && {!isNull objectParent _unit}
-    ) exitWith {};
-
-    private _lastSeen = ((leader _grp) targetKnowledge _unit) param [2, -1e10];
-    private _unseen = time - (_lastSeen max (_entry select D_LASTEXP));
-    if (_unseen < MSET(swapMinUnseen) || {[_grp, _unit] call FUNC(groupSees)}) exitWith {};
-
-    private _swaps = [0, _entry select D_SWAPS] select ((time - (_entry select D_SWAPTIME)) <= MSET(swapMemory));
-    private _seed = MSET(swapBaseSuspicion) + MSET(swapPenalty) * _swaps;
-    _entry set [D_SWAPS, _swaps + 1];
-    _entry set [D_SWAPTIME, time];
-    if (_seed >= MSET(identifyThreshold)) exitWith {
-        RLOG_2("%1 not fooled by another vehicle swap of %2",_grp,_unit);
-    };
-
-    _grp forgetTarget _unit;
-    _entry set [D_SUSP, _seed];
-    _entry set [D_STATE, [ST_SUSPICIOUS, ST_SEARCHING] select (_seed >= MSET(suspiciousThreshold))];
-    _entry set [D_PASSES, 0];
-    _entry set [D_STATIONARY, 0];
-    _entry set [D_VISIBLE, false];
-    _entry set [D_AGED, false];
-    _swapped = true;
-    RLOG_3("%1 lost %2 after a vehicle swap (suspicion %3)",_grp,_unit,_seed);
-};
+// Identified earlier but now in a different vehicle: maybe they lost the unit
+private _swapped = _atEntry && {[_grp, _entry] call FUNC(trySwapForgive)};
 
 if ((_entry select D_STATE) == ST_COMPROMISED) exitWith {_entry};
 
@@ -79,7 +46,10 @@ private _witnessed = _atEntry && _knownByGroup && {_knowledge >= MSET(witnessKA)
 
 if (!_swapped && {_engaged || _witnessed}) exitWith {
     private _why = ["witnessed", "engaged"] select _engaged;
-    RLOG_3("%1 keeps knowledge of %2 (%3)",_grp,_unit,_why);
+    if (RADS_DEBUG) then {
+        [_entry, format ["t=%1 ENTRY %2: knowsAbout=%3 (witness >= %4) lastSeen=%5s ago (window %6s) lastThreat=%7s ago (combat window %8s)",
+            CBA_missionTime toFixed 1, _why, _knowledge toFixed 2, MSET(witnessKA), (time - _lastSeen) toFixed 1, MSET(witnessWindow), (time - _lastThreat) toFixed 1, MSET(combatWindow)]] call FUNC(debugHistory);
+    };
     [_grp, _unit, _why, false] call FUNC(compromise);
     _entry
 };
@@ -89,9 +59,11 @@ if (!_swapped && _knownByGroup && _knowledge > 0) then {
     private _seed = MSET(seedFactor) * (_knowledge / 4) * 100;
     _entry set [D_SUSP, ((_entry select D_SUSP) max _seed) min (MSET(identifyThreshold) - 1)];
     if (_knowledge >= 1) then {
-        _entry set [D_STATE, ST_SEARCHING];
+        [_grp, _entry, ST_SEARCHING, format ["entry: group already knew the unit (knowsAbout %1, last seen %2 s ago) - search, suspicion seeded", _knowledge toFixed 2, (time - _lastSeen) toFixed 1]] call FUNC(setState);
     } else {
-        if ((_entry select D_SUSP) >= MSET(suspiciousThreshold)) then { _entry set [D_STATE, ST_SUSPICIOUS]; };
+        if ((_entry select D_SUSP) >= MSET(suspiciousThreshold)) then {
+            [_grp, _entry, ST_SUSPICIOUS, format ["entry: weak earlier knowledge (knowsAbout %1) seeded suspicion", _knowledge toFixed 2]] call FUNC(setState);
+        };
     };
 };
 
@@ -101,7 +73,7 @@ if (_covered
     && {!(_grp getVariable [QGVAR(immune), false])}
     && {([_veh, side _grp, getPosATL (leader _grp)] call FUNC(vehicleDisguise)) == 1}
 ) then {
-    [_grp, _entry, true] call FUNC(setIgnored);
+    [_grp, _entry, true, ["classified on cover", "cover gained (entry snapshot)"] select _atEntry] call FUNC(setIgnored);
     private _ignoredVehs = _grp getVariable [QGVAR(ignoredVehs), []];
     if (_veh != _unit && {!(_veh in _ignoredVehs)}) then {
         _grp ignoreTarget [_veh, true];
@@ -110,8 +82,12 @@ if (_covered
     };
 };
 
-if ((_entry select D_STATE) != _oldState) then {
-    RLOG_3("%1 -> %2 for %3 (classified)",_grp,STATE_NAMES select (_entry select D_STATE),_unit);
+if (RADS_DEBUG) then {
+    private _line = format ["t=%1 CLASSIFY atEntry=%2 swapped=%3 knowsAbout=%4 knownByGroup=%5 lastSeen=%6s ago -> %7 suspicion=%8 fooled=%9",
+        CBA_missionTime toFixed 1, _atEntry, _swapped, _knowledge toFixed 2, _knownByGroup, (time - _lastSeen) toFixed 1,
+        STATE_NAMES select (_entry select D_STATE), (_entry select D_SUSP) toFixed 1, _entry select D_IGNORED];
+    [_entry, _line] call FUNC(debugHistory);
+    if (_atEntry || {(_entry select D_STATE) != _oldState}) then { ["CLASSIFY", _line, _grp, _unit] call FUNC(debugLog); };
 };
 [_grp, true] call FUNC(publishData);
 

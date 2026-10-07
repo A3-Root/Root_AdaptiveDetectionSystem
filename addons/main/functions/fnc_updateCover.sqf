@@ -38,7 +38,7 @@ if (_now && {!isNil QGVAR(managedUnits)}) then {
 };
 
 [QGVAR(coverChanged), [_unit, _veh, _now]] call CBA_fnc_globalEvent;
-RLOG_3("%1 cover %2 (%3)",_unit,_now,typeOf _veh);
+if (RADS_DEBUG) then { ["COVER", format ["cover %1 -> %2 (vehicle %3)", _was, _now, typeOf _veh], grpNull, _unit] call FUNC(debugLog); };
 
 if (hasInterface && {_unit == player} && GVAR(notifyCover)) then {
     if (_now) then {

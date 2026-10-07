@@ -17,6 +17,7 @@
 #define SUB_INFORM [CAT, "14 Civilian Informants & Theft"]
 #define SUB_AI [CAT, "15 AI Reactions"]
 #define SUB_RAM [CAT, "14b Ramming & Vehicle Swaps"]
+#define SUB_PLATE [CAT, "14c Number Plates"]
 #define SUB_NOTIFY [CAT, "16 Notifications"]
 #define SUB_DEBUG [CAT, "17 Debug"]
 
@@ -58,7 +59,7 @@
 [QGVAR(identifyThreshold), "SLIDER", ["Identify threshold (%)", "Group identifies the player and engages."], SUB_BUILD, [10, 100, 100, 0], true] call CBA_fnc_addSetting;
 [QGVAR(identifyRange), "SLIDER", ["Close identification range (m)", "Inside this range distance does not reduce exposure."], SUB_BUILD, [5, 500, 40, 0], true] call CBA_fnc_addSetting;
 [QGVAR(distanceCurve), "SLIDER", ["Distance falloff exponent", "Shape of exposure falloff between close range and max range. Higher = drops faster."], SUB_BUILD, [0.25, 4, 1.5, 2], true] call CBA_fnc_addSetting;
-[QGVAR(instantRange), "SLIDER", ["Face-to-face range (m)", "Within this range an observer looking into the vehicle gets a large bonus."], SUB_BUILD, [0, 100, 18, 1], true] call CBA_fnc_addSetting;
+[QGVAR(instantRange), "SLIDER", ["Face-to-face range (m)", "Within this range an observer looking into the vehicle gets a large bonus."], SUB_BUILD, [0, 100, 6, 1], true] call CBA_fnc_addSetting;
 [QGVAR(instantMult), "SLIDER", ["Face-to-face multiplier", "Exposure multiplier inside face-to-face range."], SUB_BUILD, [1, 10, 4, 1], true] call CBA_fnc_addSetting;
 [QGVAR(minCloseExposure), "SLIDER", ["Minimum close exposure", "Minimum visibility assumed inside face-to-face range even through a closed hull."], SUB_BUILD, [0, 1, 0.4, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(hullBlocks), "CHECKBOX", ["Vehicle hull blocks sight", "Ray-cast respects the vehicle's own view geometry (glass lets partial sight through). Off = only terrain/objects block."], SUB_BUILD, true, true] call CBA_fnc_addSetting;
@@ -191,13 +192,18 @@
 // ---------------------------------------------------------------- Ramming / vehicle swaps
 [QGVAR(ramDetect), "CHECKBOX", ["Detect ramming", "A covered vehicle driving into or over hostile AI alerts their group at once."], SUB_RAM, true, true] call CBA_fnc_addSetting;
 [QGVAR(ramSpeed), "SLIDER", ["Ramming speed (km/h)", "Minimum speed for contact to count as ramming."], SUB_RAM, [1, 60, 5, 0], true] call CBA_fnc_addSetting;
-[QGVAR(ramSuspicion), "SLIDER", ["Ramming suspicion (%)", "Suspicion given to the rammed group (they become SUSPICIOUS at least)."], SUB_RAM, [0, 99, 75, 0], true] call CBA_fnc_addSetting;
+[QGVAR(ramSuspicion), "SLIDER", ["Ramming suspicion (%)", "Suspicion given to the rammed group (they become SUSPICIOUS at least)."], SUB_RAM, [0, 99, 50, 0], true] call CBA_fnc_addSetting;
 [QGVAR(ramCompromise), "CHECKBOX", ["Ramming = identified", "The rammed group identifies the driver outright instead of becoming suspicious."], SUB_RAM, false, true] call CBA_fnc_addSetting;
 [QGVAR(swapForgive), "CHECKBOX", ["Fresh vehicle after identification", "An identified unit that gets into a different vehicle unseen is only suspected, not identified. The old vehicle stays known."], SUB_RAM, true, true] call CBA_fnc_addSetting;
-[QGVAR(swapMinUnseen), "SLIDER", ["Unseen time before swap (s)", "The group must not have seen the unit for this long when it gets into the new vehicle."], SUB_RAM, [0, 300, 15, 0], true] call CBA_fnc_addSetting;
+[QGVAR(swapMinUnseen), "SLIDER", ["Unseen time before swap (s)", "The group must not have seen the unit for this long (and must not see it now) when it gets into the new vehicle."], SUB_RAM, [0, 300, 2, 0], true] call CBA_fnc_addSetting;
 [QGVAR(swapBaseSuspicion), "SLIDER", ["Swap suspicion (%)", "Starting suspicion after the first vehicle swap."], SUB_RAM, [0, 99, 30, 0], true] call CBA_fnc_addSetting;
 [QGVAR(swapPenalty), "SLIDER", ["Repeat swap penalty (%)", "Extra starting suspicion per previous swap. Once it reaches the identify threshold, swapping no longer works."], SUB_RAM, [0, 100, 30, 0], true] call CBA_fnc_addSetting;
 [QGVAR(swapMemory), "SLIDER", ["Swap memory (s)", "How long a group remembers previous swaps."], SUB_RAM, [60, 7200, 900, 0], true] call CBA_fnc_addSetting;
+
+// ---------------------------------------------------------------- Number plates
+[QGVAR(plateRecognition), "CHECKBOX", ["Recognise reported number plates", "A burned/reported vehicle's plate (ZEN Plate Number attribute, setPlateNumber) is reported too. Any vehicle carrying that plate is identified as soon as the plate is read, at any suspicion and on any vehicle side."], SUB_PLATE, true, true] call CBA_fnc_addSetting;
+[QGVAR(plateReadRange), "SLIDER", ["Plate reading range (m)", "Observers must be this close (with line of sight) to read a plate."], SUB_PLATE, [5, 300, 50, 0], true] call CBA_fnc_addSetting;
+[QGVAR(plateCombat), "CHECKBOX", ["Reported plate = COMBAT", "A group that reads a reported plate goes COMBAT at once."], SUB_PLATE, true, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- AI reactions
 [QGVAR(aiAware), "CHECKBOX", ["Suspicious groups go AWARE", "SAFE/CARELESS groups switch to AWARE while suspicious (restored when calm)."], SUB_AI, false, true] call CBA_fnc_addSetting;
@@ -215,7 +221,10 @@
 [QGVAR(allowWatchedHints), "CHECKBOX", ["Allow suspicion feedback (server)", "Server permission for watched/identified hints and the ACE status suspicion readout."], SUB_NOTIFY, true, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- Debug
-[QGVAR(debugLog), "CHECKBOX", ["Debug log", "Write state transitions to the RPT."], SUB_DEBUG, false, true] call CBA_fnc_addSetting;
+[QGVAR(debugLog), "CHECKBOX", ["Debug log", "Write detailed RADS events to the RPT of the machine that owns the AI (server/HC) and of the player: identifications with full history, state changes, ramming, hits, shots, shares, bulletins, swaps, cover changes."], SUB_DEBUG, false, true] call CBA_fnc_addSetting;
+[QGVAR(debugDetail), "LIST", ["Debug log detail", "What else is written besides events and identification reports."], SUB_DEBUG, [[0, 1, 2], ["Events and reports only", "Also large single jumps", "Every evaluation (very verbose)"], 1], true] call CBA_fnc_addSetting;
+[QGVAR(debugJump), "SLIDER", ["Large jump threshold (%)", "With 'Also large single jumps', an evaluation that adds at least this much suspicion is logged on its own."], SUB_DEBUG, [1, 100, 8, 0], true] call CBA_fnc_addSetting;
+[QGVAR(debugHistory), "SLIDER", ["History length", "Evaluations kept per group and unit and printed with every report (what led up to it)."], SUB_DEBUG, [1, 60, 15, 0], true] call CBA_fnc_addSetting;
 [QGVAR(debugPublish), "CHECKBOX", ["Publish suspicion for debug", "Group owners broadcast suspicion every evaluation so overlays/Zeus inspect stay live (network cost)."], SUB_DEBUG, false, true] call CBA_fnc_addSetting;
 [QGVAR(debugOverlay), "CHECKBOX", ["Debug overlay", "Draw each nearby group's suspicion toward you (needs 'Publish suspicion' for live values)."], SUB_DEBUG, false, false] call CBA_fnc_addSetting;
 [QGVAR(showZoneMarkers), "CHECKBOX", ["Show zone markers", "Create map markers for detection zones (visible to everyone)."], SUB_DEBUG, false, true] call CBA_fnc_addSetting;

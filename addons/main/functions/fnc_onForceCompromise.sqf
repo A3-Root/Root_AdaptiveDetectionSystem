@@ -30,9 +30,9 @@ if (!isNull _grp) exitWith {
         private _entry = [_grp, _unit, false] call FUNC(classify);
         if ((_entry select D_STATE) != ST_COMPROMISED) then {
             _entry set [D_SUSP, (_entry select D_SUSP) max MSET(damageSuspicion)];
-            _entry set [D_STATE, ST_SEARCHING];
+            [_grp, _entry, ST_SEARCHING, "attacked by a covered unit they did not see"] call FUNC(setState);
             [_grp, true] call FUNC(publishData);
-            RLOG_2("%1 searching for unseen attacker %2",_grp,_unit);
+            if (RADS_DEBUG) then { ["ATTACKED", format ["attacker not seen -> SEARCHING at %1 pct", (_entry select D_SUSP) toFixed 0], _grp, _unit] call FUNC(debugLog); };
         };
     };
     [_grp, _unit, _reason, MSET(bulletinOnHostile)] call FUNC(compromise);

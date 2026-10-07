@@ -30,7 +30,7 @@ private _theft = _hasCover && {MSET(theftEnabled)} && {!isNull _veh};
             private _data = _grp getVariable QGVAR(data);
             if (!isNil "_data") then {
                 private _entry = _data getOrDefault [hashValue _unit, []];
-                if (_entry isNotEqualTo []) then { [_grp, _entry] call FUNC(releaseEntry); };
+                if (_entry isNotEqualTo []) then { [_grp, _entry, format ["cover lost (left %1)", typeOf _veh]] call FUNC(releaseEntry); };
             };
         };
     };

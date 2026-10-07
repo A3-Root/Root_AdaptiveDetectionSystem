@@ -43,12 +43,12 @@ Every evaluation (default 1 s, spread over frames), each AI group that is **loca
 2. **Exposure**: the best observer's `checkVisibility` through the vehicle's view geometry (glass lets partial sight through), multiplied by field of view, distance falloff, light, NVG, fog and rain, observer behaviour and skill, seat (driver, cargo, turret, turned out, FFV), vehicle type, gear, driving behaviour, loitering, repeated passes, aiming, vehicle damage, wanted status, zone and group/unit profiles.
 3. **Suspicion** builds with exposure and decays without it. At *Suspicious* the player can be warned and the AI can optionally react. At *Identify* the group lifts the ignore and `reveal`s the unit, then optionally shares the information and rolls for a radio bulletin.
 
-Full scenario mapping: [docs/MATRIX_COVERAGE.md](docs/MATRIX_COVERAGE.md), covering the 150 matrix scenarios plus 32 more.
+Full scenario mapping: [docs/MATRIX_COVERAGE.md](docs/MATRIX_COVERAGE.md), covering the 150 matrix scenarios plus 33 more.
 
 ## Quick start
 1. Load CBA, ZEN, RADS (and optionally ACE).
 2. Put a BLUFOR player near some OPFOR. Get into a civilian car where nobody can see you, then drive past them.
-3. Tune everything under **Addon Options > RADS - Adaptive Detection**. All 164 settings apply live.
+3. Tune everything under **Addon Options > RADS - Adaptive Detection**. All 170 settings apply live.
 4. Turn on *Debug overlay* (client) plus *Publish suspicion for debug* (server) to see each group's suspicion above its leader.
 
 ## Zeus and 3DEN
@@ -74,6 +74,16 @@ Details: [docs/MODULES.md](docs/MODULES.md).
 - [docs/API.md](docs/API.md): public functions and CBA events for mission makers
 - [docs/MATRIX_COVERAGE.md](docs/MATRIX_COVERAGE.md): how each scenario is handled
 - [matrix.txt](matrix.txt): the original design matrix
+
+## Debugging (RPT)
+Turn on **Debug log** (Addon Options > RADS > Debug). Lines start with `[RADS]` and are written by the machine that owns the AI (server or headless client RPT). Ram detection and cover changes are written by the player's machine (client RPT).
+
+- **Identification report** (`===== IDENTIFIED #n =====`): the reason, the group (owner, leader grid/position, behaviour, attack target, vigilance), and the target (name, side, cover, heat, wanted, vehicle class, plate, grid, position, speed, heading, road, damage, seat, lights, burned status, crew). It then shows the entry's last *History length* evaluations, oldest first, i.e. what the vehicle was doing before.
+- **Each history line**: suspicion before/after and gain, exposure, total multiplier, and the best observer (name, behaviour, distance, line of sight through the hull, angle, field-of-view, distance, behaviour, skill, light, face-to-face and aim factors). It also has the vehicle (grid, speed, road, visible damage) and every multiplier that applied (seat, gear, vehicle look, damage, fast pass, speeding, off-road, lights, horn, passes, loitering, wanted, searching, profiles, zone, damage floor). Instant triggers (same vehicle, burned vehicle, reported plate, ramming, entry witness) are marked `INSTANT` / `ENTRY` / `RAMMED`.
+- **Every state change** (`STATE UNAWARE -> SUSPICIOUS`, `SUSPICIOUS -> SEARCHING`, `SEARCHING -> UNAWARE`, `COMPROMISED -> SEARCHING` after a swap, ...) gets the same report, with the cause: threshold crossed (and by how much), entry snapshot, ramming, share, radio bulletin, unseen attacker, vehicle swap, engine knowledge dropped. **Forgetting** too.
+- **Fooled / not fooled** (`FOOLED`): every time a group starts or stops being fooled (`ignoreTarget`), with the reason (cover gained, disguise works on this side, vehicle does not fool this side, restricted zone, identified, cover lost, swap). `REVEAL` when a released unit is revealed because remembered suspicion was high.
+- **Events**: `CLASSIFY` (entry snapshot: knowsAbout, last seen, last threat), `RAM-DETECT` / `RAM`, `HIT` (gunfire vs collision), `FIRED` (radius vs line of sight), `SHARE` (source group, distance, mode, escalation), `ATTACKED`, `SWAP` (unseen time, sees now, previous swaps, result), `COVER`.
+- *Debug log detail*: events only / plus large single jumps (threshold *Large jump threshold*) / every evaluation.
 
 ## Building
 ```

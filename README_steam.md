@@ -15,7 +15,7 @@ Enemy AI no longer open fire the moment you climb into a civilian car or a captu
 
 [h2]Fully configurable[/h2]
 [list]
-[*]164 CBA settings, all applied live in-game without a restart.
+[*]170 CBA settings, all applied live in-game without a restart.
 [*]Zeus (ZEN) and 3DEN modules: live settings overrides, detection zones (restricted, checkpoints, safe havens, time windows), unit cover profiles, vehicle disguise, AI group vigilance, compromise/restore cover, timed enable/disable, radio bulletins, live inspection.
 [*]Scripting API and CBA events for mission makers.
 [/list]

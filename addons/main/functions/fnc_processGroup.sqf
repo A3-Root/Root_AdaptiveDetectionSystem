@@ -57,11 +57,11 @@ private _delete = [];
         if (isNull _unit) then {
             _delete pushBack _x;
         } else {
-            [_grp, _entry] call FUNC(releaseEntry);
+            [_grp, _entry, "unit no longer covered"] call FUNC(releaseEntry);
             if ((_entry select D_STATE) == ST_COMPROMISED) then {
                 // engine dropped them on its own: no residual knowledge
                 if ((_grp knowsAbout _unit) == 0 && {(time - (_entry select D_COMPTIME)) > 10}) then {
-                    _entry set [D_STATE, ST_UNAWARE];
+                    [_grp, _entry, ST_UNAWARE, "engine knowledge dropped to 0 while the unit had no cover"] call FUNC(setState);
                     _entry set [D_SUSP, 0];
                 };
             } else {
