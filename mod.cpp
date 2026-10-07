@@ -1,0 +1,8 @@
+name = "Root's Adaptive Detection System";
+actionName = "GitHub";
+action = "https://github.com/A3-Root/Root_AdaptiveDetectionSystem";
+description = "Root's Adaptive Detection System (RADS)";
+tooltip = "Root's Adaptive Detection System";
+tooltipOwned = "Root's Adaptive Detection System";
+overview = "Enemy AI progressively detect and recognize players concealed inside civilian or enemy vehicles instead of instantly engaging them. Fully configurable through CBA settings, Zeus and 3DEN modules.";
+author = "Root";
