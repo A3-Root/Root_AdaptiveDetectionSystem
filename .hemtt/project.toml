@@ -9,6 +9,7 @@ include = [
     "meta.cpp",
     "LICENSE",
     "README*.md",
+    "root_ads_logo.paa",
 ]
 exclude = [
     ".gitignore",
