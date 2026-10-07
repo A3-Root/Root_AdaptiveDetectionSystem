@@ -20,8 +20,9 @@ private _veh = vehicle _unit;
 if (_veh == _unit || {driver _veh != _unit} || {!(_unit getVariable [QGVAR(cover), false])}) exitWith {};
 if (abs speed _veh < MSET(ramSpeed)) exitWith {};
 
-(boundingBoxReal _veh) params ["_min", "_max", "_diameter"];
-private _margin = 0.5;
+// Geometry clipping (type 2): the actual hull, not mirrors/antennas/view geometry
+(2 boundingBoxReal _veh) params ["_min", "_max", "_diameter"];
+private _margin = 0.15;
 private _reported = [];
 {
     private _rel = _veh worldToModel (ASLToAGL (getPosASL _x));

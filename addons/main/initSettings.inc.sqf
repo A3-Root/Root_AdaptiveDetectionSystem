@@ -58,7 +58,7 @@
 [QGVAR(suspiciousThreshold), "SLIDER", ["Suspicious threshold (%)", "Group becomes SUSPICIOUS (optional AI reactions, player warning)."], SUB_BUILD, [1, 99, 35, 0], true] call CBA_fnc_addSetting;
 [QGVAR(identifyThreshold), "SLIDER", ["Identify threshold (%)", "Group identifies the player and engages."], SUB_BUILD, [10, 100, 100, 0], true] call CBA_fnc_addSetting;
 [QGVAR(identifyRange), "SLIDER", ["Close identification range (m)", "Inside this range distance does not reduce exposure."], SUB_BUILD, [5, 500, 40, 0], true] call CBA_fnc_addSetting;
-[QGVAR(distanceCurve), "SLIDER", ["Distance falloff exponent", "Shape of exposure falloff between close range and max range. Higher = drops faster."], SUB_BUILD, [0.25, 4, 1.5, 2], true] call CBA_fnc_addSetting;
+[QGVAR(distanceCurve), "SLIDER", ["Distance falloff exponent", "Beyond close identification range exposure is (close range / distance) ^ this. 1.5 with 40 m: 0.35 at 80 m, 0.09 at 200 m, 0.03 at 400 m. Higher = drops faster."], SUB_BUILD, [0.25, 4, 1.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(instantRange), "SLIDER", ["Face-to-face range (m)", "Within this range an observer looking into the vehicle gets a large bonus."], SUB_BUILD, [0, 100, 6, 1], true] call CBA_fnc_addSetting;
 [QGVAR(instantMult), "SLIDER", ["Face-to-face multiplier", "Exposure multiplier inside face-to-face range."], SUB_BUILD, [1, 10, 4, 1], true] call CBA_fnc_addSetting;
 [QGVAR(minCloseExposure), "SLIDER", ["Minimum close exposure", "Minimum visibility assumed inside face-to-face range even through a closed hull."], SUB_BUILD, [0, 1, 0.4, 0, true], true] call CBA_fnc_addSetting;
@@ -112,6 +112,7 @@
 [QGVAR(vestMult), "SLIDER", ["Armored vest", "Exposure multiplier wearing an armored vest."], SUB_GEAR, [0, 3, 1.2, 2], true] call CBA_fnc_addSetting;
 [QGVAR(nvgDayMult), "SLIDER", ["NVG worn in daylight", "Exposure multiplier for night vision on the head during the day."], SUB_GEAR, [0, 3, 1.3, 2], true] call CBA_fnc_addSetting;
 [QGVAR(weaponVisibleMult), "SLIDER", ["Visible weapon", "Exposure multiplier when a primary weapon/launcher is visible (exposed seat or open vehicle)."], SUB_GEAR, [0, 5, 1.5, 2], true] call CBA_fnc_addSetting;
+[QGVAR(gearVisibleRange), "SLIDER", ["Gear readable range (m)", "Gear multipliers apply fully within this distance and fade out by twice this distance (nobody can read a driver's uniform at 200 m)."], SUB_GEAR, [5, 500, 50, 0], true] call CBA_fnc_addSetting;
 [QGVAR(gearNeutral), "EDITBOX", ["Neutral gear", "Comma-separated item classes ignored by gear checks."], SUB_GEAR, "", true] call CBA_fnc_addSetting;
 [QGVAR(gearVoidsCover), "CHECKBOX", ["Hostile gear voids cover", "Units wearing the gear ticked below get no cover in vehicles: vanilla detection and instant combat. On foot is always vanilla."], SUB_GEAR, false, true] call CBA_fnc_addSetting;
 [QGVAR(gearVoidUniform), "CHECKBOX", ["Void: own military uniform", "Wearing a military uniform of a covered side (e.g. BLUFOR fatigues)."], SUB_GEAR, true, true] call CBA_fnc_addSetting;

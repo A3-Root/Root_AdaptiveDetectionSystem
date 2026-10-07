@@ -55,7 +55,7 @@ Variable names are `root_rads_main_<name>`.
 | Suspicious threshold (%) | `suspiciousThreshold` | 35 | 1 - 99 | Group becomes SUSPICIOUS (optional AI reactions, player warning). |
 | Identify threshold (%) | `identifyThreshold` | 100 | 10 - 100 | Group identifies the player and engages. |
 | Close identification range (m) | `identifyRange` | 40 | 5 - 500 | Inside this range distance does not reduce exposure. |
-| Distance falloff exponent | `distanceCurve` | 1.5 | 0.25 - 4 | Shape of exposure falloff between close range and max range. Higher = drops faster. |
+| Distance falloff exponent | `distanceCurve` | 1.5 | 0.25 - 4 | Beyond close identification range exposure is (close range / distance) ^ this. 1.5 with 40 m: 0.35 at 80 m, 0.09 at 200 m, 0.03 at 400 m. Higher = drops faster. |
 | Face-to-face range (m) | `instantRange` | 6 | 0 - 100 | Within this range an observer looking into the vehicle gets a large bonus. |
 | Face-to-face multiplier | `instantMult` | 4 | 1 - 10 | Exposure multiplier inside face-to-face range. |
 | Minimum close exposure | `minCloseExposure` | 40% | 0 - 100% | Minimum visibility assumed inside face-to-face range even through a closed hull. |
@@ -121,6 +121,7 @@ Variable names are `root_rads_main_<name>`.
 | Armored vest | `vestMult` | 1.2 | 0 - 3 | Exposure multiplier wearing an armored vest. |
 | NVG worn in daylight | `nvgDayMult` | 1.3 | 0 - 3 | Exposure multiplier for night vision on the head during the day. |
 | Visible weapon | `weaponVisibleMult` | 1.5 | 0 - 5 | Exposure multiplier when a primary weapon/launcher is visible (exposed seat or open vehicle). |
+| Gear readable range (m) | `gearVisibleRange` | 50 | 5 - 500 | Gear multipliers apply fully within this distance and fade out by twice this distance (nobody can read a driver's uniform at 200 m). |
 | Neutral gear | `gearNeutral` | (empty) |  | Comma-separated item classes ignored by gear checks. |
 | Hostile gear voids cover | `gearVoidsCover` | false |  | Units wearing the gear ticked below get no cover in vehicles: vanilla detection and instant combat. On foot is always vanilla. |
 | Void: own military uniform | `gearVoidUniform` | true |  | Wearing a military uniform of a covered side (e.g. BLUFOR fatigues). |

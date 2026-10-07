@@ -48,7 +48,7 @@ Full scenario mapping: [docs/MATRIX_COVERAGE.md](docs/MATRIX_COVERAGE.md), cover
 ## Quick start
 1. Load CBA, ZEN, RADS (and optionally ACE).
 2. Put a BLUFOR player near some OPFOR. Get into a civilian car where nobody can see you, then drive past them.
-3. Tune everything under **Addon Options > RADS - Adaptive Detection**. All 170 settings apply live.
+3. Tune everything under **Addon Options > RADS - Adaptive Detection**. All 171 settings apply live.
 4. Turn on *Debug overlay* (client) plus *Publish suspicion for debug* (server) to see each group's suspicion above its leader.
 
 ## Zeus and 3DEN

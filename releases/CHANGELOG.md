@@ -1,5 +1,19 @@
 # Changelog
 
+## Detection Range Fixes (v1.0.0.3)
+
+### Added
+- Gear readable range (default 50 m): gear multipliers fade out by twice that distance.
+
+### Removed
+- N/A
+
+### Changed
+- Distance falloff is now (close range / distance) ^ exponent: 0.09 at 200 m instead of 0.64 (drivers were being identified from 200+ m).
+- Visible damage uses the average hit-point damage instead of the single worst hit point (one broken window no longer counts as a wreck).
+- Ramming detection uses the geometry hull with a 0.15 m margin (bystanders next to the road were counted as rammed).
+- Vehicle swap: only a group that sees the unit in the new vehicle learns it; a swap that is merely too soon is re-checked every evaluation instead of burning the new vehicle.
+
 ## Debug Logging (v1.0.0.2)
 
 ### Added

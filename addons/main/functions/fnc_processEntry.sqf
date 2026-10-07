@@ -100,11 +100,15 @@ private _floorNote = "";
 
 if (_visible) then {
     ([_unit, _veh] call FUNC(seatFactor)) params ["_seatMult", "_exposedSeat"];
-    private _gearMult = [_unit, _side, _exposedSeat] call FUNC(gearFactor);
+    // gear only counts as far as an observer can make it out
+    private _gearRange = MSET(gearVisibleRange);
+    private _gearVis = (((2 * _gearRange) - (_observer distance _veh)) / (_gearRange max 1)) max 0 min 1;
+    private _gearMult = 1 + (([_unit, _side, _exposedSeat] call FUNC(gearFactor)) - 1) * _gearVis;
     private _mult = _weather * _seatMult * _gearMult;
     FACTOR("weather",_weather);
     FACTOR("seat",_seatMult);
-    FACTOR("gear",_gearMult);
+    private _gearName = format ["gear(readable %1)", _gearVis toFixed 2];
+    FACTOR(_gearName,_gearMult);
 
     // vehicle look
     private _lookMult = [MSET(friendlyVehMult), MSET(civVehMult)] select (([_veh] call FUNC(vehicleSide)) == civilian);

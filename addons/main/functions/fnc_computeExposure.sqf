@@ -79,8 +79,10 @@ private _bestParts = [];
         private _angle = acos ((((vectorNormalized _facing) vectorDotProduct _toTarget) min 1) max -1);
         private _fov = [_peripheral, 1] select (_angle <= _halfFov);
 
+        // Telling who sits in a vehicle gets hard fast with distance: full inside close range,
+        // then (closeRange / distance) ^ exponent, e.g. 40 m close range, exponent 1.5 -> 0.09 at 200 m
         private _distanceFactor = if (_distance <= _identifyRange) then {1} else {
-            (((_maxRange - _distance) / ((_maxRange - _identifyRange) max 1)) max 0) ^ _curve
+            (_identifyRange / _distance) ^ _curve
         };
 
         private _behaviour = switch (behaviour _observer) do {

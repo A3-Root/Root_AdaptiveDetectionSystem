@@ -37,9 +37,15 @@ private _fnc_known = {
 private _lastSeen = ((leader _grp) targetKnowledge _unit) param [2, -1e10];
 private _unseen = time - (_lastSeen max (_entry select D_LASTEXP));
 if (RADS_DEBUG) then { ["SWAP", format ["identified in %1, now in %2: unseen=%3s (need %4s) seesNow=%5 previousSwaps=%6", typeOf (_entry select D_COMPVEH), typeOf _veh, _unseen toFixed 1, MSET(swapMinUnseen), [_grp, _unit] call FUNC(groupSees), _entry select D_SWAPS], _grp, _unit] call FUNC(debugLog); };
-if (_unseen < MSET(swapMinUnseen) || {[_grp, _unit] call FUNC(groupSees)}) exitWith {
-    RLOG_2("%1 watched %2 change vehicles",_grp,_unit);
+// Seen in the new vehicle: they watched the swap, the new vehicle is now the known one
+if ([_grp, _unit] call FUNC(groupSees)) exitWith {
+    if (RADS_DEBUG) then { ["SWAP", format ["watched the swap -> %1 is now the known vehicle", typeOf _veh], _grp, _unit] call FUNC(debugLog); };
     call _fnc_known;
+    false
+};
+// Not seen, but lost sight too recently: still identified for now, re-checked every evaluation
+if (_unseen < MSET(swapMinUnseen)) exitWith {
+    if (RADS_DEBUG) then { ["SWAP", format ["too soon (%1 s unseen of %2 s needed), re-checking", _unseen toFixed 1, MSET(swapMinUnseen)], _grp, _unit] call FUNC(debugLog); };
     false
 };
 
