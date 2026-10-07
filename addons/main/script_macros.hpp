@@ -10,7 +10,7 @@
     #define PREP(fncName) [QPATHTOF(functions\DOUBLES(fnc,fncName).sqf), QFUNC(fncName)] call CBA_fnc_compileFunction
 #endif
 
-// Public API: functions\api\fnc_<name>.sqf -> root_rads_fnc_<name>
+// Public API: functions\api\fnc_<name>.sqf -> root_ads_fnc_<name>
 #define PREP_API(fncName) [QPATHTOF(functions\api\DOUBLES(fnc,fncName).sqf), QUOTE(TRIPLES(PREFIX,fnc,fncName))] call CBA_fnc_compileFunction
 #define API(fncName) TRIPLES(PREFIX,fnc,fncName)
 #define QAPI(fncName) QUOTE(API(fncName))
@@ -37,7 +37,9 @@
 #define D_COMPTIME 10
 #define D_VEH 11
 #define D_AGED 12
-#define NEW_ENTRY(unit) [unit, 0, ST_UNAWARE, -1000, time, 0, false, 0, false, false, -1000, vehicle unit, false]
+#define D_SWAPS 13
+#define D_SWAPTIME 14
+#define NEW_ENTRY(unit) [unit, 0, ST_UNAWARE, -1000, time, 0, false, 0, false, false, -1000, vehicle unit, false, 0, -1e6]
 
 #define ST_UNAWARE 0
 #define ST_SUSPICIOUS 1

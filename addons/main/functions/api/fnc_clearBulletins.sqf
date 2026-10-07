@@ -12,7 +12,7 @@
  * None
  *
  * Example:
- * [player] call root_rads_fnc_clearBulletins
+ * [player] call root_ads_fnc_clearBulletins
  *
  * Public: Yes
  */

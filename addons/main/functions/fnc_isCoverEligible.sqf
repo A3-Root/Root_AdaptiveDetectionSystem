@@ -48,6 +48,16 @@ if (_blocked) exitWith {false};
 
 if (!_forced && {([getPosATL _veh] call FUNC(zoneModifiers)) select 0}) exitWith {false};
 
+// Hostile-looking gear gives the unit away regardless of the vehicle
+if (!_forced && {MSET(gearVoidsCover)}) then {
+    ([_unit] call FUNC(gearInfo)) params ["_uSide", "_helmet", "_vest", "", "_weapon"];
+    _blocked = (MSET(gearVoidUniform) && {_uSide in _coveredSides})
+        || {MSET(gearVoidHelmet) && _helmet}
+        || {MSET(gearVoidVest) && _vest}
+        || {MSET(gearVoidWeapon) && _weapon && {([_unit, _veh] call FUNC(seatFactor)) select 1}};
+};
+if (_blocked) exitWith {false};
+
 // Mixed crew: exempt occupants, or occupants of a non-covered, non-civilian side other than the vehicle's own
 if (MSET(mixedCrewMode) == 2) then {
     private _vehSide = [_veh] call FUNC(vehicleSide);

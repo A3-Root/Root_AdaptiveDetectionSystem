@@ -43,12 +43,12 @@ Every evaluation (default 1 s, spread over frames), each AI group that is **loca
 2. **Exposure**: the best observer's `checkVisibility` through the vehicle's view geometry (glass lets partial sight through), multiplied by field of view, distance falloff, light, NVG, fog and rain, observer behaviour and skill, seat (driver, cargo, turret, turned out, FFV), vehicle type, gear, driving behaviour, loitering, repeated passes, aiming, vehicle damage, wanted status, zone and group/unit profiles.
 3. **Suspicion** builds with exposure and decays without it. At *Suspicious* the player can be warned and the AI can optionally react. At *Identify* the group lifts the ignore and `reveal`s the unit, then optionally shares the information and rolls for a radio bulletin.
 
-Full scenario mapping: [docs/MATRIX_COVERAGE.md](docs/MATRIX_COVERAGE.md), covering the 150 matrix scenarios plus 27 more.
+Full scenario mapping: [docs/MATRIX_COVERAGE.md](docs/MATRIX_COVERAGE.md), covering the 150 matrix scenarios plus 32 more.
 
 ## Quick start
 1. Load CBA, ZEN, RADS (and optionally ACE).
 2. Put a BLUFOR player near some OPFOR. Get into a civilian car where nobody can see you, then drive past them.
-3. Tune everything under **Addon Options > RADS - Adaptive Detection**. All 144 settings apply live.
+3. Tune everything under **Addon Options > RADS - Adaptive Detection**. All 164 settings apply live.
 4. Turn on *Debug overlay* (client) plus *Publish suspicion for debug* (server) to see each group's suspicion above its leader.
 
 ## Zeus and 3DEN

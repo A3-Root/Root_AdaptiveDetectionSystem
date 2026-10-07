@@ -14,4 +14,4 @@
 
 params [["_name", "", [""]]];
 
-missionNamespace getVariable ["root_rads_main_ov_" + _name, missionNamespace getVariable ("root_rads_main_" + _name)]
+missionNamespace getVariable ["root_ads_main_ov_" + _name, missionNamespace getVariable ("root_ads_main_" + _name)]

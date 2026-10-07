@@ -19,6 +19,12 @@ params ["_grp", "_unit"];
 private _mode = MSET(shareMode);
 if (_mode == 0) exitWith {};
 
+// Groups right next to the identifying group see/hear the reaction and identify the unit at once
+private _instant = MSET(shareInstantRadius);
+if (_instant > 0) then {
+    [QGVAR(share), [side _grp, getPosATL (leader _grp), _instant, _unit, 2, _grp]] call CBA_fnc_globalEvent;
+};
+
 private _radius = _grp getVariable [QGVAR(shareRadius), -1];
 if (_radius < 0) then { _radius = MSET(shareRadius); };
 if (_radius <= 0) exitWith {};

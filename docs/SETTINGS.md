@@ -56,7 +56,7 @@ Variable names are `root_rads_main_<name>`.
 | Identify threshold (%) | `identifyThreshold` | 100 | 10 - 100 | Group identifies the player and engages. |
 | Close identification range (m) | `identifyRange` | 40 | 5 - 500 | Inside this range distance does not reduce exposure. |
 | Distance falloff exponent | `distanceCurve` | 1.5 | 0.25 - 4 | Shape of exposure falloff between close range and max range. Higher = drops faster. |
-| Face-to-face range (m) | `instantRange` | 6 | 0 - 30 | Within this range an observer looking into the vehicle gets a large bonus. |
+| Face-to-face range (m) | `instantRange` | 18 | 0 - 100 | Within this range an observer looking into the vehicle gets a large bonus. |
 | Face-to-face multiplier | `instantMult` | 4 | 1 - 10 | Exposure multiplier inside face-to-face range. |
 | Minimum close exposure | `minCloseExposure` | 40% | 0 - 100% | Minimum visibility assumed inside face-to-face range even through a closed hull. |
 | Vehicle hull blocks sight | `hullBlocks` | true |  | Ray-cast respects the vehicle's own view geometry (glass lets partial sight through). Off = only terrain/objects block. |
@@ -104,7 +104,9 @@ Variable names are `root_rads_main_<name>`.
 | Fast pass speed (km/h) | `fastSpeed` | 50 | 10 - 200 | Above this speed a drive-by gives limited exposure. |
 | Fast pass multiplier | `fastMult` | 40% | 0 - 100% | Exposure multiplier above the fast pass speed. |
 | Aircraft altitude falloff (m) | `altitudeFalloff` | 60 | 10 - 1000 | Aircraft above this altitude (ATL) get proportionally less exposure. |
-| Damaged vehicle influence | `damageInfluence` | 1 | 0 - 3 | Damaged/burning vehicles look suspicious: multiplier = 1 + damage x this. |
+| Damaged vehicle influence | `damageInfluence` | 2 | 0 - 5 | Visibly damaged vehicles (body, glass, wheels, burning) build suspicion faster: multiplier = 1 + visible damage x this. |
+| Instantly suspicious from damage | `damageVisibleAt` | 15% | 0 - 100% | A vehicle seen with at least this much visible damage makes the observing group SUSPICIOUS at once. 100% = off. |
+| Damage suspicion floor | `damageFloorScale` | 60% | 0 - 100% | How far above the suspicious threshold heavy damage pushes suspicion (share of the gap to identification, scaled by damage). |
 | Mixed crew multiplier | `mixedCrewMult` | 1.5 | 1 - 5 | Exposure multiplier per uncovered occupant (Mixed crew = penalty). |
 
 ## Gear
@@ -120,6 +122,11 @@ Variable names are `root_rads_main_<name>`.
 | NVG worn in daylight | `nvgDayMult` | 1.3 | 0 - 3 | Exposure multiplier for night vision on the head during the day. |
 | Visible weapon | `weaponVisibleMult` | 1.5 | 0 - 5 | Exposure multiplier when a primary weapon/launcher is visible (exposed seat or open vehicle). |
 | Neutral gear | `gearNeutral` | (empty) |  | Comma-separated item classes ignored by gear checks. |
+| Hostile gear voids cover | `gearVoidsCover` | false |  | Units wearing the gear ticked below get no cover in vehicles: vanilla detection and instant combat. On foot is always vanilla. |
+| Void: own military uniform | `gearVoidUniform` | true |  | Wearing a military uniform of a covered side (e.g. BLUFOR fatigues). |
+| Void: ballistic helmet | `gearVoidHelmet` | true |  | Wearing armored headgear. |
+| Void: armored vest | `gearVoidVest` | true |  | Wearing an armored vest. |
+| Void: visible weapon | `gearVoidWeapon` | true |  | Carrying a rifle/launcher in a seat that shows it (turned out, firing position, open vehicle). |
 
 ## Behaviour of Player
 
@@ -171,6 +178,10 @@ Variable names are `root_rads_main_<name>`.
 | Shared knowledge | `shareKA` | 1.5 | 0.1 - 4 | knowsAbout (0-4) given on full share. |
 | Shared suspicion (%) | `shareSuspicion` | 60 | 0 - 99 | Starting suspicion given on suspicion share. |
 | Sharing needs a radio | `shareNeedsRadio` | false |  | The identifying group needs at least one unit with a radio to share. |
+| Instant identification radius (m) | `shareInstantRadius` | 150 | 0 - 1000 | Groups this close to an identifying group identify the unit at once (they see/hear the reaction). 0 = off. |
+| Suspicious groups confirm on share | `shareEscalate` | true |  | A group that is already SUSPICIOUS or SEARCHING identifies the unit when it receives a share. |
+| Identified vehicle is burned locally | `burnOnIdentify` | true |  | The vehicle a unit was identified in is recognised on sight by that side nearby (see range). |
+| Local burn range (m) | `burnOnIdentifyRange` | 1500 | 0 - 10000 | Distance from the identification within which that side recognises the vehicle. 0 = side-wide. |
 
 ## Radio Bulletins
 
@@ -204,6 +215,20 @@ Variable names are `root_rads_main_<name>`.
 | Informant witness range (m) | `informantRange` | 200 | 10 - 1000 | Max distance a civilian can witness from. |
 | Stolen vehicles | `theftEnabled` | true |  | Taking a vehicle last crewed by an AI group burns it for that side if its owners are nearby or see it. |
 | Theft witness radius (m) | `theftRadius` | 50 | 0 - 500 | Owners within this distance always notice the theft. |
+
+## Ramming & Vehicle Swaps
+
+| Setting | Name | Default | Range / options | Description |
+|---|---|---|---|---|
+| Detect ramming | `ramDetect` | true |  | A covered vehicle driving into or over hostile AI alerts their group at once. |
+| Ramming speed (km/h) | `ramSpeed` | 5 | 1 - 60 | Minimum speed for contact to count as ramming. |
+| Ramming suspicion (%) | `ramSuspicion` | 75 | 0 - 99 | Suspicion given to the rammed group (they become SUSPICIOUS at least). |
+| Ramming = identified | `ramCompromise` | false |  | The rammed group identifies the driver outright instead of becoming suspicious. |
+| Fresh vehicle after identification | `swapForgive` | true |  | An identified unit that gets into a different vehicle unseen is only suspected, not identified. The old vehicle stays known. |
+| Unseen time before swap (s) | `swapMinUnseen` | 15 | 0 - 300 | The group must not have seen the unit for this long when it gets into the new vehicle. |
+| Swap suspicion (%) | `swapBaseSuspicion` | 30 | 0 - 99 | Starting suspicion after the first vehicle swap. |
+| Repeat swap penalty (%) | `swapPenalty` | 30 | 0 - 100 | Extra starting suspicion per previous swap. Once it reaches the identify threshold, swapping no longer works. |
+| Swap memory (s) | `swapMemory` | 900 | 60 - 7200 | How long a group remembers previous swaps. |
 
 ## AI Reactions
 

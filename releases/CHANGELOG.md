@@ -1,5 +1,22 @@
 # Changelog
 
+## Testing Fixes (v1.0.0.1)
+
+### Added
+- Instant identification for groups near an identifying group (`shareInstantRadius`); already-suspicious groups confirm on any share.
+- Visible vehicle damage (glass, body, wheels, fire): suspicious on sight above a threshold, faster build-up below it.
+- Ramming/running over detection: rammed group suspicious at once (optional instant identification).
+- Vehicle swap after identification: unseen swap only suspected, repeats escalate, old vehicle burned locally.
+- Optional "Hostile gear voids cover" with per-item toggles (uniform, helmet, vest, visible weapon).
+
+### Removed
+- N/A
+
+### Changed
+- Face-to-face range default 6 m -> 18 m (max 100 m).
+- Damaged vehicle influence default 1 -> 2.
+- Identified vehicles are burned for that side within 1500 m by default.
+
 ## Initial Public Release (v1.0.0.0)
 
 ### Added

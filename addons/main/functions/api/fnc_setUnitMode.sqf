@@ -13,7 +13,7 @@
  * None
  *
  * Example:
- * [player, "normal", 0.5] call root_rads_fnc_setUnitMode
+ * [player, "normal", 0.5] call root_ads_fnc_setUnitMode
  *
  * Public: Yes
  */

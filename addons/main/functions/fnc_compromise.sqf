@@ -55,6 +55,14 @@ _grp reveal [_unit, _knowledge];
 if (_veh != _unit) then { _grp reveal [_veh, _knowledge]; };
 if (MSET(aiCombatOnIdentify)) then { _grp setBehaviour "COMBAT"; };
 
+// The vehicle the unit was identified in is now known to this side around here
+if (_veh != _unit && {MSET(burnOnIdentify)}) then {
+    private _known = (_veh getVariable [QGVAR(burnedBy), []]) findIf {(_x select 0) == side _grp && {(_x select 1) > CBA_missionTime}} > -1;
+    if (!_known) then {
+        [_veh, side _grp, MSET(burnDuration), MSET(burnOnIdentifyRange), getPosATL _veh] call API(burnVehicle);
+    };
+};
+
 [_grp, true] call FUNC(publishData);
 RLOG_3("%1 IDENTIFIED %2 (%3)",_grp,_unit,_reason);
 [QGVAR(compromised), [_grp, _unit, _reason, side _grp]] call CBA_fnc_globalEvent;

@@ -9,13 +9,13 @@ Enemy AI no longer open fire the moment you climb into a civilian car or a captu
 [*]Suspicion builds gradually from line of sight through the windows, distance, light, how you drive, how long you loiter, how many times you pass, your uniform, helmet and visible weapons.
 [*]Shooting from the car blows your cover instantly.
 [*]Break contact long enough and they forget you, and the disguise works again.
-[*]A radioman may broadcast your vehicle over long range, and any enemy who sees it later engages on sight. Kill him before he finishes and the call never goes out.
+[*]A radioman may broadcast your vehicle over long range, and any enemy who sees it later engages on sight. (Adjustable via CBA settings, Zeus Module, 3DEN Module, and API).
 [*]Optional civilian informants, stolen-vehicle detection, AI that watch or investigate suspicious vehicles.
 [/list]
 
 [h2]Fully configurable[/h2]
 [list]
-[*]144 CBA settings, all applied live in-game without a restart.
+[*]164 CBA settings, all applied live in-game without a restart.
 [*]Zeus (ZEN) and 3DEN modules: live settings overrides, detection zones (restricted, checkpoints, safe havens, time windows), unit cover profiles, vehicle disguise, AI group vigilance, compromise/restore cover, timed enable/disable, radio bulletins, live inspection.
 [*]Scripting API and CBA events for mission makers.
 [/list]

@@ -8,13 +8,14 @@
 [QGVAR(restoreCover), FUNC(onRestoreCover)] call CBA_fnc_addEventHandler;
 [QGVAR(share), FUNC(onShare)] call CBA_fnc_addEventHandler;
 [QGVAR(bulletin), FUNC(onBulletin)] call CBA_fnc_addEventHandler;
+[QGVAR(rammed), FUNC(onRammed)] call CBA_fnc_addEventHandler;
 
 // Server is the authority for shared mission state (zones, overrides, burned vehicles, wanted units)
 if (isServer) then {
     [QGVAR(api), {
         params ["_fnc", "_args"];
         if !(_fnc in ["addZone", "removeZone", "setOverride", "clearOverrides", "burnVehicle", "markWanted", "clearBulletins", "setEnabled", "setVehicleMode", "setUnitMode", "setGroupProfile"]) exitWith {};
-        _args call (missionNamespace getVariable [format ["root_rads_fnc_%1", _fnc], {}]);
+        _args call (missionNamespace getVariable [format ["root_ads_fnc_%1", _fnc], {}]);
     }] call CBA_fnc_addEventHandler;
 };
 
@@ -32,6 +33,7 @@ if (hasInterface) then {
     }] call CBA_fnc_addEventHandler;
 
     call FUNC(initPlayer);
+    [FUNC(ramCheck), 0.2] call CBA_fnc_addPerFrameHandler;
     addMissionEventHandler ["Draw3D", { if (GVAR(debugOverlay)) then { call FUNC(debugDraw) }; }];
 };
 

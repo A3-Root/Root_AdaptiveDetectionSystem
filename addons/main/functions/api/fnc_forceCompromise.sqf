@@ -13,7 +13,7 @@
  * None
  *
  * Example:
- * [player, [east], 500] call root_rads_fnc_forceCompromise
+ * [player, [east], 500] call root_ads_fnc_forceCompromise
  *
  * Public: Yes
  */

@@ -19,14 +19,14 @@ params ["_logic", ["_units", []], ["_activated", true]];
 if (!isServer || {!_activated}) exitWith {};
 
 private _objects = (synchronizedObjects _logic) select {!(_x isKindOf "Logic") && {!(_x isKindOf "EmptyDetector")}};
-private _sides = [_logic getVariable ["ROOT_RADS_B_sides", "east"]] call FUNC(parseSides);
-private _burn = _logic getVariable ["ROOT_RADS_B_burn", true];
-private _wanted = _logic getVariable ["ROOT_RADS_B_wanted", true];
-private _duration = _logic getVariable ["ROOT_RADS_B_duration", -1];
-private _range = _logic getVariable ["ROOT_RADS_B_range", 0];
+private _sides = [_logic getVariable ["ROOT_ADS_B_sides", "east"]] call FUNC(parseSides);
+private _burn = _logic getVariable ["ROOT_ADS_B_burn", true];
+private _wanted = _logic getVariable ["ROOT_ADS_B_wanted", true];
+private _duration = _logic getVariable ["ROOT_ADS_B_duration", -1];
+private _range = _logic getVariable ["ROOT_ADS_B_range", 0];
 private _pos = getPosATL _logic;
 
-if (_logic getVariable ["ROOT_RADS_B_clear", false]) exitWith {
+if (_logic getVariable ["ROOT_ADS_B_clear", false]) exitWith {
     { [_x, _sides, true] call API(clearBulletins); } forEach _objects;
 };
 

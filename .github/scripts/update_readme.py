@@ -13,8 +13,8 @@ def get_latest_version():
     if not releases_dir.exists():
         return None
     
-    versioned_zips = list(releases_dir.glob("root_rads-*.zip"))
-    latest_zip = releases_dir / "root_rads-latest.zip"
+    versioned_zips = list(releases_dir.glob("root_ads-*.zip"))
+    latest_zip = releases_dir / "root_ads-latest.zip"
     versioned_zips = [z for z in versioned_zips if z != latest_zip]
     
     if not versioned_zips:
@@ -22,7 +22,7 @@ def get_latest_version():
     
     def get_version_from_filename(filename):
         try:
-            return filename.name.split("root_rads-")[1].split(".zip")[0]
+            return filename.name.split("root_ads-")[1].split(".zip")[0]
         except:
             return None
     

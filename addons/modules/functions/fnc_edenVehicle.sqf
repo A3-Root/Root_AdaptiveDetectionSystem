@@ -28,9 +28,9 @@ if (!_activated) exitWith {
     { [_x, "auto"] call API(setVehicleMode); [_x, [], false] call API(clearBulletins); } forEach _vehicles;
 };
 
-private _mode = _logic getVariable ["ROOT_RADS_V_mode", "disguise"];
-private _sides = [_logic getVariable ["ROOT_RADS_V_burnSides", ""]] call FUNC(parseSides);
-private _duration = _logic getVariable ["ROOT_RADS_V_duration", 0];
+private _mode = _logic getVariable ["ROOT_ADS_V_mode", "disguise"];
+private _sides = [_logic getVariable ["ROOT_ADS_V_burnSides", ""]] call FUNC(parseSides);
+private _duration = _logic getVariable ["ROOT_ADS_V_duration", 0];
 {
     private _veh = _x;
     [_veh, _mode, _duration] call API(setVehicleMode);

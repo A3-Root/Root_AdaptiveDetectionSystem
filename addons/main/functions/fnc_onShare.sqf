@@ -31,7 +31,11 @@ if (isNull _unit || {!alive _unit}) exitWith {};
         && {((leader _grp) distance _pos) <= _radius}
         && {[_side, _unit] call FUNC(isHostile)}
     ) then {
-        if (_mode == 2) then {
+        private _data = _grp getVariable QGVAR(data);
+        private _current = if (isNil "_data") then {[]} else {_data getOrDefault [hashValue _unit, []]};
+        // A group already suspicious of the unit takes the report as confirmation
+        private _confirms = MSET(shareEscalate) && {_current isNotEqualTo []} && {(_current select D_STATE) in [ST_SUSPICIOUS, ST_SEARCHING]};
+        if (_mode == 2 || _confirms) then {
             [_grp, _unit, "shared", false, false] call FUNC(compromise);
         } else {
             private _entry = [_grp, _unit, false] call FUNC(classify);

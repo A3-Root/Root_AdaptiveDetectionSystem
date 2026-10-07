@@ -18,6 +18,6 @@ params ["_logic", ["_units", []], ["_activated", true]];
 
 if (!isServer || {!_activated}) exitWith {};
 
-private _action = _logic getVariable ["ROOT_RADS_T_action", 0];
+private _action = _logic getVariable ["ROOT_ADS_T_action", 0];
 private _value = [false, true, nil] select _action;
-[_value, _logic getVariable ["ROOT_RADS_T_duration", 0], _logic getVariable ["ROOT_RADS_T_delay", 0]] call API(setEnabled);
+[_value, _logic getVariable ["ROOT_ADS_T_duration", 0], _logic getVariable ["ROOT_ADS_T_delay", 0]] call API(setEnabled);

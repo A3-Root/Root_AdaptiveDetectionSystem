@@ -18,10 +18,10 @@ params ["_logic", ["_units", []], ["_activated", true]];
 
 if (!isServer || {!_activated}) exitWith {};
 
-private _targets = [synchronizedObjects _logic, _logic getVariable ["ROOT_RADS_C_allPlayers", true]] call FUNC(resolveUnits);
-private _action = _logic getVariable ["ROOT_RADS_C_action", 0];
-private _sides = [_logic getVariable ["ROOT_RADS_C_sides", ""]] call FUNC(parseSides);
-private _radius = _logic getVariable ["ROOT_RADS_C_radius", -1];
+private _targets = [synchronizedObjects _logic, _logic getVariable ["ROOT_ADS_C_allPlayers", true]] call FUNC(resolveUnits);
+private _action = _logic getVariable ["ROOT_ADS_C_action", 0];
+private _sides = [_logic getVariable ["ROOT_ADS_C_sides", ""]] call FUNC(parseSides);
+private _radius = _logic getVariable ["ROOT_ADS_C_radius", -1];
 
 {
     if (_action == 0) then {

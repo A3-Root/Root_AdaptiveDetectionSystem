@@ -12,7 +12,7 @@
  * None
  *
  * Example:
- * [player] call root_rads_fnc_restoreCover
+ * [player] call root_ads_fnc_restoreCover
  *
  * Public: Yes
  */

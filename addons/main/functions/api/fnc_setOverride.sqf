@@ -13,8 +13,8 @@
  * None
  *
  * Example:
- * ["buildRate", 25] call root_rads_fnc_setOverride
- * [[["maxRange", 400], ["bulletinChance", 0.5]]] call root_rads_fnc_setOverride
+ * ["buildRate", 25] call root_ads_fnc_setOverride
+ * [[["maxRange", 400], ["bulletinChance", 0.5]]] call root_ads_fnc_setOverride
  *
  * Public: Yes
  */

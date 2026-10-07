@@ -15,7 +15,7 @@
  * None
  *
  * Example:
- * [vehicle player, east, 600] call root_rads_fnc_burnVehicle
+ * [vehicle player, east, 600] call root_ads_fnc_burnVehicle
  *
  * Public: Yes
  */

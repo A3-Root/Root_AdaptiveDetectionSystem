@@ -1,6 +1,6 @@
 name = "Root's Adaptive Detection System"
 author = "Root"
-prefix = "root_rads"
+prefix = "root_ads"
 mainprefix = "z"
 
 [files]

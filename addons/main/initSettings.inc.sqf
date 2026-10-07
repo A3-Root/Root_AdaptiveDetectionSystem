@@ -16,6 +16,7 @@
 #define SUB_RADIO [CAT, "13 Radio Bulletins"]
 #define SUB_INFORM [CAT, "14 Civilian Informants & Theft"]
 #define SUB_AI [CAT, "15 AI Reactions"]
+#define SUB_RAM [CAT, "14b Ramming & Vehicle Swaps"]
 #define SUB_NOTIFY [CAT, "16 Notifications"]
 #define SUB_DEBUG [CAT, "17 Debug"]
 
@@ -57,7 +58,7 @@
 [QGVAR(identifyThreshold), "SLIDER", ["Identify threshold (%)", "Group identifies the player and engages."], SUB_BUILD, [10, 100, 100, 0], true] call CBA_fnc_addSetting;
 [QGVAR(identifyRange), "SLIDER", ["Close identification range (m)", "Inside this range distance does not reduce exposure."], SUB_BUILD, [5, 500, 40, 0], true] call CBA_fnc_addSetting;
 [QGVAR(distanceCurve), "SLIDER", ["Distance falloff exponent", "Shape of exposure falloff between close range and max range. Higher = drops faster."], SUB_BUILD, [0.25, 4, 1.5, 2], true] call CBA_fnc_addSetting;
-[QGVAR(instantRange), "SLIDER", ["Face-to-face range (m)", "Within this range an observer looking into the vehicle gets a large bonus."], SUB_BUILD, [0, 30, 6, 1], true] call CBA_fnc_addSetting;
+[QGVAR(instantRange), "SLIDER", ["Face-to-face range (m)", "Within this range an observer looking into the vehicle gets a large bonus."], SUB_BUILD, [0, 100, 18, 1], true] call CBA_fnc_addSetting;
 [QGVAR(instantMult), "SLIDER", ["Face-to-face multiplier", "Exposure multiplier inside face-to-face range."], SUB_BUILD, [1, 10, 4, 1], true] call CBA_fnc_addSetting;
 [QGVAR(minCloseExposure), "SLIDER", ["Minimum close exposure", "Minimum visibility assumed inside face-to-face range even through a closed hull."], SUB_BUILD, [0, 1, 0.4, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(hullBlocks), "CHECKBOX", ["Vehicle hull blocks sight", "Ray-cast respects the vehicle's own view geometry (glass lets partial sight through). Off = only terrain/objects block."], SUB_BUILD, true, true] call CBA_fnc_addSetting;
@@ -96,7 +97,9 @@
 [QGVAR(fastSpeed), "SLIDER", ["Fast pass speed (km/h)", "Above this speed a drive-by gives limited exposure."], SUB_SEAT, [10, 200, 50, 0], true] call CBA_fnc_addSetting;
 [QGVAR(fastMult), "SLIDER", ["Fast pass multiplier", "Exposure multiplier above the fast pass speed."], SUB_SEAT, [0, 1, 0.4, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(altitudeFalloff), "SLIDER", ["Aircraft altitude falloff (m)", "Aircraft above this altitude (ATL) get proportionally less exposure."], SUB_SEAT, [10, 1000, 60, 0], true] call CBA_fnc_addSetting;
-[QGVAR(damageInfluence), "SLIDER", ["Damaged vehicle influence", "Damaged/burning vehicles look suspicious: multiplier = 1 + damage x this."], SUB_SEAT, [0, 3, 1, 2], true] call CBA_fnc_addSetting;
+[QGVAR(damageInfluence), "SLIDER", ["Damaged vehicle influence", "Visibly damaged vehicles (body, glass, wheels, burning) build suspicion faster: multiplier = 1 + visible damage x this."], SUB_SEAT, [0, 5, 2, 2], true] call CBA_fnc_addSetting;
+[QGVAR(damageVisibleAt), "SLIDER", ["Instantly suspicious from damage", "A vehicle seen with at least this much visible damage makes the observing group SUSPICIOUS at once. 100% = off."], SUB_SEAT, [0, 1, 0.15, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(damageFloorScale), "SLIDER", ["Damage suspicion floor", "How far above the suspicious threshold heavy damage pushes suspicion (share of the gap to identification, scaled by damage)."], SUB_SEAT, [0, 1, 0.6, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(mixedCrewMult), "SLIDER", ["Mixed crew multiplier", "Exposure multiplier per uncovered occupant (Mixed crew = penalty)."], SUB_SEAT, [1, 5, 1.5, 2], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- Gear
@@ -109,6 +112,11 @@
 [QGVAR(nvgDayMult), "SLIDER", ["NVG worn in daylight", "Exposure multiplier for night vision on the head during the day."], SUB_GEAR, [0, 3, 1.3, 2], true] call CBA_fnc_addSetting;
 [QGVAR(weaponVisibleMult), "SLIDER", ["Visible weapon", "Exposure multiplier when a primary weapon/launcher is visible (exposed seat or open vehicle)."], SUB_GEAR, [0, 5, 1.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(gearNeutral), "EDITBOX", ["Neutral gear", "Comma-separated item classes ignored by gear checks."], SUB_GEAR, "", true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidsCover), "CHECKBOX", ["Hostile gear voids cover", "Units wearing the gear ticked below get no cover in vehicles: vanilla detection and instant combat. On foot is always vanilla."], SUB_GEAR, false, true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidUniform), "CHECKBOX", ["Void: own military uniform", "Wearing a military uniform of a covered side (e.g. BLUFOR fatigues)."], SUB_GEAR, true, true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidHelmet), "CHECKBOX", ["Void: ballistic helmet", "Wearing armored headgear."], SUB_GEAR, true, true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidVest), "CHECKBOX", ["Void: armored vest", "Wearing an armored vest."], SUB_GEAR, true, true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidWeapon), "CHECKBOX", ["Void: visible weapon", "Carrying a rifle/launcher in a seat that shows it (turned out, firing position, open vehicle)."], SUB_GEAR, true, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- Player behaviour
 [QGVAR(speedingSpeed), "SLIDER", ["Speeding near AI (km/h)", "Driving faster than this within 100 m of a group is suspicious."], SUB_DRIVE, [10, 200, 70, 0], true] call CBA_fnc_addSetting;
@@ -148,6 +156,10 @@
 [QGVAR(shareKA), "SLIDER", ["Shared knowledge", "knowsAbout (0-4) given on full share."], SUB_SHARE, [0.1, 4, 1.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(shareSuspicion), "SLIDER", ["Shared suspicion (%)", "Starting suspicion given on suspicion share."], SUB_SHARE, [0, 99, 60, 0], true] call CBA_fnc_addSetting;
 [QGVAR(shareNeedsRadio), "CHECKBOX", ["Sharing needs a radio", "The identifying group needs at least one unit with a radio to share."], SUB_SHARE, false, true] call CBA_fnc_addSetting;
+[QGVAR(shareInstantRadius), "SLIDER", ["Instant identification radius (m)", "Groups this close to an identifying group identify the unit at once (they see/hear the reaction). 0 = off."], SUB_SHARE, [0, 1000, 150, 0], true] call CBA_fnc_addSetting;
+[QGVAR(shareEscalate), "CHECKBOX", ["Suspicious groups confirm on share", "A group that is already SUSPICIOUS or SEARCHING identifies the unit when it receives a share."], SUB_SHARE, true, true] call CBA_fnc_addSetting;
+[QGVAR(burnOnIdentify), "CHECKBOX", ["Identified vehicle is burned locally", "The vehicle a unit was identified in is recognised on sight by that side nearby (see range)."], SUB_SHARE, true, true] call CBA_fnc_addSetting;
+[QGVAR(burnOnIdentifyRange), "SLIDER", ["Local burn range (m)", "Distance from the identification within which that side recognises the vehicle. 0 = side-wide."], SUB_SHARE, [0, 10000, 1500, 0], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- Radio bulletins
 [QGVAR(bulletinEnabled), "CHECKBOX", ["Enable radio bulletins", "On identification a radioman may broadcast the unit/vehicle over long range."], SUB_RADIO, true, true] call CBA_fnc_addSetting;
@@ -175,6 +187,17 @@
 [QGVAR(informantRange), "SLIDER", ["Informant witness range (m)", "Max distance a civilian can witness from."], SUB_INFORM, [10, 1000, 200, 0], true] call CBA_fnc_addSetting;
 [QGVAR(theftEnabled), "CHECKBOX", ["Stolen vehicles", "Taking a vehicle last crewed by an AI group burns it for that side if its owners are nearby or see it."], SUB_INFORM, true, true] call CBA_fnc_addSetting;
 [QGVAR(theftRadius), "SLIDER", ["Theft witness radius (m)", "Owners within this distance always notice the theft."], SUB_INFORM, [0, 500, 50, 0], true] call CBA_fnc_addSetting;
+
+// ---------------------------------------------------------------- Ramming / vehicle swaps
+[QGVAR(ramDetect), "CHECKBOX", ["Detect ramming", "A covered vehicle driving into or over hostile AI alerts their group at once."], SUB_RAM, true, true] call CBA_fnc_addSetting;
+[QGVAR(ramSpeed), "SLIDER", ["Ramming speed (km/h)", "Minimum speed for contact to count as ramming."], SUB_RAM, [1, 60, 5, 0], true] call CBA_fnc_addSetting;
+[QGVAR(ramSuspicion), "SLIDER", ["Ramming suspicion (%)", "Suspicion given to the rammed group (they become SUSPICIOUS at least)."], SUB_RAM, [0, 99, 75, 0], true] call CBA_fnc_addSetting;
+[QGVAR(ramCompromise), "CHECKBOX", ["Ramming = identified", "The rammed group identifies the driver outright instead of becoming suspicious."], SUB_RAM, false, true] call CBA_fnc_addSetting;
+[QGVAR(swapForgive), "CHECKBOX", ["Fresh vehicle after identification", "An identified unit that gets into a different vehicle unseen is only suspected, not identified. The old vehicle stays known."], SUB_RAM, true, true] call CBA_fnc_addSetting;
+[QGVAR(swapMinUnseen), "SLIDER", ["Unseen time before swap (s)", "The group must not have seen the unit for this long when it gets into the new vehicle."], SUB_RAM, [0, 300, 15, 0], true] call CBA_fnc_addSetting;
+[QGVAR(swapBaseSuspicion), "SLIDER", ["Swap suspicion (%)", "Starting suspicion after the first vehicle swap."], SUB_RAM, [0, 99, 30, 0], true] call CBA_fnc_addSetting;
+[QGVAR(swapPenalty), "SLIDER", ["Repeat swap penalty (%)", "Extra starting suspicion per previous swap. Once it reaches the identify threshold, swapping no longer works."], SUB_RAM, [0, 100, 30, 0], true] call CBA_fnc_addSetting;
+[QGVAR(swapMemory), "SLIDER", ["Swap memory (s)", "How long a group remembers previous swaps."], SUB_RAM, [60, 7200, 900, 0], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- AI reactions
 [QGVAR(aiAware), "CHECKBOX", ["Suspicious groups go AWARE", "SAFE/CARELESS groups switch to AWARE while suspicious (restored when calm)."], SUB_AI, false, true] call CBA_fnc_addSetting;

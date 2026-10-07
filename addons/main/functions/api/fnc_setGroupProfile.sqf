@@ -15,7 +15,7 @@
  * None
  *
  * Example:
- * [checkpointGroup, 3] call root_rads_fnc_setGroupProfile
+ * [checkpointGroup, 3] call root_ads_fnc_setGroupProfile
  *
  * Public: Yes
  */

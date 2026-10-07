@@ -1,7 +1,7 @@
 #define MAINPREFIX z
-#define PREFIX root_rads
+#define PREFIX root_ads
 
-#include "\z\root_rads\addons\main\script_version.hpp"
+#include "\z\root_ads\addons\main\script_version.hpp"
 
 #define VERSION MAJOR.MINOR.PATCH.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCH,BUILD

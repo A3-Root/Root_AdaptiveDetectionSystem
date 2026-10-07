@@ -20,7 +20,7 @@
  * Zone id ("" when forwarded from a client) <STRING>
  *
  * Example:
- * [[getMarkerPos "checkpoint", 150, 150, 0, false], 0, 2.5] call root_rads_fnc_addZone
+ * [[getMarkerPos "checkpoint", 150, 150, 0, false], 0, 2.5] call root_ads_fnc_addZone
  *
  * Public: Yes
  */
@@ -35,7 +35,7 @@ if (_center isEqualType objNull) then { _center = getPosATL _center; };
 
 if (_id == "") then {
     GVAR(zoneCounter) = (missionNamespace getVariable [QGVAR(zoneCounter), 0]) + 1;
-    _id = format ["rads_zone_%1", GVAR(zoneCounter)];
+    _id = format ["ads_zone_%1", GVAR(zoneCounter)];
 };
 [_id] call API(removeZone);
 

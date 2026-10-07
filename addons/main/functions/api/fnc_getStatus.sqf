@@ -10,7 +10,7 @@
  * [hasCover <BOOL>, heatRemaining <NUMBER>, wantedBySides <ARRAY>, maxPublishedSuspicion <NUMBER>, identifiedByGroups <NUMBER>]
  *
  * Example:
- * [player] call root_rads_fnc_getStatus
+ * [player] call root_ads_fnc_getStatus
  *
  * Public: Yes
  */

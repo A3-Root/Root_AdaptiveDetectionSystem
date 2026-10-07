@@ -18,7 +18,7 @@ from pathlib import Path
 
 from packaging.version import InvalidVersion, Version  # type: ignore
 
-PREFIX = "root_rads"
+PREFIX = "root_ads"
 CHANGELOG_PATHS = [Path("releases/CHANGELOG.md"), Path("CHANGELOG.md")]
 NO_CHANGELOG = "NO CHANGELOG PROVIDED - REUSING MOST RECENT CHANGELOG"
 VERSION_TOKEN = re.compile(r"v?(\d+(?:\.\d+){1,3})")

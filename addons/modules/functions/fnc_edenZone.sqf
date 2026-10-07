@@ -18,21 +18,21 @@ params ["_logic", ["_units", []], ["_activated", true]];
 
 if (!isServer) exitWith {};
 
-private _id = format ["rads_eden_%1", _logic call BIS_fnc_netId];
+private _id = format ["ads_eden_%1", _logic call BIS_fnc_netId];
 if (!_activated) exitWith { [_id] call API(removeZone); };
 
 (_logic getVariable ["objectArea", [200, 200, 0, false, -1]]) params ["_a", "_b", "_angle", "_rect"];
 
 [
     [getPosATL _logic, _a, _b, _angle, _rect],
-    _logic getVariable ["ROOT_RADS_Z_mode", 0],
-    _logic getVariable ["ROOT_RADS_Z_build", 2],
-    _logic getVariable ["ROOT_RADS_Z_decay", 1],
-    [_logic getVariable ["ROOT_RADS_Z_sides", ""]] call FUNC(parseSides),
-    _logic getVariable ["ROOT_RADS_Z_delay", 0],
-    _logic getVariable ["ROOT_RADS_Z_duration", 0],
-    _logic getVariable ["ROOT_RADS_Z_hourFrom", -1],
-    _logic getVariable ["ROOT_RADS_Z_hourTo", -1],
-    _logic getVariable ["ROOT_RADS_Z_label", ""],
+    _logic getVariable ["ROOT_ADS_Z_mode", 0],
+    _logic getVariable ["ROOT_ADS_Z_build", 2],
+    _logic getVariable ["ROOT_ADS_Z_decay", 1],
+    [_logic getVariable ["ROOT_ADS_Z_sides", ""]] call FUNC(parseSides),
+    _logic getVariable ["ROOT_ADS_Z_delay", 0],
+    _logic getVariable ["ROOT_ADS_Z_duration", 0],
+    _logic getVariable ["ROOT_ADS_Z_hourFrom", -1],
+    _logic getVariable ["ROOT_ADS_Z_hourTo", -1],
+    _logic getVariable ["ROOT_ADS_Z_label", ""],
     _id
 ] call API(addZone);

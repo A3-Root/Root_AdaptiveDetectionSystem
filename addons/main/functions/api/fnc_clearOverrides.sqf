@@ -11,7 +11,7 @@
  * None
  *
  * Example:
- * [] call root_rads_fnc_clearOverrides
+ * [] call root_ads_fnc_clearOverrides
  *
  * Public: Yes
  */

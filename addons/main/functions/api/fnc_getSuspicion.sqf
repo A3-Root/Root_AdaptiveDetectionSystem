@@ -12,7 +12,7 @@
  * [suspicion 0-100 <NUMBER>, state "UNAWARE"/"SUSPICIOUS"/"SEARCHING"/"COMPROMISED"/"" <STRING>]
  *
  * Example:
- * [group cursorObject, player] call root_rads_fnc_getSuspicion
+ * [group cursorObject, player] call root_ads_fnc_getSuspicion
  *
  * Public: Yes
  */

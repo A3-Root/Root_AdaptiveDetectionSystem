@@ -13,7 +13,7 @@
  * None
  *
  * Example:
- * [false, 300] call root_rads_fnc_setEnabled
+ * [false, 300] call root_ads_fnc_setEnabled
  *
  * Public: Yes
  */

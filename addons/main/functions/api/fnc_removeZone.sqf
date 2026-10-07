@@ -10,7 +10,7 @@
  * None
  *
  * Example:
- * ["rads_zone_1"] call root_rads_fnc_removeZone
+ * ["ads_zone_1"] call root_ads_fnc_removeZone
  *
  * Public: Yes
  */

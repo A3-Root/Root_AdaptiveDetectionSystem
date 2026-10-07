@@ -18,37 +18,7 @@ params ["_unit", "_side", "_exposed"];
 
 if (!MSET(gearEnabled)) exitWith {1};
 
-private _cache = _unit getVariable [QGVAR(gearCache), []];
-if (_cache isEqualTo [] || {time > (_cache select 0)}) then {
-    private _neutral = [MSET(gearNeutral)] call FUNC(parseList);
-
-    private _uniform = uniform _unit;
-    private _uSide = sideUnknown;
-    if (_uniform != "" && {!(toLower _uniform in _neutral)}) then {
-        private _uClass = getText (configFile >> "CfgWeapons" >> _uniform >> "ItemInfo" >> "uniformClass");
-        _uSide = [east, west, independent, civilian] param [getNumber (configFile >> "CfgVehicles" >> _uClass >> "side"), sideUnknown];
-    };
-
-    private _fnc_armored = {
-        params ["_item"];
-        if (_item == "" || {toLower _item in _neutral}) exitWith {false};
-        private _protection = configFile >> "CfgWeapons" >> _item >> "ItemInfo" >> "HitpointsProtectionInfo";
-        ("getNumber (_x >> 'armor') > 0" configClasses _protection) isNotEqualTo []
-    };
-
-    private _hmd = hmd _unit;
-    _cache = [
-        time + 5,
-        _uSide,
-        [headgear _unit] call _fnc_armored,
-        [vest _unit] call _fnc_armored,
-        _hmd != "" && {!(toLower _hmd in _neutral)},
-        primaryWeapon _unit != "" || {secondaryWeapon _unit != ""}
-    ];
-    _unit setVariable [QGVAR(gearCache), _cache];
-};
-
-_cache params ["", "_uSide", "_helmet", "_vest", "_nvg", "_weapon"];
+([_unit] call FUNC(gearInfo)) params ["_uSide", "_helmet", "_vest", "_nvg", "_weapon"];
 
 private _mult = switch (true) do {
     case (_uSide == sideUnknown): { 1 };

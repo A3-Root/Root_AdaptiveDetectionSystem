@@ -18,7 +18,7 @@ params ["_logic", ["_units", []], ["_activated", true]];
 
 if (!isServer) exitWith {};
 
-private _allPlayers = _logic getVariable ["ROOT_RADS_U_allPlayers", false];
+private _allPlayers = _logic getVariable ["ROOT_ADS_U_allPlayers", false];
 private _targets = [synchronizedObjects _logic, _allPlayers] call FUNC(resolveUnits);
 
 if (!_activated) exitWith {
@@ -26,9 +26,9 @@ if (!_activated) exitWith {
     if (_allPlayers) then { missionNamespace setVariable [QMVAR(playerProfile), nil, true]; };
 };
 
-private _mode = _logic getVariable ["ROOT_RADS_U_mode", "normal"];
-private _mult = _logic getVariable ["ROOT_RADS_U_mult", 1];
-private _duration = _logic getVariable ["ROOT_RADS_U_duration", 0];
+private _mode = _logic getVariable ["ROOT_ADS_U_mode", "normal"];
+private _mult = _logic getVariable ["ROOT_ADS_U_mult", 1];
+private _duration = _logic getVariable ["ROOT_ADS_U_duration", 0];
 { [_x, _mode, _mult, _duration] call API(setUnitMode); } forEach _targets;
 
 // Players that join (or spawn) later pick the profile up themselves

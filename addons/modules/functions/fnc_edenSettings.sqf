@@ -23,11 +23,11 @@ private _booleans = ["enabled", "bulletinEnabled", "informantsEnabled", "theftEn
 
 private _pairs = [];
 {
-    private _value = _logic getVariable ["ROOT_RADS_S_" + _x, -1];
+    private _value = _logic getVariable ["ROOT_ADS_S_" + _x, -1];
     if (_value >= 0) then { _pairs pushBack [_x, _value]; };
 } forEach _numbers;
 {
-    private _value = _logic getVariable ["ROOT_RADS_S_" + _x, -1];
+    private _value = _logic getVariable ["ROOT_ADS_S_" + _x, -1];
     if (_value >= 0) then { _pairs pushBack [_x, _value == 1]; };
 } forEach _booleans;
 

@@ -24,8 +24,8 @@ private _groups = [];
     if (_unit isKindOf "CAManBase" && {!isPlayer _unit}) then { _groups pushBackUnique (group _unit); };
 } forEach (synchronizedObjects _logic);
 
-private _mult = _logic getVariable ["ROOT_RADS_G_mult", 1];
-private _immune = _logic getVariable ["ROOT_RADS_G_immune", false];
-private _share = _logic getVariable ["ROOT_RADS_G_shareRadius", -1];
-private _chance = _logic getVariable ["ROOT_RADS_G_bulletinChance", -1];
+private _mult = _logic getVariable ["ROOT_ADS_G_mult", 1];
+private _immune = _logic getVariable ["ROOT_ADS_G_immune", false];
+private _share = _logic getVariable ["ROOT_ADS_G_shareRadius", -1];
+private _chance = _logic getVariable ["ROOT_ADS_G_bulletinChance", -1];
 { [_x, _mult, _immune, _share, _chance] call API(setGroupProfile); } forEach _groups;

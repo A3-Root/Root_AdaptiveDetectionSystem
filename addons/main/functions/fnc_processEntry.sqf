@@ -73,7 +73,8 @@ if (_visible) then {
     // vehicle look
     _mult = _mult * ([MSET(friendlyVehMult), MSET(civVehMult)] select (([_veh] call FUNC(vehicleSide)) == civilian));
     if ([_veh] call FUNC(isOpenVehicle)) then { _mult = _mult * MSET(openVehicleMult); };
-    _mult = _mult * (1 + (damage _veh) * MSET(damageInfluence));
+    private _visibleDamage = [_veh] call FUNC(visibleDamage);
+    _mult = _mult * (1 + _visibleDamage * MSET(damageInfluence));
 
     // how the vehicle is being driven
     private _speed = abs speed _veh;
@@ -128,6 +129,14 @@ if (_visible) then {
 
     _susp = _susp + _exposure * _mult * _zoneBuild * MSET(buildRate) * _dt;
     _entry set [D_LASTEXP, time];
+
+    // A visibly shot-up or burning vehicle is suspicious the moment it is seen
+    private _damageAt = MSET(damageVisibleAt);
+    if (_damageAt < 1 && _visibleDamage >= _damageAt && _exposure >= 0.1) then {
+        private _suspicious = MSET(suspiciousThreshold);
+        private _floor = _suspicious + (MSET(identifyThreshold) - 1 - _suspicious) * MSET(damageFloorScale) * _visibleDamage;
+        _susp = _susp max _floor;
+    };
 } else {
     _susp = _susp - MSET(decayRate) * _zoneDecay * _dt;
     _entry set [D_STATIONARY, ((_entry select D_STATIONARY) - 2 * _dt) max 0];

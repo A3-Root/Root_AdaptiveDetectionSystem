@@ -12,7 +12,7 @@
  * None
  *
  * Example:
- * [myTruck, "disguise"] call root_rads_fnc_setVehicleMode
+ * [myTruck, "disguise"] call root_ads_fnc_setVehicleMode
  *
  * Public: Yes
  */

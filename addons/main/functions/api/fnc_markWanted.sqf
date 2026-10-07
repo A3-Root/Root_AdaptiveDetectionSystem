@@ -15,7 +15,7 @@
  * None
  *
  * Example:
- * [player, east, 900] call root_rads_fnc_markWanted
+ * [player, east, 900] call root_ads_fnc_markWanted
  *
  * Public: Yes
  */

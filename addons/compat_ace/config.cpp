@@ -6,7 +6,7 @@ class CfgPatches {
         units[] = {};
         weapons[] = {};
         requiredVersion = REQUIRED_VERSION;
-        requiredAddons[] = {"root_rads_main", "ace_common", "ace_interact_menu"};
+        requiredAddons[] = {"root_ads_main", "ace_common", "ace_interact_menu"};
         skipWhenMissingDependencies = 1;
         author = "Root";
         url = "https://github.com/A3-Root/Root_AdaptiveDetectionSystem";
