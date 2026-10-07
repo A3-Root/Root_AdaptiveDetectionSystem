@@ -1,0 +1,152 @@
+| # | Scenario | BLUFOR Player State | Vehicle | Enemy AI State | Detection / Knowledge Condition | Expected AI Behaviour | Target-Knowledge Rule |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Enters civilian vehicle unnoticed | On foot, not detected | Civilian | Idle / unaware | No AI knows player's position | Do not engage | Preserve ignorance; do not reveal player |
+| 2 | Enters civilian vehicle while nearby AI is unaware | On foot, undetected | Civilian | Idle | AI has no knowledge of player | Do not engage | No target knowledge should be created merely because player entered vehicle |
+| 3 | Enters civilian vehicle while visible but not yet identified | On foot / entering | Civilian | Alert / observing area | AI sees vehicle/player but has insufficient identification | Investigate / observe | Knowledge increases naturally; delay hostile engagement |
+| 4 | Enters civilian vehicle while enemy AI has line of sight | Entering vehicle | Civilian | Alert | AI directly observes player entering | Engage / investigate according to identification rules | Vehicle concealment does not erase witnessed knowledge |
+| 5 | Enters civilian vehicle after being completely unnoticed | Undetected | Civilian | Idle | No AI witnessed entry | Remain undercover | AI should not inherit knowledge simply because player is now inside vehicle |
+| 6 | Enters civilian vehicle after being detected on foot | Previously detected | Civilian | Searching / alert | AI knows player was in the area but lost visual contact | Search / investigate last known position | `targetKnowledge` decays rather than being instantly erased |
+| 7 | Enters civilian vehicle after active engagement | Previously engaged | Civilian | Actively attacking player | AI has current combat knowledge | Continue engaging | Entering vehicle does not immediately call `forgetTarget` |
+| 8 | Enters civilian vehicle during active combat, far AI | In combat | Civilian | Enemy AI far away / uninvolved | Far AI has no target knowledge | Remain unaware | Do not propagate knowledge globally |
+| 9 | Enters civilian vehicle during active combat, nearby AI | In combat | Civilian | Nearby but not currently engaging | AI may have partial awareness | Investigate / potentially engage | Knowledge depends on LOS, distance, witnesses and previous information |
+| 10 | Enters civilian vehicle while enemy AI is already firing at player | Actively engaged | Civilian | Actively engaging | AI has direct target knowledge | Continue engagement | Do not suppress existing target knowledge |
+| 11 | Player breaks LOS immediately after entering | Previously detected | Civilian | Searching | AI has recent knowledge | Search last known location | Knowledge ages normally |
+| 12 | Player remains hidden in civilian vehicle | Concealed | Civilian | Searching | AI knows player was nearby but cannot currently see them | Search, then gradually lose interest | `setTargetAge` / knowledge decay |
+| 13 | Player remains hidden for extended period | Concealed | Civilian | Previously alerted | Target knowledge becomes old | Return to normal / patrol | Eventually allow target to be forgotten |
+| 14 | Enemy AI sees civilian vehicle but not player | Inside vehicle | Civilian | Alert | AI only observes vehicle | Do not automatically engage | Vehicle observation ≠ player detection |
+| 15 | Enemy AI sees player enter civilian vehicle | Entered while observed | Civilian | Alert / hostile | Direct observation | Treat player as known target | Reveal/maintain target knowledge |
+| 16 | Enemy AI sees civilian vehicle stop near combat | Concealed | Civilian | In combat | Vehicle enters combat area but player not seen | Continue existing behaviour | Vehicle presence alone does not reveal player |
+| 17 | Civilian vehicle drives directly through enemy position | Concealed | Civilian | Idle | AI observes suspicious vehicle | Observe / investigate | Suspicion may increase without immediate target acquisition |
+| 18 | Civilian vehicle remains extremely close to enemy AI | Concealed | Civilian | Idle / alert | Player remains within detection range | Eventually detect / identify player | Proximity + time should increase knowledge |
+| 19 | Civilian vehicle remains close but behind solid cover | Concealed | Civilian | Alert | No LOS / limited detection | Usually remain unaware | Distance alone should not guarantee detection |
+| 20 | Civilian vehicle remains close with LOS blocked intermittently | Concealed | Civilian | Alert | Repeated partial exposure | Increasing suspicion / eventual detection | Knowledge should accumulate naturally rather than instantly |
+| 21 | Player exits civilian vehicle near enemy | Exiting | Civilian | Unaware | Enemy has no previous knowledge | Normal detection process | Player becomes detectable normally |
+| 22 | Player exits civilian vehicle in front of enemy | Exiting | Civilian | Alert | Direct LOS | Detect and engage | Immediate/high-confidence knowledge |
+| 23 | Player exits civilian vehicle after being previously known | Previously detected | Civilian | Searching | AI retains recent knowledge | Resume engagement/search | Do not reset target knowledge |
+| 24 | Player exits civilian vehicle after AI has forgotten him | Previously forgotten | Civilian | Idle | No current target knowledge | Detect as a new contact | Normal detection rules |
+| 25 | Player switches from civilian vehicle to military BLUFOR vehicle | Undercover → exposed | BLUFOR | Enemy unaware | Vehicle identity changes | Potentially reveal hostile identity | Vehicle affiliation can modify recognition rules |
+| 26 | Player switches from civilian vehicle to OPFOR vehicle | Undercover | OPFOR | Enemy AI | Vehicle appears friendly to enemy | Remain potentially undercover | Vehicle affiliation should influence suspicion/recognition |
+| 27 | BLUFOR player enters OPFOR vehicle unnoticed | Undetected | OPFOR | Enemy idle | No AI witnesses | Do not immediately engage | Enemy should not magically know occupant identity |
+| 28 | BLUFOR player enters OPFOR vehicle while enemy AI watches | Observed | OPFOR | Enemy watching | AI sees hostile player entering supposedly friendly vehicle | Identify / investigate / engage | Direct observation overrides disguise |
+| 29 | BLUFOR player enters OPFOR vehicle after being engaged | Combat | OPFOR | Actively engaging | AI already knows player | Continue engaging | Existing knowledge survives vehicle entry |
+| 30 | BLUFOR player enters OPFOR vehicle after breaking LOS | Recently detected | OPFOR | Searching | AI has recent last-known information | Search / investigate | Knowledge decays with time |
+| 31 | BLUFOR player drives OPFOR vehicle past unaware enemy | Undercover | OPFOR | Idle | No player-specific knowledge | Do not automatically engage | Friendly/enemy vehicle status affects reaction |
+| 32 | BLUFOR player drives OPFOR vehicle directly beside enemy | Undercover | OPFOR | Alert | Close proximity for extended period | Eventually detect inconsistency / occupant | Time + proximity + observation |
+| 33 | BLUFOR player drives OPFOR vehicle directly through enemy formation | Undercover | OPFOR | Alert / combat | Repeated observation | Suspicion / eventual detection | Do not guarantee indefinite disguise |
+| 34 | Enemy AI knows player is in vehicle but cannot see vehicle | Concealed / hidden | Any | Searching | Recent target knowledge | Search vehicle/area | Knowledge of occupant can persist after LOS loss |
+| 35 | Enemy AI knows vehicle but not exact occupant | Concealed | Any | Alert | Vehicle known, occupant unknown | Observe/intercept vehicle | Separate vehicle knowledge from player knowledge |
+| 36 | Enemy AI previously saw player enter vehicle | Concealed | Any | Searching | High-confidence knowledge | Continue treating player as target | Vehicle concealment does not erase witnessed identity |
+| 37 | Enemy AI never saw entry but knows player was nearby | Concealed | Any | Searching | Low/medium knowledge | Search area | Do not assume player is inside vehicle |
+| 38 | Enemy AI sees player through vehicle window | Concealed | Any | Alert | Direct visual detection | Detect / engage | Vehicle does not provide automatic invisibility |
+| 39 | Enemy AI sees player partially through vehicle | Concealed | Any | Alert | Partial visual exposure | Possible detection | Knowledge increases according to exposure |
+| 40 | Enemy AI is too far away to detect player | Any | Any | Idle / combat | Beyond effective detection range | No reaction | Do not artificially reveal target |
+| 41 | Enemy AI is nearby but facing away | Concealed | Any | Idle | No LOS | Remain unaware | No omniscient detection |
+| 42 | Enemy AI is nearby and facing vehicle | Concealed | Any | Alert | LOS / visual opportunity | Possible detection | Detection depends on exposure/time |
+| 43 | Enemy AI hears suspicious vehicle activity | Concealed | Any | Alert | Audio/contact information | Investigate | Hearing creates information, not necessarily confirmed target identity |
+| 44 | Enemy AI hears vehicle during active combat | Concealed | Any | Combat | Combat noise already present | May deprioritize vehicle | Existing combat priorities take precedence |
+| 45 | Enemy AI sees suspicious vehicle but cannot identify occupant | Concealed | Civilian | Alert | Vehicle classification uncertain | Observe / investigate | Suspicion without immediate target confirmation |
+| 46 | Enemy AI identifies vehicle as hostile | Concealed | Enemy vehicle | Alert | Vehicle itself is hostile | React according to vehicle threat | Vehicle threat and occupant threat should be separate |
+| 47 | Enemy AI identifies vehicle as friendly but occupant is hostile | Undercover | OPFOR | Alert | Vehicle recognized as friendly | Initially tolerate / investigate if suspicious | Occupant knowledge can override vehicle classification |
+| 48 | Enemy AI receives information about player from another AI | Concealed | Any | Unaware individually | Information shared by known AI | Potentially acquire target | Knowledge propagation must be controlled |
+| 49 | Enemy AI is not connected to witnessing AI | Concealed | Any | Unaware | No direct/shared information | Remain unaware | Prevent global/omniscient knowledge propagation |
+| 50 | One enemy AI sees player enter vehicle | Concealed | Any | Witnessing AI alerted | Direct observation | Witnessing AI knows player is inside | High-confidence target knowledge |
+| 51 | Other enemy AI is nearby but did not see entry | Concealed | Any | Unaware | No direct observation | Should not automatically know | Knowledge propagation depends on communication/game logic |
+| 52 | Witnessing AI communicates player location | Concealed | Any | Other AI | Shared information | Other AI may become alerted | Use controlled `reveal` / knowledge transfer |
+| 53 | Player remains stationary inside vehicle near enemy | Concealed | Any | Alert | Prolonged proximity | Increasing chance of detection | Time-based suspicion |
+| 54 | Player rapidly passes enemy position in vehicle | Concealed | Any | Alert | Brief exposure | Possible suspicion, usually no instant identification | Short exposure produces limited knowledge |
+| 55 | Player repeatedly passes enemy position | Concealed | Any | Alert | Multiple exposures | Increasing suspicion / detection probability | Accumulated observations |
+| 56 | Player circles enemy position in civilian vehicle | Concealed | Civilian | Alert | Repeated suspicious behaviour | Investigate / eventually identify | Behavioural suspicion increases knowledge |
+| 57 | Player parks civilian vehicle beside enemy | Concealed | Civilian | Alert | Long-duration close proximity | Eventually investigate/detect | Proximity + duration |
+| 58 | Player parks civilian vehicle far from enemy | Concealed | Civilian | Idle | No meaningful exposure | No reaction | No target knowledge |
+| 59 | Player hides vehicle behind terrain | Concealed | Any | Alert | Vehicle/player no longer visible | Search last known location | Knowledge ages normally |
+| 60 | Player drives behind terrain after being detected | Known | Any | Engaging | Existing target knowledge | Pursue / suppress / search | Do not instantly forget target |
+| 61 | Player drives out of detection range after engagement | Known | Any | Engaging | Target disappears | Continue searching temporarily | Knowledge decays over time |
+| 62 | Player remains undetected long enough after engagement | Previously known | Any | Searching | Knowledge becomes stale | Eventually stop engaging | `setTargetAge` / `forgetTarget` |
+| 63 | Player returns after AI has forgotten him | Unknown again | Any | Idle | No current knowledge | Normal detection process | Treat as new contact |
+| 64 | Player reappears shortly after being forgotten | Previously known | Any | Idle | Visual re-contact | Rapid re-acquisition | Fresh visual detection should override previous forget state |
+| 65 | Player changes vehicle while AI is tracking him | Known | Vehicle A → B | Searching/engaging | Target identity persists | Continue tracking player | Vehicle change should not automatically reset knowledge |
+| 66 | Player changes from visible vehicle to concealed vehicle | Known | Visible → concealed | Engaging | LOS lost | Search last known position | Target remains known temporarily |
+| 67 | Player changes from concealed vehicle to visible vehicle | Concealed | Concealed → visible | Alert | New visual exposure | Acquire/confirm target | Fresh detection raises knowledge |
+| 68 | Player abandons vehicle and hides | Known | Vehicle → on foot | Searching | Vehicle remains known, player unseen | Investigate vehicle / search area | Separate vehicle knowledge from player knowledge |
+| 69 | Player abandons vehicle after AI witnessed him | Known | Vehicle → on foot | Engaging | AI saw dismount | Continue engaging player | No loss of target due to vehicle change |
+| 70 | Player enters vehicle while AI is actively engaging another BLUFOR | Concealed | Any | Combat | AI focused on another target | Continue current engagement | New player should not automatically steal target priority |
+| 71 | Player enters vehicle while AI is actively engaging him | Known | Any | Combat | Player is current target | Continue engagement | Highest-priority existing knowledge |
+| 72 | Player enters vehicle while AI is actively engaging a different BLUFOR | Unknown | Any | Combat | No player knowledge | Do not engage player solely due to entry | Target knowledge remains individual |
+| 73 | Player enters vehicle during firefight but enemy AI is far outside firefight | Unknown | Any | Idle | No information about player | Remain unaware | Combat state is local, not global |
+| 74 | Player enters vehicle during firefight and enemy AI hears gunfire | Concealed | Any | Alert | Audio contact | Investigate combat area | Audio creates suspicion, not automatic player identification |
+| 75 | Player enters vehicle after killing an enemy nearby | Concealed | Any | Nearby AI alerted | AI may know attack occurred but not attacker | Search / investigate | Do not automatically assign player as attacker without evidence |
+| 76 | Enemy AI sees player attack from vehicle | Exposed | Any | Alert/combat | Direct observation | Engage immediately | Vehicle concealment no longer applies |
+| 77 | Enemy AI sees muzzle flash / weapon fire from vehicle | Exposed | Any | Alert/combat | Hostile action observed | Engage / suppress vehicle | Strong target confirmation |
+| 78 | Player fires from supposedly friendly enemy vehicle | Exposed | OPFOR | Enemy combat AI | Hostile action observed | Immediate hostile response | Override friendly-vehicle disguise |
+| 79 | Player remains silent in supposedly friendly vehicle | Concealed | OPFOR | Idle | No suspicious behaviour | May remain undetected | No automatic detection merely from player identity |
+| 80 | Enemy AI passes close to undercover player repeatedly | Concealed | OPFOR/civilian | Idle/alert | Repeated proximity | Increasing detection chance | Time + proximity + observation |
+| 81 | Enemy AI enters the same vehicle as undercover player | Concealed | Same vehicle | Enemy AI | Very close/direct contact | High probability of detection | Occupant identity should be checked |
+| 82 | Undercover player sits in vehicle while enemy AI searches vehicle | Concealed | Any | Searching | AI deliberately investigates vehicle | Possible identification / engagement | Search action can expose player |
+| 83 | Enemy AI searches vehicle but has no reason to suspect it | Concealed | Civilian | Searching area | Vehicle happens to be nearby | Do not guarantee discovery | Investigation should use normal detection rules |
+| 84 | Enemy AI has stale knowledge of player but sees same vehicle later | Concealed | Same vehicle | Alert | Vehicle matches previous contact | Increased suspicion | Previous knowledge can influence current detection |
+| 85 | Enemy AI has stale knowledge of player but sees different vehicle | Concealed | Different vehicle | Alert | Player was previously nearby | Investigate cautiously | Do not assume every vehicle contains player |
+| 86 | Enemy AI has completely forgotten player and sees civilian vehicle | Concealed | Civilian | Idle | No current knowledge | Treat as ordinary civilian vehicle | No residual omniscient knowledge |
+| 87 | Player is undercover but another BLUFOR player is openly engaging enemy | Concealed | Any | Enemy combat | Enemy knows another BLUFOR target | Engage known attacker; undercover player remains unknown | Target knowledge must be per-unit/per-target |
+| 88 | Undercover player is near openly engaged BLUFOR player | Concealed | Any | Enemy combat | Enemy has target knowledge of other player | Engage known player; potentially discover undercover player | Do not automatically transfer identity |
+| 89 | Undercover player becomes exposed while enemy is fighting another BLUFOR | Exposed | Any | Combat | Enemy gains direct visual/hostile evidence | Add undercover player as target according to priority | New knowledge should coexist with existing combat target |
+| 90 | Undercover player leaves combat area | Concealed | Any | Enemy combat | No direct knowledge | Remain unaware | Combat knowledge should remain local |
+| 91 | Undercover player enters an enemy-controlled area | Concealed | Enemy vehicle | Enemy AI | No observation | Initially remain undercover | Area ownership alone does not reveal player |
+| 92 | Undercover player stays in enemy-controlled area for extended period | Concealed | Enemy vehicle | Multiple AI | Repeated exposure opportunities | Gradual risk of discovery | Detection is cumulative, not instantaneous |
+| 93 | Undercover player drives through an enemy checkpoint unnoticed | Concealed | Friendly-looking vehicle | Checkpoint AI | No direct suspicion | Allow passage | No automatic identity reveal |
+| 94 | Undercover player drives through checkpoint while being observed closely | Concealed | Friendly-looking vehicle | Alert | Prolonged direct observation | Possible identification | Detection probability increases with time |
+| 95 | Undercover player stops at checkpoint | Concealed | Friendly-looking vehicle | Alert | Prolonged close interaction | High detection opportunity | Interaction allows recognition |
+| 96 | Undercover player is questioned/approached by enemy AI | Concealed | Any | Investigating | Very close proximity | Potential detection | Proximity + LOS + duration |
+| 97 | Enemy AI identifies undercover player | Exposed | Any | Alert | Sufficient evidence accumulated | Switch to hostile target | Use `reveal` / target acquisition |
+| 98 | Enemy AI partially identifies player but loses contact | Partially detected | Any | Searching | Medium confidence | Investigate / search | Maintain partial knowledge rather than full engagement |
+| 99 | Enemy AI positively identifies player and then loses contact | Known | Any | Searching | High confidence | Search aggressively | Preserve high knowledge temporarily |
+| 100 | Enemy AI's knowledge gradually expires | Hidden | Any | Searching | Target age increases | Reduce search intensity | `setTargetAge` / knowledge decay |
+| 101 | Enemy AI completely forgets player | Hidden | Any | Idle | Target knowledge expired | Return to normal behaviour | `forgetTarget` |
+| 102 | AI forgets player but another AI still knows player | Hidden | Any | Mixed | Knowledge differs between units | Known AI continues search; unaware AI remains unaware | Knowledge must be unit-specific |
+| 103 | AI that forgot player receives fresh information | Hidden | Any | Idle → informed | Another unit provides valid information | Resume search/engagement | Controlled `reveal` / knowledge transfer |
+| 104 | AI receives false/weak information | Hidden | Any | Alert | Low-confidence information | Investigate, not necessarily engage | Knowledge level should matter |
+| 105 | Player enters vehicle outside AI detection range | Hidden | Any | Idle | No detection opportunity | No reaction | No target knowledge |
+| 106 | Player approaches AI while concealed | Concealed | Any | Idle | Distance decreases | Detection risk increases | Distance + LOS + time |
+| 107 | Player approaches AI while already known | Known | Any | Alert/combat | Existing target knowledge | Engage immediately when tactically possible | Existing knowledge takes precedence |
+| 108 | Player retreats while known | Known | Any | Combat | Target moving away | Continue pursuit/engagement | Knowledge decays only with time/loss of contact |
+| 109 | Player retreats while unknown | Unknown | Any | Idle | No detection | No special response | No global awareness |
+| 110 | Player drives into enemy AI's active combat zone but remains hidden | Concealed | Any | Combat | No direct detection | AI continues current combat | Combat state does not equal universal awareness |
+| 111 | Player drives into enemy AI's active combat zone and becomes visible | Exposed | Any | Combat | Direct LOS | Acquire and potentially engage | Local visual detection |
+| 112 | Player drives into combat zone and fires | Exposed | Any | Combat | Hostile action | Immediate engagement | Strongest possible confirmation |
+| 113 | Player drives into combat zone and hits an enemy | Exposed | Any | Combat | Damage source identifiable | Engage player/vehicle | Immediate target confirmation |
+| 114 | Player drives into combat zone but vehicle itself is attacked | Concealed/exposed | Civilian | Combat | Vehicle considered threat | React to vehicle threat | Vehicle threat may reveal occupant |
+| 115 | Player drives into combat zone in enemy vehicle | Concealed | OPFOR | Combat | Vehicle appears friendly | Continue existing combat unless player exposed | Vehicle identity matters |
+| 116 | Enemy AI observes friendly vehicle behaving suspiciously | Concealed | OPFOR | Alert | Behaviour inconsistent with expectations | Investigate | Suspicion should precede confirmed target |
+| 117 | Enemy AI observes friendly vehicle flee from combat | Concealed | OPFOR | Combat | Behaviour suspicious | Potentially investigate/track | Behaviour contributes to suspicion |
+| 118 | Enemy AI observes friendly vehicle assisting BLUFOR | Exposed | OPFOR | Combat | Hostile behaviour | Immediate engagement | Vehicle disguise overridden |
+| 119 | Undercover player changes seat inside vehicle | Concealed | Any | Enemy observing vehicle | Occupant not previously visible | Possible new detection opportunity | Re-evaluate visibility after seat/position changes |
+| 120 | Undercover player opens vehicle door | Concealed → exposed opportunity | Any | Nearby AI | Increased visual exposure | Possible detection | Temporary exposure can generate knowledge |
+| 121 | Undercover player exits and immediately re-enters | Concealed | Any | Nearby AI | Brief exposure | Potential detection depending on observation | Do not automatically reset knowledge |
+| 122 | Player changes vehicle while enemy AI has target knowledge | Known | A → B | Searching | Vehicle transition observed/unobserved | Continue tracking player | Target identity persists across vehicle changes |
+| 123 | Player changes vehicle out of sight | Known | A → B | Searching | AI knows old vehicle but not transition | Search old location / last known position | Do not magically identify new vehicle |
+| 124 | Player changes vehicle in enemy AI's LOS | Known | A → B | Alert | Direct observation | Track new vehicle/player | Update target entity |
+| 125 | Multiple enemy AI have different knowledge levels | Mixed | Any | Mixed | Some saw player, others did not | Different reactions per AI | Never normalize all AI to the highest knowledge state |
+| 126 | Enemy AI is in combat but has no knowledge of undercover player | Unknown | Any | Combat | Player not detected | Ignore undercover player | Combat does not reveal unrelated targets |
+| 127 | Enemy AI is searching for another player while undercover player is nearby | Unknown | Any | Searching | No evidence connecting undercover player | Continue searching original target | Do not substitute targets without evidence |
+| 128 | Enemy AI searches last known position while undercover player is nearby | Unknown | Any | Searching | Player remains concealed | May eventually detect player through normal search | Search creates opportunities, not guaranteed discovery |
+| 129 | Undercover player becomes the closest visible target | Exposed | Any | Combat/search | Fresh direct detection | Potentially switch/expand targets | Tactical target selection after knowledge acquisition |
+| 130 | Multiple undercover players occupy vehicles | Concealed | Multiple vehicles | Enemy AI | Different exposure levels | Detect only individually observable players | Knowledge must remain per target |
+| 131 | One undercover player is detected while another remains hidden | Mixed | Multiple vehicles | Enemy AI | Individual detection | Engage detected player only | No automatic detection of nearby hidden players |
+| 132 | Detected player moves near hidden player | Mixed | Multiple vehicles | Enemy AI | Enemy tracks detected player | May discover hidden player incidentally | Detection remains based on actual observation |
+| 133 | Hidden player is near a known target | Concealed | Any | Enemy AI engaging known target | Hidden player not observed | Continue engaging known target | Proximity to a known target does not reveal another target |
+| 134 | Hidden player assists known target without being seen | Concealed | Any | Enemy combat | Indirect evidence only | Investigate possible additional attacker | Suspicion without automatic identification |
+| 135 | Hidden player assists known target and is directly observed | Exposed | Any | Enemy combat | Direct evidence | Engage hidden player | Immediate target acquisition |
+| 136 | AI knows player is hostile but not player's exact location | Known / lost | Any | Searching | Target identity known, location stale | Search / patrol last known area | Separate identity knowledge from positional knowledge |
+| 137 | AI knows vehicle is suspicious but not occupant identity | Concealed | Any | Alert | Vehicle-level suspicion | Monitor / intercept / investigate | Do not equate vehicle suspicion with confirmed player |
+| 138 | AI knows player is inside vehicle but cannot see player | Concealed | Any | Alert | Strong indirect knowledge | Treat vehicle as target / attempt to inspect | Maintain occupant knowledge |
+| 139 | AI knows player exited vehicle but does not know direction | Exposed → hidden | Any | Searching | Last known vehicle position | Search surrounding area | Knowledge of exit event retained |
+| 140 | AI loses player after vehicle destruction | Hidden | Destroyed vehicle | Combat/search | Player whereabouts unknown | Search around destruction site | Vehicle destruction ≠ player disappearance |
+| 141 | Player survives vehicle destruction unnoticed | Concealed | Destroyed | Enemy unaware | No observation of survival | AI may assume target status based on available evidence | Do not grant knowledge without observation |
+| 142 | Player survives vehicle destruction and is observed | Exposed | Destroyed | Enemy combat | Direct visual contact | Continue engagement | Fresh target confirmation |
+| 143 | Player uses vehicle as temporary concealment during firefight | Known | Any | Combat | AI already knows player | Continue engagement/search | Cover is not equivalent to forgetting |
+| 144 | Player enters vehicle after enemy AI loses visual contact for only a short time | Recently known | Any | Searching | Very recent knowledge | Likely search/intercept vehicle | Short target age |
+| 145 | Player enters vehicle after enemy AI has been searching for a long time | Previously known | Any | Searching | Aging knowledge | Reduced search intensity | Target age affects behaviour |
+| 146 | Player enters vehicle after AI has fully forgotten him | Unknown | Any | Idle | No target knowledge | Normal vehicle/player detection | No residual knowledge |
+| 147 | AI has direct visual contact but `knowsAbout` remains low | Exposed | Any | Alert | Game-state discrepancy | Logic should reconcile knowledge with observation | Direct observation should drive target acquisition |
+| 148 | AI has high `knowsAbout` but currently no LOS | Hidden | Any | Searching | Historical knowledge | Search / pursue | High knowledge can persist temporarily without LOS |
+| 149 | AI has low `knowsAbout` and no LOS | Hidden | Any | Idle | Weak/stale information | No immediate engagement | Allow knowledge to decay |
+| 150 | AI has zero/relevant target knowledge after `forgetTarget` | Hidden | Any | Idle | Target forgotten | Treat player as unknown until detected again | Clean reset of target-specific knowledge |
