@@ -54,9 +54,10 @@ EDEN_SETTINGS = [
     "enabled", "buildRate", "decayRate", "suspiciousThreshold", "identifyThreshold", "maxRange", "identifyRange",
     "instantRange", "forgetAfter", "memoryTime", "heatDuration", "firedRadius",
     "allowHostileVeh", "sameFactionVehMult", "hostileVehMult",
-    "armoredDetect", "armoredHullMult",
+    "armoredDetect", "armoredHullMult", "armoredDrivingOnly", "vehOpticsEnabled", "vehOpticsMult",
     "gearCompareMode", "gearRefSource",
-    "metaDetect", "reverseMult", "rearFacingMult",
+    "metaDetect", "metaMaxSpeed", "hiddenCrewAny", "reverseMult", "rearFacingMult",
+    "ramCompromise", "ramBurn",
     "convoyMode", "convoySpillSusp",
     "shareMode", "shareRadius",
     "bulletinEnabled", "bulletinChance", "bulletinRange", "burnDuration", "wantedDuration",
@@ -66,6 +67,7 @@ EDEN_SETTINGS = [
 EDEN_PURSUIT = [
     "syncEnabled", "syncRadius", "syncDelay", "syncFactor", "syncMin", "syncCanIdentify", "syncRespectSig", "appearanceChangeKeep",
     "pursuitEnabled", "followEnabled", "followThreshold", "pursuitMaxGroups", "pursuitMaxTime",
+    "leashEnabled", "leashFoot", "leashVehicle", "leashGiveUp",
     "followDistance", "stopTimeout", "stopSignalHorn", "stopSignalLights", "alertRadius", "alertSuspicion",
     "inspectTime", "inspectMult", "inspectClearSusp", "fleeDistance", "fleeBulletin", "fleeBurn",
     "lambsDisableDuringPursuit", "lambsHuntOnCompromise",
@@ -194,6 +196,7 @@ EDEN = [
         a_num("ROOT_ADS_V_mult", "Suspicion multiplier", "How suspicious this vehicle looks, replacing the faction multipliers. -1 = by faction/side.", -1),
         a_combo("ROOT_ADS_V_armored", "Armored", "Can the AI see the crew? Armored = only the vehicle can be judged (slow build).", "NUMBER", -1,
                 [(-1, "Auto"), (0, "Not armored"), (1, "Armored")]),
+        a_num("ROOT_ADS_V_optics", "Optics range (AI crew)", "When enemy AI man this vehicle: range multiplier of its gunner / commander optics. -1 = setting.", -1),
         a_num("ROOT_ADS_V_duration", "Duration (s)", "Back to auto after this long. 0 = permanent.", 0),
     ], "Disguise behaviour for the synced vehicles."),
     eden("ROOT_ADS_Module_GroupProfile", "edenGroupProfile", "AI Group Profile", 0, [
@@ -204,6 +207,7 @@ EDEN = [
         a_combo("ROOT_ADS_G_role", "Role", "Patrol: may chase and stop suspects. Outpost: stays put, still alerts and syncs. Static: never leaves its position.", "STRING", '"""patrol"""',
                 [("patrol", "Patrol"), ("outpost", "Outpost"), ("static", "Static")]),
         a_num("ROOT_ADS_G_followThreshold", "Follow threshold (%)", "Suspicion at which these groups start pursuing. -1 = setting.", -1),
+        a_num("ROOT_ADS_G_leash", "Roam limit (m)", "How far these groups may go from home while pursuing. 0 = unlimited, -1 = settings (foot / mounted).", -1),
     ], "Observer profile for the groups of the synced AI units."),
     eden("ROOT_ADS_Module_GearReference", "edenGearReference", "Enemy Gear Reference", 0, [
         a_str("ROOT_ADS_R_side", "Observer side", "The side whose expected kit this is: east, west or independent.", "east"),
@@ -354,6 +358,10 @@ ZS = {
     "roleStatic": "Static",
     "followThreshold": "Follow threshold (%)",
     "followThreshold_desc": "Suspicion at which this group starts pursuing. -1 = setting.",
+    "leash": "Roam limit (m)",
+    "leash_desc": "How far this group may go from home while pursuing. 0 = unlimited, -1 = settings (foot / mounted).",
+    "optics": "Optics range (AI crew)",
+    "optics_desc": "When enemy AI man this vehicle: range multiplier of its gunner / commander optics. -1 = setting.",
     "groupApplied": "RADS group profile applied",
     # gear reference
     "gearTitle": "RADS - Enemy Gear Reference",

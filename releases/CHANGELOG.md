@@ -1,5 +1,28 @@
 # Changelog
 
+## Balance & Fixes (v1.0.0.5)
+
+### Added
+- Vehicle optics: AI in gunner/commander seats judge from farther (range multiplier, per vehicle via module/API).
+- Roam limit: pursuing groups stay within 200 m (foot) / 600 m (mounted) of home, give up and alert beyond it. Per group via profile/API.
+- Ramming an AI vehicle counts as ramming (PhysX contact).
+- Ramming makes the vehicle known (new setting, on).
+
+### Removed
+- N/A
+
+### Changed
+- Gear: item matching only refines a disguise (their/allied uniform); enemy fatigues no longer penalised twice. Old stacking kept as "Both, always".
+- Gear does not count through armor or a hidden crew.
+- Armored seats driven calmly build nothing; only speeding, off-road, lights off, horn, aiming, damage or loitering give them away.
+- Hidden-crew check only below 15 km/h; plain hidden crew off by default (reversing / rear-on still caught).
+- Ramming identifies the whole vehicle by default.
+- Queued suspicion syncs are dropped once the unit is identified.
+
+### Fixed
+- Safe zone truce check spamming the RPT with "0 elements provided, 1 expected".
+- Same error in getGearReference for a side without a list.
+
 ## Checkpoints & Pursuit (v1.0.0.4)
 
 ### Added

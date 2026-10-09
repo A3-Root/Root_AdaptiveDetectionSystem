@@ -39,12 +39,13 @@ private _roles = ["patrol", "outpost", "static"];
         ["SLIDER", [LLSTRING(shareRadius), LLSTRING(settingDefault)], [-1, 3000, _grp getVariable [QMVAR(shareRadius), -1], 0]],
         ["SLIDER", [LLSTRING(bulletinChance), LLSTRING(settingDefault)], [-1, 100, ((_grp getVariable [QMVAR(bulletinChance), -1]) * 100) max -1, 0]],
         ["COMBO", [LLSTRING(role), LLSTRING(role_desc)], [_roles, [LLSTRING(rolePatrol), LLSTRING(roleOutpost), LLSTRING(roleStatic)], (_roles find (_grp getVariable [QMVAR(role), "patrol"])) max 0]],
-        ["SLIDER", [LLSTRING(followThreshold), LLSTRING(followThreshold_desc)], [-1, 99, _grp getVariable [QMVAR(followThreshold), -1], 0]]
+        ["SLIDER", [LLSTRING(followThreshold), LLSTRING(followThreshold_desc)], [-1, 99, _grp getVariable [QMVAR(followThreshold), -1], 0]],
+        ["SLIDER", [LLSTRING(leash), LLSTRING(leash_desc)], [-1, 5000, _grp getVariable [QMVAR(leash), -1], 0]]
     ],
     {
         params ["_results", "_grp"];
-        _results params ["_mult", "_immune", "_share", "_chance", "_role", "_follow"];
-        [_grp, _mult, _immune, round _share, [-1, _chance / 100] select (_chance >= 0), _role, round _follow] call API(setGroupProfile);
+        _results params ["_mult", "_immune", "_share", "_chance", "_role", "_follow", "_leash"];
+        [_grp, _mult, _immune, round _share, [-1, _chance / 100] select (_chance >= 0), _role, round _follow, round _leash] call API(setGroupProfile);
         [LLSTRING(groupApplied)] call zen_common_fnc_showMessage;
     },
     {},

@@ -30,4 +30,5 @@ private _share = _logic getVariable ["ROOT_ADS_G_shareRadius", -1];
 private _chance = _logic getVariable ["ROOT_ADS_G_bulletinChance", -1];
 private _role = _logic getVariable ["ROOT_ADS_G_role", "patrol"];
 private _follow = _logic getVariable ["ROOT_ADS_G_followThreshold", -1];
-{ [_x, _mult, _immune, _share, _chance, _role, _follow] call API(setGroupProfile); } forEach _groups;
+private _leash = _logic getVariable ["ROOT_ADS_G_leash", -1];
+{ [_x, _mult, _immune, _share, _chance, _role, _follow, _leash] call API(setGroupProfile); } forEach _groups;

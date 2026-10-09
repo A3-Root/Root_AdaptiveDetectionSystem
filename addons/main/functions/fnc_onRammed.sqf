@@ -1,8 +1,9 @@
 #include "..\script_component.hpp"
 /*
  * Author: Root
- * Event (every machine): a covered vehicle rammed a member of a group. The group owner makes the
- * group SUSPICIOUS at once (or identifies the driver, per setting).
+ * Event (every machine): a covered vehicle rammed a member of a group (on foot or in a vehicle).
+ * The group owner identifies everyone undercover in the vehicle and makes the vehicle known
+ * (defaults), or only makes the group SUSPICIOUS when 'Ramming = identified' is off.
  *
  * Arguments:
  * 0: Group <GROUP>
@@ -18,10 +19,26 @@ params ["_grp", "_unit"];
 
 if (isNull _grp || {!local _grp} || {isNull _unit} || {isPlayer (leader _grp)}) exitWith {};
 
-if (RADS_DEBUG) then { ["RAM", format ["group rammed by covered vehicle (identify=%1, suspicion=%2)", MSET(ramCompromise), MSET(ramSuspicion)], _grp, _unit] call FUNC(debugLog); };
+private _veh = vehicle _unit;
+if (RADS_DEBUG) then { ["RAM", format ["group rammed by covered vehicle %1 (identify=%2, burn=%3, suspicion=%4)", typeOf _veh, MSET(ramCompromise), MSET(ramBurn), MSET(ramSuspicion)], _grp, _unit] call FUNC(debugLog); };
 
 if (MSET(ramCompromise)) exitWith {
     [_grp, _unit, "rammed", MSET(bulletinOnHostile)] call FUNC(compromise);
+    // the whole vehicle is given away, whatever 'Identify the whole crew' says
+    if (_veh != _unit) then {
+        {
+            if (alive _x && {_x getVariable [QGVAR(cover), false]} && {[side _grp, _x] call FUNC(isHostile)}) then {
+                [_grp, _x, "rammed (in the ramming vehicle)", false, false] call FUNC(compromise);
+            };
+        } forEach ((crew _veh) - [_unit]);
+        if (MSET(ramBurn)) then {
+            private _known = (_veh getVariable [QGVAR(burnedBy), []]) findIf {(_x select 0) == side _grp && {(_x select 1) > CBA_missionTime}} > -1;
+            if (!_known) then {
+                [_veh, side _grp, MSET(burnDuration), MSET(burnOnIdentifyRange), getPosATL _veh] call API(burnVehicle);
+                if (RADS_DEBUG) then { ["RAM", format ["%1 is now known to %2 for %3 s (ramming)", typeOf _veh, side _grp, MSET(burnDuration)], _grp, _unit] call FUNC(debugLog); };
+            };
+        };
+    };
 };
 
 private _entry = [_grp, _unit, false] call FUNC(classify);

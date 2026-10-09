@@ -88,6 +88,12 @@
         <Key ID="STR_root_ads_modules_ROOT_ADS_G_immune_desc">
             <English>These groups see through every disguise (normal detection).</English>
         </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_leash">
+            <English>Roam limit (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_leash_desc">
+            <English>How far these groups may go from home while pursuing. 0 = unlimited, -1 = settings (foot / mounted).</English>
+        </Key>
         <Key ID="STR_root_ads_modules_ROOT_ADS_G_mult">
             <English>Suspicion multiplier</English>
         </Key>
@@ -279,6 +285,12 @@
         </Key>
         <Key ID="STR_root_ads_modules_ROOT_ADS_V_mult_desc">
             <English>How suspicious this vehicle looks, replacing the faction multipliers. -1 = by faction/side.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_optics">
+            <English>Optics range (AI crew)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_optics_desc">
+            <English>When enemy AI man this vehicle: range multiplier of its gunner / commander optics. -1 = setting.</English>
         </Key>
         <Key ID="STR_root_ads_modules_ROOT_ADS_Z_build">
             <English>Build multiplier</English>
@@ -706,6 +718,12 @@
         <Key ID="STR_root_ads_modules_keepSetting">
             <English>Keep setting</English>
         </Key>
+        <Key ID="STR_root_ads_modules_leash">
+            <English>Roam limit (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_leash_desc">
+            <English>How far this group may go from home while pursuing. 0 = unlimited, -1 = settings (foot / mounted).</English>
+        </Key>
         <Key ID="STR_root_ads_modules_markWanted">
             <English>Mark crew wanted</English>
         </Key>
@@ -753,6 +771,12 @@
         </Key>
         <Key ID="STR_root_ads_modules_on">
             <English>On</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_optics">
+            <English>Optics range (AI crew)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_optics_desc">
+            <English>When enemy AI man this vehicle: range multiplier of its gunner / commander optics. -1 = setting.</English>
         </Key>
         <Key ID="STR_root_ads_modules_profileApplied">
             <English>RADS profile applied to %1 unit(s)</English>

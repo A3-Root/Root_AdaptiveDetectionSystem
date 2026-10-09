@@ -131,6 +131,9 @@ class CfgVehicles {
             ATTR_NUM_RAW(ROOT_ADS_S_hostileVehMult,"$STR_root_ads_main_hostileVehMult","$STR_root_ads_main_hostileVehMult_desc",-1);
             ATTR_TRI_RAW(ROOT_ADS_S_armoredDetect,"$STR_root_ads_main_armoredDetect","$STR_root_ads_main_armoredDetect_desc");
             ATTR_NUM_RAW(ROOT_ADS_S_armoredHullMult,"$STR_root_ads_main_armoredHullMult","$STR_root_ads_main_armoredHullMult_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_armoredDrivingOnly,"$STR_root_ads_main_armoredDrivingOnly","$STR_root_ads_main_armoredDrivingOnly_desc");
+            ATTR_TRI_RAW(ROOT_ADS_S_vehOpticsEnabled,"$STR_root_ads_main_vehOpticsEnabled","$STR_root_ads_main_vehOpticsEnabled_desc");
+            ATTR_NUM_RAW(ROOT_ADS_S_vehOpticsMult,"$STR_root_ads_main_vehOpticsMult","$STR_root_ads_main_vehOpticsMult_desc",-1);
             class ROOT_ADS_S_gearCompareMode: Combo {
                 property = "ROOT_ADS_S_gearCompareMode";
                 displayName = "$STR_root_ads_main_gearCompareMode";
@@ -142,6 +145,7 @@ class CfgVehicles {
                     class V0 { name = "$STR_root_ads_main_gearCompareMode_opt0"; value = 0; };
                     class V1 { name = "$STR_root_ads_main_gearCompareMode_opt1"; value = 1; };
                     class V2 { name = "$STR_root_ads_main_gearCompareMode_opt2"; value = 2; };
+                    class V3 { name = "$STR_root_ads_main_gearCompareMode_opt3"; value = 3; };
                 };
             };
             class ROOT_ADS_S_gearRefSource: Combo {
@@ -158,8 +162,12 @@ class CfgVehicles {
                 };
             };
             ATTR_TRI_RAW(ROOT_ADS_S_metaDetect,"$STR_root_ads_main_metaDetect","$STR_root_ads_main_metaDetect_desc");
+            ATTR_NUM_RAW(ROOT_ADS_S_metaMaxSpeed,"$STR_root_ads_main_metaMaxSpeed","$STR_root_ads_main_metaMaxSpeed_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_hiddenCrewAny,"$STR_root_ads_main_hiddenCrewAny","$STR_root_ads_main_hiddenCrewAny_desc");
             ATTR_NUM_RAW(ROOT_ADS_S_reverseMult,"$STR_root_ads_main_reverseMult","$STR_root_ads_main_reverseMult_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_rearFacingMult,"$STR_root_ads_main_rearFacingMult","$STR_root_ads_main_rearFacingMult_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_ramCompromise,"$STR_root_ads_main_ramCompromise","$STR_root_ads_main_ramCompromise_desc");
+            ATTR_TRI_RAW(ROOT_ADS_S_ramBurn,"$STR_root_ads_main_ramBurn","$STR_root_ads_main_ramBurn_desc");
             class ROOT_ADS_S_convoyMode: Combo {
                 property = "ROOT_ADS_S_convoyMode";
                 displayName = "$STR_root_ads_main_convoyMode";
@@ -222,6 +230,10 @@ class CfgVehicles {
             ATTR_NUM_RAW(ROOT_ADS_S_followThreshold,"$STR_root_ads_main_followThreshold","$STR_root_ads_main_followThreshold_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_pursuitMaxGroups,"$STR_root_ads_main_pursuitMaxGroups","$STR_root_ads_main_pursuitMaxGroups_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_pursuitMaxTime,"$STR_root_ads_main_pursuitMaxTime","$STR_root_ads_main_pursuitMaxTime_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_leashEnabled,"$STR_root_ads_main_leashEnabled","$STR_root_ads_main_leashEnabled_desc");
+            ATTR_NUM_RAW(ROOT_ADS_S_leashFoot,"$STR_root_ads_main_leashFoot","$STR_root_ads_main_leashFoot_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_leashVehicle,"$STR_root_ads_main_leashVehicle","$STR_root_ads_main_leashVehicle_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_leashGiveUp,"$STR_root_ads_main_leashGiveUp","$STR_root_ads_main_leashGiveUp_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_followDistance,"$STR_root_ads_main_followDistance","$STR_root_ads_main_followDistance_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_stopTimeout,"$STR_root_ads_main_stopTimeout","$STR_root_ads_main_stopTimeout_desc",-1);
             ATTR_TRI_RAW(ROOT_ADS_S_stopSignalHorn,"$STR_root_ads_main_stopSignalHorn","$STR_root_ads_main_stopSignalHorn_desc");
@@ -393,6 +405,7 @@ class CfgVehicles {
                     class V2 { name = CSTRING(ROOT_ADS_V_armored_v2); value = 1; };
                 };
             };
+            ATTR_NUM(ROOT_ADS_V_optics,CSTRING(ROOT_ADS_V_optics),CSTRING(ROOT_ADS_V_optics_desc),-1);
             ATTR_NUM(ROOT_ADS_V_duration,CSTRING(ROOT_ADS_V_duration),CSTRING(ROOT_ADS_V_duration_desc),0);
             class ModuleDescription: ModuleDescription {};
         };
@@ -421,6 +434,7 @@ class CfgVehicles {
                 };
             };
             ATTR_NUM(ROOT_ADS_G_followThreshold,CSTRING(ROOT_ADS_G_followThreshold),CSTRING(ROOT_ADS_G_followThreshold_desc),-1);
+            ATTR_NUM(ROOT_ADS_G_leash,CSTRING(ROOT_ADS_G_leash),CSTRING(ROOT_ADS_G_leash_desc),-1);
             class ModuleDescription: ModuleDescription {};
         };
         class ModuleDescription: ModuleDescription {

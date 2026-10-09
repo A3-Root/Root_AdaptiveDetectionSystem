@@ -4,8 +4,9 @@
  * Best per-observer exposure of a covered unit to a group: line of sight through the vehicle's
  * view geometry (glass lets partial sight through), field of view, distance, light, observer
  * behaviour, skill, face-to-face proximity and whether the unit is aiming at the observer.
- * Armored seats only show the vehicle (slow build). A soft vehicle kept close with its crew
- * hidden from the observer (reversing up, parking rear-on) is caught through the vehicle body.
+ * Armored seats only show the vehicle (slow build). A soft vehicle kept close and slow with its
+ * crew hidden from the observer (reversing up, parking rear-on) is caught through the vehicle body.
+ * Observers in vehicle gunner / commander seats see farther through their optics.
  *
  * Arguments:
  * 0: Group <GROUP>
@@ -14,7 +15,7 @@
  *
  * Return Value:
  * [exposure <NUMBER>, hostile in same vehicle <BOOL>, best observer <OBJECT>, best observer factors <ARRAY>]
- * Factors: [visibility, angle, fov, distance, behaviour, skill, light, faceToFace, aimed, vehicleVisibility, hullMode]
+ * Factors: [visibility, angle, fov, distance, behaviour, skill, light, faceToFace, aimed, vehicleVisibility, hullMode, optics]
  * hullMode: "" crew seen directly, "armored", "hiddenCrew", "reversing", "rearFacing"
  *
  * Public: No
@@ -29,7 +30,8 @@ if (_observers isEqualTo []) exitWith {[0, false, objNull]};
 private _sameIdx = _observers findIf {vehicle _x == _veh};
 if (_sameIdx > -1) exitWith {[100, true, _observers select _sameIdx]};
 
-_observers = _observers select {(_x distance _unit) <= _maxRange};
+// Vehicle optics stretch the range (linear, not the field of view)
+_observers = _observers select {(_x distance _unit) <= _maxRange * ([_x] call FUNC(observerOptics))};
 if (_observers isEqualTo []) exitWith {[0, false, objNull]};
 _observers = [_observers, [], {_x distance _unit}, "ASCEND"] call BIS_fnc_sortBy;
 _observers resize ((count _observers) min (round MSET(maxObservers)));
@@ -67,6 +69,8 @@ private _rearMult = MSET(rearFacingMult);
 private _rearAngle = 180 - MSET(rearFacingAngle);
 private _reversing = _inVehicle && {((velocityModelSpace _veh) select 1) < -(MSET(reverseSpeed) / 3.6)};
 private _slow = (abs speed _veh) < 10;
+private _metaSlow = (abs speed _veh) <= MSET(metaMaxSpeed);
+private _hiddenAny = MSET(hiddenCrewAny);
 private _vehTarget = aimPos _veh;
 private _vehDir = vectorDir _veh;
 _vehDir set [2, 0];
@@ -81,6 +85,7 @@ private _bestParts = [];
     private _observerVeh = vehicle _observer;
     private _eye = eyePos _observer;
     private _distance = _observer distance _unit;
+    private _optics = [_observer] call FUNC(observerOptics);
 
     // With hull blocking we ignore the unit itself so the ray stops at the vehicle's glass/body
     private _visibility = [_observerVeh, "VIEW", [_unit, _veh] select _ignoreHull] checkVisibility [_eye, _target];
@@ -91,7 +96,8 @@ private _bestParts = [];
         _visibility = _vehVis * _armoredMult;
         _hull = "armored";
     } else {
-        if (_meta && _distance <= _metaRange && _visibility < 0.15) then {
+        // only a slow vehicle close by: a car driving past with the crew out of the ray is no trick
+        if (_meta && _metaSlow && _distance <= _metaRange && _visibility < 0.15) then {
             _vehVis = [_observerVeh, "VIEW", _veh] checkVisibility [_eye, _vehTarget];
             if (_vehVis >= 0.5) then {
                 // 0 deg = nose towards the observer, 180 deg = rear towards the observer
@@ -109,7 +115,11 @@ private _bestParts = [];
                         _hull = "rearFacing";
                     };
                 };
-                _visibility = _visibility max (_vehVis * _hiddenFactor);
+                if (_hull != "hiddenCrew" || _hiddenAny) then {
+                    _visibility = _visibility max (_vehVis * _hiddenFactor);
+                } else {
+                    _hull = "";
+                };
             };
         };
     };
@@ -123,8 +133,10 @@ private _bestParts = [];
 
         // Telling who sits in a vehicle gets hard fast with distance: full inside close range,
         // then (closeRange / distance) ^ exponent, e.g. 40 m close range, exponent 1.5 -> 0.09 at 200 m
-        private _distanceFactor = if (_distance <= _identifyRange) then {1} else {
-            (_identifyRange / _distance) ^ _curve
+        // Optics: 1.5 = judged at 300 m as if it were 200 m away
+        private _seenAt = _distance / (_optics max 0.01);
+        private _distanceFactor = if (_seenAt <= _identifyRange) then {1} else {
+            (_identifyRange / _seenAt) ^ _curve
         };
 
         private _behaviour = switch (behaviour _observer) do {
@@ -154,7 +166,7 @@ private _bestParts = [];
         if (_exposure > _best) then {
             _best = _exposure;
             _bestObserver = _observer;
-            _bestParts = [_visibility, _angle, _fov, _distanceFactor, _behaviour, _skill, _lightFactor, _close, _aim, _vehVis, _hull];
+            _bestParts = [_visibility, _angle, _fov, _distanceFactor, _behaviour, _skill, _lightFactor, _close, _aim, _vehVis, _hull, _optics];
         };
     };
 } forEach _observers;

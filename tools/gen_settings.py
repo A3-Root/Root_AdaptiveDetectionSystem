@@ -226,6 +226,18 @@ slider("skillInfluence", "AI skill influence", tip(
     "0 = skill does not matter. 1 = a skilled spotter is up to twice as fast, a poor one much slower."), 0, 1, 0.5, 0, True)
 slider("engagedElsewhereMult", "Busy fighting someone else", tip(
     "Suspicion speed while the group is fighting another enemy. " + MULT), 0, 2, 0.6, 2)
+check("vehOpticsEnabled", "Vehicle optics see farther", tip(
+    "AI in a vehicle's gunner or commander seat (hatch closed) look through sights: they judge you",
+    "from farther away. Only the range changes, not how wide they look.",
+    "Turned out or firing-from-vehicle seats use their own eyes and weapons."), True)
+slider("vehOpticsMult", "Gunner / commander optics range", tip(
+    "Range multiplier for AI behind vehicle optics. 1 = like the naked eye.",
+    "Higher = they read you from farther (and suspicion builds faster at a distance). Lower = worse than the naked eye.",
+    "Example: 1.5 = a BMP gunner 300 m away judges you as if you were 200 m away.",
+    "Each vehicle can set its own value (Vehicle Disguise module / setVehicleMode)."), 0.25, 5, 1.5, 2)
+slider("vehDriverOpticsMult", "Driver's view range", tip(
+    "Range multiplier for AI driving a vehicle (hatch closed). 1 = like the naked eye.",
+    "Lower = a driver behind a vision block sees less."), 0.25, 5, 1, 2)
 
 # ======================================================================= 05 Light and weather
 cat("environment", "Light and Weather")
@@ -302,9 +314,14 @@ check("armoredAutoDetect", "Detect armored seats automatically", tip(
 slider("armoredHullMult", "Armored hull visibility", tip(
     "How much of the vehicle's visibility counts while the crew sits behind armor.",
     "Lower = armored vehicles are harder to see through. 1 = no protection.",
-    "Example: 0.35 = a BMP builds suspicion about a third as fast as a car."), 0, 1, 0.35, 0, True)
+    "Example: 0.25 = a BMP that gives itself away builds suspicion about a quarter as fast as a car."), 0, 1, 0.25, 0, True)
 slider("armoredCloseMult", "Armored face-to-face", tip(
     "Scales 'Face-to-face minimum visibility' for armored seats (a guard at the hull still cannot see in well)."), 0, 1, 0.5, 0, True)
+check("armoredDrivingOnly", "Armored: only behaviour gives it away", tip(
+    "On = a closed armored vehicle driven calmly builds no suspicion at all (nobody can see in) and old suspicion fades.",
+    "It only builds while it gives itself away: speeding or off-road near them, lights off at night, honking,",
+    "pointing a gun at them, visible damage or parking next to them for long. Ramming always identifies.",
+    "Off = it builds slowly from the vehicle alone (Armored hull visibility)."), True)
 
 # ======================================================================= 09 Gear
 cat("gear", "Gear")
@@ -314,9 +331,10 @@ check("gearEnabled", "Gear affects suspicion", tip(
 lst("gearCompareMode", "How gear is judged", tip(
     "General look = civilian clothes, military uniform, helmets... Matching = item by item against",
     "what the watching side itself wears (see 'Gear Reference')."),
-    [0, 1, 2], [("General look only", "Old behaviour: side of the uniform, armored helmet/vest, NVG, visible weapon."),
+    [0, 1, 2, 3], [("General look only", "Old behaviour: side of the uniform, armored helmet/vest, NVG, visible weapon."),
                 ("Item matching only", "Each visible item is compared with the enemy's own kit."),
-                ("Both", "Both multipliers apply (recommended).")], 2)
+                ("General look, matching for disguises", "General look always. Item matching only when you wear their (or an allied) uniform: it tells a good disguise from a sloppy one. Enemy fatigues are not punished twice (recommended)."),
+                ("Both, always", "Strict: both multipliers always apply, enemy fatigues count twice.")], 2)
 slider("uniformCivMult", "Civilian clothes", tip("Suspicion speed wearing civilian clothes. " + MULT), 0, 3, 0.6, 2)
 slider("uniformObserverMult", "Their side's uniform", tip(
     "Suspicion speed wearing a uniform of the watching side or its allies. " + MULT), 0, 3, 0.5, 2)
@@ -381,6 +399,12 @@ check("metaDetect", "Catch hidden-crew tricks", tip(
     "parking rear-on) still builds suspicion through the vehicle itself. Armored vehicles are exempt."), True)
 slider("metaRange", "Hidden-crew range (m)", tip(
     "Hidden-crew tricks are only judged within this distance of a soldier."), 10, 500, 100)
+slider("metaMaxSpeed", "Hidden-crew top speed (km/h)", tip(
+    "Only vehicles slower than this are checked for hidden-crew tricks. A car driving past",
+    "whose crew happens to be out of sight is not a trick."), 3, 60, 15)
+check("hiddenCrewAny", "Any hidden crew counts", tip(
+    "Off = only reversing up and parking rear-on are caught.",
+    "On = also a slow vehicle close by whose crew is hidden any other way (tinted or blocked windows)."), False)
 slider("hiddenCrewMult", "Hidden crew", tip(
     "How much of the vehicle's visibility counts when the crew cannot be seen at all.",
     "0 = a hidden crew is perfectly safe. 1 = as if they could see you."), 0, 2, 0.6, 2)
@@ -584,6 +608,16 @@ slider("pursuitMaxDist", "Give up beyond (m)", tip(
     "A pursuit is abandoned once the group is this far from where it started."), 100, 10000, 1500)
 slider("pursuitLead", "Aim ahead (s)", tip(
     "Pursuers head for where the vehicle will be in this many seconds."), 0, 10, 2, 1)
+check("leashEnabled", "Roam limit", tip(
+    "Pursuing groups never go farther than the limits below from where they were (their post or patrol spot).",
+    "At the edge they stop, and give up and radio if you stay beyond it.",
+    "Each group can have its own limit (AI Group Profile module / setGroupProfile)."), True)
+slider("leashFoot", "Roam limit on foot (m)", tip(
+    "How far a foot group may go from home while chasing, searching or inspecting."), 25, 3000, 200)
+slider("leashVehicle", "Roam limit mounted (m)", tip(
+    "How far a mounted group may go from home while following you."), 50, 10000, 600)
+slider("leashGiveUp", "Give up beyond the limit after (s)", tip(
+    "You stay beyond their roam limit this long and they give up (and alert, see 'Alert when you get away')."), 1, 300, 15)
 slider("footGiveUpDist", "Foot patrols give up at (m)", tip(
     "A foot patrol gives up once the vehicle is this far away (they cannot catch a car)."), 50, 2000, 300)
 slider("followDistance", "Signal to stop within (m)", tip(
@@ -637,7 +671,12 @@ slider("theftRadius", "Theft witness radius (m)", tip("Owners within this distan
 check("ramDetect", "Detect ramming", tip("Driving into or over enemy soldiers alerts their group at once."), True)
 slider("ramSpeed", "Ramming from (km/h)", tip("Minimum speed for contact to count as ramming."), 1, 60, 5)
 slider("ramSuspicion", "Ramming suspicion (%)", tip("Suspicion given to the rammed group (at least SUSPICIOUS)."), 0, 99, 50)
-check("ramCompromise", "Ramming = identified", tip("The rammed group identifies the driver at once instead."), False)
+check("ramCompromise", "Ramming = identified", tip(
+    "Ramming or running over a soldier, or ramming their vehicle, gets everyone undercover in your vehicle",
+    "identified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion)."), True)
+check("ramBurn", "Ramming makes the vehicle known", tip(
+    "The ramming vehicle is recognised on sight by that side (within 'Known vehicle range'), so swapping",
+    "crews does not save it."), True)
 check("swapForgive", "Fresh vehicle after being identified", tip(
     "An identified unit that switches to another vehicle unseen is only suspected again, not identified.",
     "The old vehicle stays known."), True)

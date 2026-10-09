@@ -169,11 +169,17 @@
         <Key ID="STR_root_ads_main_armoredDetect_desc">
             <English>In tanks, APCs and IFVs with closed hatches the AI cannot see who is inside. They can only judge\nthe vehicle, so suspicion builds much slower. Turned out or firing from a port = normal rules.</English>
         </Key>
+        <Key ID="STR_root_ads_main_armoredDrivingOnly">
+            <English>Armored: only behaviour gives it away</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredDrivingOnly_desc">
+            <English>On = a closed armored vehicle driven calmly builds no suspicion at all (nobody can see in) and old suspicion fades.\nIt only builds while it gives itself away: speeding or off-road near them, lights off at night, honking,\npointing a gun at them, visible damage or parking next to them for long. Ramming always identifies.\nOff = it builds slowly from the vehicle alone (Armored hull visibility).</English>
+        </Key>
         <Key ID="STR_root_ads_main_armoredHullMult">
             <English>Armored hull visibility</English>
         </Key>
         <Key ID="STR_root_ads_main_armoredHullMult_desc">
-            <English>How much of the vehicle's visibility counts while the crew sits behind armor.\nLower = armored vehicles are harder to see through. 1 = no protection.\nExample: 0.35 = a BMP builds suspicion about a third as fast as a car.</English>
+            <English>How much of the vehicle's visibility counts while the crew sits behind armor.\nLower = armored vehicles are harder to see through. 1 = no protection.\nExample: 0.25 = a BMP that gives itself away builds suspicion about a quarter as fast as a car.</English>
         </Key>
         <Key ID="STR_root_ads_main_behAware">
             <English>Alert AI (AWARE)</English>
@@ -725,10 +731,16 @@
             <English>Each visible item is compared with the enemy's own kit.</English>
         </Key>
         <Key ID="STR_root_ads_main_gearCompareMode_opt2">
-            <English>Both</English>
+            <English>General look, matching for disguises</English>
         </Key>
         <Key ID="STR_root_ads_main_gearCompareMode_opt2_desc">
-            <English>Both multipliers apply (recommended).</English>
+            <English>General look always. Item matching only when you wear their (or an allied) uniform: it tells a good disguise from a sloppy one. Enemy fatigues are not punished twice (recommended).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_opt3">
+            <English>Both, always</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_opt3_desc">
+            <English>Strict: both multipliers always apply, enemy fatigues count twice.</English>
         </Key>
         <Key ID="STR_root_ads_main_gearEnabled">
             <English>Gear affects suspicion</English>
@@ -868,6 +880,12 @@
         <Key ID="STR_root_ads_main_helmetMult_desc">
             <English>Suspicion speed wearing an armored helmet. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
         </Key>
+        <Key ID="STR_root_ads_main_hiddenCrewAny">
+            <English>Any hidden crew counts</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hiddenCrewAny_desc">
+            <English>Off = only reversing up and parking rear-on are caught.\nOn = also a slow vehicle close by whose crew is hidden any other way (tinted or blocked windows).</English>
+        </Key>
         <Key ID="STR_root_ads_main_hiddenCrewMult">
             <English>Hidden crew</English>
         </Key>
@@ -994,6 +1012,30 @@
         <Key ID="STR_root_ads_main_lambsHuntOnCompromise_desc">
             <English>With LAMBS loaded, pursuers that identify you hand over to LAMBS Rush (on foot) or Hunt (mounted).</English>
         </Key>
+        <Key ID="STR_root_ads_main_leashEnabled">
+            <English>Roam limit</English>
+        </Key>
+        <Key ID="STR_root_ads_main_leashEnabled_desc">
+            <English>Pursuing groups never go farther than the limits below from where they were (their post or patrol spot).\nAt the edge they stop, and give up and radio if you stay beyond it.\nEach group can have its own limit (AI Group Profile module / setGroupProfile).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_leashFoot">
+            <English>Roam limit on foot (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_leashFoot_desc">
+            <English>How far a foot group may go from home while chasing, searching or inspecting.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_leashGiveUp">
+            <English>Give up beyond the limit after (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_leashGiveUp_desc">
+            <English>You stay beyond their roam limit this long and they give up (and alert, see 'Alert when you get away').</English>
+        </Key>
+        <Key ID="STR_root_ads_main_leashVehicle">
+            <English>Roam limit mounted (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_leashVehicle_desc">
+            <English>How far a mounted group may go from home while following you.</English>
+        </Key>
         <Key ID="STR_root_ads_main_lightMult">
             <English>Weapon light / laser at night</English>
         </Key>
@@ -1029,6 +1071,12 @@
         </Key>
         <Key ID="STR_root_ads_main_metaDetect_desc">
             <English>Close to a group, a vehicle in plain view whose crew is hidden (reversing up to a checkpoint,\nparking rear-on) still builds suspicion through the vehicle itself. Armored vehicles are exempt.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaMaxSpeed">
+            <English>Hidden-crew top speed (km/h)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaMaxSpeed_desc">
+            <English>Only vehicles slower than this are checked for hidden-crew tricks. A car driving past\nwhose crew happens to be out of sight is not a trick.</English>
         </Key>
         <Key ID="STR_root_ads_main_metaRampMax">
             <English>Hidden-crew ramp maximum</English>
@@ -1297,11 +1345,17 @@
         <Key ID="STR_root_ads_main_rainInfluence_desc">
             <English>How much rain hides you. 0 = rain does nothing. 1 = heavy rain hides you completely.</English>
         </Key>
+        <Key ID="STR_root_ads_main_ramBurn">
+            <English>Ramming makes the vehicle known</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramBurn_desc">
+            <English>The ramming vehicle is recognised on sight by that side (within 'Known vehicle range'), so swapping\ncrews does not save it.</English>
+        </Key>
         <Key ID="STR_root_ads_main_ramCompromise">
             <English>Ramming = identified</English>
         </Key>
         <Key ID="STR_root_ads_main_ramCompromise_desc">
-            <English>The rammed group identifies the driver at once instead.</English>
+            <English>Ramming or running over a soldier, or ramming their vehicle, gets everyone undercover in your vehicle\nidentified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion).</English>
         </Key>
         <Key ID="STR_root_ads_main_ramDetect">
             <English>Detect ramming</English>
@@ -1872,6 +1926,24 @@
         </Key>
         <Key ID="STR_root_ads_main_vehClassMults_desc">
             <English>Comma-separated class:multiplier pairs that replace the faction multipliers. First match wins, child classes included.\nExample: O_MRAP_02_F:0.4,B_MRAP_01_F:5</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehDriverOpticsMult">
+            <English>Driver's view range</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehDriverOpticsMult_desc">
+            <English>Range multiplier for AI driving a vehicle (hatch closed). 1 = like the naked eye.\nLower = a driver behind a vision block sees less.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehOpticsEnabled">
+            <English>Vehicle optics see farther</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehOpticsEnabled_desc">
+            <English>AI in a vehicle's gunner or commander seat (hatch closed) look through sights: they judge you\nfrom farther away. Only the range changes, not how wide they look.\nTurned out or firing-from-vehicle seats use their own eyes and weapons.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehOpticsMult">
+            <English>Gunner / commander optics range</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehOpticsMult_desc">
+            <English>Range multiplier for AI behind vehicle optics. 1 = like the naked eye.\nHigher = they read you from farther (and suspicion builds faster at a distance). Lower = worse than the naked eye.\nExample: 1.5 = a BMP gunner 300 m away judges you as if you were 200 m away.\nEach vehicle can set its own value (Vehicle Disguise module / setVehicleMode).</English>
         </Key>
         <Key ID="STR_root_ads_main_vehWhitelist">
             <English>Always-disguise vehicles</English>

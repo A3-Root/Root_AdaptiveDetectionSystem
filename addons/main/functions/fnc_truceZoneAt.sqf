@@ -22,4 +22,6 @@ private _index = GVAR(zones) findIf {
     && {_side == sideUnknown || {(_x select Z_SIDES) isEqualTo []} || {_side in (_x select Z_SIDES)}}
     && {([_x] call FUNC(zoneTruce)) select T_ENABLED}
 };
-[[], GVAR(zones) select _index] select (_index > -1)
+// both sides of a select are evaluated: never index with -1
+if (_index < 0) exitWith {[]};
+GVAR(zones) select _index

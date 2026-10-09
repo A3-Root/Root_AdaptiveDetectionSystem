@@ -35,6 +35,14 @@ if (_radius <= 0) exitWith {};
     if (isNull _grp || {(units _grp) findIf {[_x] call FUNC(isAwake)} == -1}) exitWith {
         RLOG("suspicion sync lost (sending group wiped out)");
     };
+    // identified meanwhile: the share / bulletin carries that, not a stale suspicion level
+    if (!_clear) then {
+        private _data = [_grp] call FUNC(getData);
+        _batch = _batch select {((_data getOrDefault [hashValue (_x select 0), []]) param [D_STATE, ST_UNAWARE]) != ST_COMPROMISED};
+    };
+    if (_batch isEqualTo []) exitWith {
+        if (RADS_DEBUG) then { ["SYNC", format ["%1 drops its queued sync: everyone in it was identified meanwhile", groupId _grp], _grp] call FUNC(debugLog); };
+    };
     private _positions = ((units _grp) select {[_x] call FUNC(isAwake)}) apply {getPosATL _x};
     if (RADS_DEBUG) then {
         ["SYNC", format ["%1 sends %2 within %3 m: %4", groupId _grp, ["suspicion", "all-clear"] select _clear, _radius, _batch apply {format ["%1=%2", name (_x select 0), round (_x select 1)]}], _grp] call FUNC(debugLog);

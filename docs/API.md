@@ -12,12 +12,12 @@ Every function can be called from any machine. State-changing calls forward them
 | `root_ads_fnc_addZone` | `[[centre, a, b, angle, isRect], mode = 0, build = 1, decay = 1, sides = [], delay = 0, duration = 0, hourFrom = -1, hourTo = -1, label = "", id = "", truce = []]` | Mode 0 multiplier, 1 no cover, 2 safe haven. `truce` as in `setZoneTruce` ([] = CBA defaults). Returns the id on the server. |
 | `root_ads_fnc_setZoneTruce` | `[id, [enabled, maxStay, warnBefore, careless, breakScope, breakOnAim]]` | Truce of a safe haven. Scope 0 offender, 1 offender's group, 2 everyone in the zone. `[]` = CBA defaults. |
 | `root_ads_fnc_removeZone` | `[id]` | `""` or `"all"` removes every zone. |
-| `root_ads_fnc_setVehicleMode` | `[vehicle, "auto"/"disguise"/"never"/"burned", revertAfter = 0, lookMultiplier = -1, armored = -1]` | Multiplier -1 = by faction/side. Armored -1 auto, 0 no, 1 yes. |
+| `root_ads_fnc_setVehicleMode` | `[vehicle, "auto"/"disguise"/"never"/"burned", revertAfter = 0, lookMultiplier = -1, armored = -1, optics = -1]` | Multiplier -1 = by faction/side. Armored -1 auto, 0 no, 1 yes. Optics = range multiplier for AI in its gunner/commander seats, -1 = setting. |
 | `root_ads_fnc_burnVehicle` | `[vehicle, side, duration = -1, range = 0, reportPos = []]` | That side recognises the vehicle on sight. |
 | `root_ads_fnc_markWanted` | `[unit, side, duration = -1, range = 0, reportPos = []]` | Faster suspicion for that side. |
 | `root_ads_fnc_clearBulletins` | `[unitOrVehicle, sides = [], alsoVehicle = true]` | |
 | `root_ads_fnc_setUnitMode` | `[unit, "normal"/"exempt"/"force", multiplier = 1, revertAfter = 0]` | |
-| `root_ads_fnc_setGroupProfile` | `[groupOrUnit, multiplier = 1, immune = false, shareRadius = -1, bulletinChance = -1, role = "patrol", followThreshold = -1]` | Role `"patrol"` (may pursue), `"outpost"` (stays, alerts and syncs), `"static"`. |
+| `root_ads_fnc_setGroupProfile` | `[groupOrUnit, multiplier = 1, immune = false, shareRadius = -1, bulletinChance = -1, role = "patrol", followThreshold = -1, roamLimit = -1]` | Role `"patrol"` (may pursue), `"outpost"` (stays, alerts and syncs), `"static"`. Roam limit in m, 0 = unlimited, -1 = settings. |
 | `root_ads_fnc_setGearReference` | `[side, [uniforms, vests, headgear, rifles, launchers, backpacks, facewear]]` | Each list an array or a comma-separated string. `[]` clears. |
 | `root_ads_fnc_getGearReference` | `[side]` → seven comma-separated strings | |
 | `root_ads_fnc_collectSideGear` | `[side, apply = false]` → seven comma-separated strings | Everything that side's AI wear now; `apply` sets it as the reference. |

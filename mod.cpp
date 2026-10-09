@@ -10,6 +10,5 @@ picture = "root_ads_logo.paa";
 logo = "root_ads_logo.paa";
 logoOver = "root_ads_logo.paa";
 logoSmall = "root_ads_logo.paa";
-actionName = "Website";
 hidePicture = 0;
 hideName = 0;

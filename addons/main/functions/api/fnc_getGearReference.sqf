@@ -19,5 +19,5 @@ params [["_side", sideUnknown, [west]]];
 
 private _all = missionNamespace getVariable [QGVAR(gearRef), []];
 private _index = _all findIf {(_x select 0) == _side};
-private _slots = [[[], [], [], [], [], [], []], (_all select _index) select 1] select (_index > -1);
+private _slots = if (_index > -1) then { (_all select _index) select 1 } else { [[], [], [], [], [], [], []] };
 _slots apply {(_x select {_x != ""}) joinString ","}

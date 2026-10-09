@@ -51,13 +51,16 @@ if ("lambs" in _pursuit) then { _grp setVariable ["lambs_danger_disableGroupAI",
 _grp setVariable [QGVAR(pursuit), nil];
 _grp setVariable [QGVAR(pursuitTarget), objNull, true];
 _grp setVariable [QGVAR(nextPursuit), time + 20];
+_grp setVariable [QGVAR(homeUntil), time + 120];
 
 private _unit = _pursuit get "target";
 if (_combat && {MSET(lambsHuntOnCompromise)} && {!isNil "lambs_wp_fnc_taskRush"} && {alive _unit}) then {
+    // LAMBS search radius stays inside the roam limit
+    private _leash = [_grp, _pursuit get "mounted"] call FUNC(pursuitLeash);
     if (_pursuit get "mounted") then {
-        [_grp, 1000] spawn lambs_wp_fnc_taskHunt;
+        [_grp, [1000, _leash] select (_leash > 0)] spawn lambs_wp_fnc_taskHunt;
     } else {
-        [_grp, 500] spawn lambs_wp_fnc_taskRush;
+        [_grp, [500, _leash] select (_leash > 0)] spawn lambs_wp_fnc_taskRush;
     };
     if (RADS_DEBUG) then { ["PURSUIT", format ["%1 handed to LAMBS %2", groupId _grp, ["taskRush", "taskHunt"] select (_pursuit get "mounted")], _grp, _unit] call FUNC(debugLog); };
 };

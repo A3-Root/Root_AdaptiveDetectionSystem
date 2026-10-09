@@ -2,7 +2,8 @@
 /*
  * Author: Root
  * Client per-frame handler (5 Hz): while the local player drives a covered vehicle, hostile AI
- * touched by it are reported to their group owners at once (ramming / running over).
+ * touched by it are reported to their group owners at once (ramming / running over). Collisions
+ * with AI vehicles are caught by a PhysX contact handler added to the driven vehicle.
  *
  * Arguments:
  * None
@@ -20,6 +21,14 @@ private _veh = vehicle _unit;
 private _covered = _unit getVariable [QGVAR(cover), false];
 private _truce = (_unit getVariable [QGVAR(truce), []]) isNotEqualTo [];
 if (_veh == _unit || {driver _veh != _unit} || {!_covered && !_truce}) exitWith {};
+// vehicle-on-vehicle: PhysX contact on the driven vehicle (local to its driver)
+if (isNil {_veh getVariable QGVAR(epeEH)}) then {
+    _veh setVariable [QGVAR(epeEH), _veh addEventHandler ["EpeContactStart", {
+        params ["_veh", "_other"];
+        [_veh, _other] call FUNC(ramContact);
+    }]];
+    if (RADS_DEBUG) then { ["RAM-DETECT", format ["vehicle contact handler added to %1", typeOf _veh], grpNull, _unit] call FUNC(debugLog); };
+};
 if (abs speed _veh < MSET(ramSpeed)) exitWith {};
 
 // Geometry clipping (type 2): the actual hull, not mirrors/antennas/view geometry

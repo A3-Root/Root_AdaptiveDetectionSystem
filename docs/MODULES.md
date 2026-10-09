@@ -9,9 +9,9 @@ Mission-wide runtime overrides of settings. They sit on top of the CBA values un
 
 | Zeus | 3DEN | Covers |
 |---|---|---|
-| Detection Settings | Detection Settings | Enable, build/decay rate, thresholds, ranges, forget/memory, heat, firing radius, own-side vehicles and faction multipliers, armored hulls, gear judging and reference source, hidden-crew tricks (reversing, rear-on), convoys, sharing, bulletins, informants, theft, AI reactions (alert, glance, look, watch), debug publishing |
+| Detection Settings | Detection Settings | Enable, build/decay rate, thresholds, ranges, forget/memory, heat, firing radius, own-side vehicles and faction multipliers, armored hulls, vehicle optics, gear judging and reference source, hidden-crew tricks (reversing, rear-on), ramming, convoys, sharing, bulletins, informants, theft, AI reactions (alert, glance, look, watch), debug publishing |
 | Suspicion Sync Settings | Pursuit, Sync & Truce Settings | Sync on/off, radius, delay, interval, share, minimum, radio, can identify, changing looks; sharing on identification; follow threshold |
-| Pursuit & Checkpoint Settings | (same 3DEN module) | Pursuits, stop signal (horn, lights), time to stop, refusal alerts, inspection length/multiplier/clearing, fleeing, LAMBS integration |
+| Pursuit & Checkpoint Settings | (same 3DEN module) | Pursuits, roam limits, stop signal (horn, lights), time to stop, refusal alerts, inspection length/multiplier/clearing, fleeing, LAMBS integration |
 | Safe Zone Truce Settings | (same 3DEN module) | Truce on/off, allowed stay, warning, AI relax, who loses it, aiming, cooldown, exit grace, reaction radius, bulletin |
 
 - **Zeus**: each dialog is pre-filled with the current effective values. The last checkbox, *Clear these overrides*, returns those settings to their CBA values.
@@ -54,7 +54,8 @@ Zone markers are drawn when the *Show zone markers* setting is on.
 | Mode | **Auto**: by side and settings. **Always disguise**: any side is fooled. **Never disguise**. **Burned**: recognised on sight by everyone. |
 | Burned for sides | Those sides recognise the vehicle on sight. |
 | Suspicion multiplier | How suspicious this vehicle looks, replacing the faction multipliers. -1 = by faction/side. |
-| Armored | Auto / not armored / armored. Armored means only the vehicle can be judged, not the crew (slow build). |
+| Armored | Auto / not armored / armored. Armored means only the vehicle can be judged, not the crew: driven calmly it builds nothing. |
+| Optics range (AI crew) | When enemy AI man this vehicle: range multiplier of its gunner / commander optics. -1 = setting. |
 | Duration | Revert after this long. |
 
 - **Zeus**: place on the vehicle. Includes *Clear burned status*.
@@ -69,6 +70,7 @@ Zone markers are drawn when the *Show zone markers* setting is on.
 | Bulletin chance | Override the bulletin chance. -1 = setting. |
 | Role | **Patrol**: may chase and stop suspects. **Outpost**: stays put, still alerts and syncs. **Static**: never leaves its position. |
 | Follow threshold | Suspicion at which this group starts pursuing. -1 = setting. |
+| Roam limit | How far the group may go from home while pursuing. 0 = unlimited, -1 = settings (200 m foot / 600 m mounted). |
 
 - **Zeus**: place on any unit of the group. **3DEN**: synced units' groups.
 

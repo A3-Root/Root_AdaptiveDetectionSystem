@@ -84,6 +84,9 @@
 [QGVAR(behStealth), "SLIDER", [LSTRING(behStealth), LSTRING(behStealth_desc)], SUB_OBSERVERS, [0, 3, 1.2, 2], true] call CBA_fnc_addSetting;
 [QGVAR(skillInfluence), "SLIDER", [LSTRING(skillInfluence), LSTRING(skillInfluence_desc)], SUB_OBSERVERS, [0, 1, 0.5, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(engagedElsewhereMult), "SLIDER", [LSTRING(engagedElsewhereMult), LSTRING(engagedElsewhereMult_desc)], SUB_OBSERVERS, [0, 2, 0.6, 2], true] call CBA_fnc_addSetting;
+[QGVAR(vehOpticsEnabled), "CHECKBOX", [LSTRING(vehOpticsEnabled), LSTRING(vehOpticsEnabled_desc)], SUB_OBSERVERS, true, true] call CBA_fnc_addSetting;
+[QGVAR(vehOpticsMult), "SLIDER", [LSTRING(vehOpticsMult), LSTRING(vehOpticsMult_desc)], SUB_OBSERVERS, [0.25, 5, 1.5, 2], true] call CBA_fnc_addSetting;
+[QGVAR(vehDriverOpticsMult), "SLIDER", [LSTRING(vehDriverOpticsMult), LSTRING(vehDriverOpticsMult_desc)], SUB_OBSERVERS, [0.25, 5, 1, 2], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 06 Light and Weather
 [QGVAR(nightMult), "SLIDER", [LSTRING(nightMult), LSTRING(nightMult_desc)], SUB_ENVIRONMENT, [0, 1, 0.45, 0, true], true] call CBA_fnc_addSetting;
@@ -118,12 +121,13 @@
 [QGVAR(armoredDetect), "CHECKBOX", [LSTRING(armoredDetect), LSTRING(armoredDetect_desc)], SUB_ARMORED, true, true] call CBA_fnc_addSetting;
 [QGVAR(armoredClasses), "EDITBOX", [LSTRING(armoredClasses), LSTRING(armoredClasses_desc)], SUB_ARMORED, "Tank,Wheeled_APC_F", true] call CBA_fnc_addSetting;
 [QGVAR(armoredAutoDetect), "CHECKBOX", [LSTRING(armoredAutoDetect), LSTRING(armoredAutoDetect_desc)], SUB_ARMORED, true, true] call CBA_fnc_addSetting;
-[QGVAR(armoredHullMult), "SLIDER", [LSTRING(armoredHullMult), LSTRING(armoredHullMult_desc)], SUB_ARMORED, [0, 1, 0.35, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(armoredHullMult), "SLIDER", [LSTRING(armoredHullMult), LSTRING(armoredHullMult_desc)], SUB_ARMORED, [0, 1, 0.25, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(armoredCloseMult), "SLIDER", [LSTRING(armoredCloseMult), LSTRING(armoredCloseMult_desc)], SUB_ARMORED, [0, 1, 0.5, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(armoredDrivingOnly), "CHECKBOX", [LSTRING(armoredDrivingOnly), LSTRING(armoredDrivingOnly_desc)], SUB_ARMORED, true, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 10 Gear
 [QGVAR(gearEnabled), "CHECKBOX", [LSTRING(gearEnabled), LSTRING(gearEnabled_desc)], SUB_GEAR, true, true] call CBA_fnc_addSetting;
-[QGVAR(gearCompareMode), "LIST", [LSTRING(gearCompareMode), LSTRING(gearCompareMode_desc)], SUB_GEAR, [[0, 1, 2], [[LSTRING(gearCompareMode_opt0), LSTRING(gearCompareMode_opt0_desc)], [LSTRING(gearCompareMode_opt1), LSTRING(gearCompareMode_opt1_desc)], [LSTRING(gearCompareMode_opt2), LSTRING(gearCompareMode_opt2_desc)]], 2], true] call CBA_fnc_addSetting;
+[QGVAR(gearCompareMode), "LIST", [LSTRING(gearCompareMode), LSTRING(gearCompareMode_desc)], SUB_GEAR, [[0, 1, 2, 3], [[LSTRING(gearCompareMode_opt0), LSTRING(gearCompareMode_opt0_desc)], [LSTRING(gearCompareMode_opt1), LSTRING(gearCompareMode_opt1_desc)], [LSTRING(gearCompareMode_opt2), LSTRING(gearCompareMode_opt2_desc)], [LSTRING(gearCompareMode_opt3), LSTRING(gearCompareMode_opt3_desc)]], 2], true] call CBA_fnc_addSetting;
 [QGVAR(uniformCivMult), "SLIDER", [LSTRING(uniformCivMult), LSTRING(uniformCivMult_desc)], SUB_GEAR, [0, 3, 0.6, 2], true] call CBA_fnc_addSetting;
 [QGVAR(uniformObserverMult), "SLIDER", [LSTRING(uniformObserverMult), LSTRING(uniformObserverMult_desc)], SUB_GEAR, [0, 3, 0.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(uniformHostileMult), "SLIDER", [LSTRING(uniformHostileMult), LSTRING(uniformHostileMult_desc)], SUB_GEAR, [0, 5, 1.6, 2], true] call CBA_fnc_addSetting;
@@ -159,6 +163,8 @@
 [QGVAR(lightMult), "SLIDER", [LSTRING(lightMult), LSTRING(lightMult_desc)], SUB_DRIVING, [1, 5, 2, 2], true] call CBA_fnc_addSetting;
 [QGVAR(metaDetect), "CHECKBOX", [LSTRING(metaDetect), LSTRING(metaDetect_desc)], SUB_DRIVING, true, true] call CBA_fnc_addSetting;
 [QGVAR(metaRange), "SLIDER", [LSTRING(metaRange), LSTRING(metaRange_desc)], SUB_DRIVING, [10, 500, 100, 0], true] call CBA_fnc_addSetting;
+[QGVAR(metaMaxSpeed), "SLIDER", [LSTRING(metaMaxSpeed), LSTRING(metaMaxSpeed_desc)], SUB_DRIVING, [3, 60, 15, 0], true] call CBA_fnc_addSetting;
+[QGVAR(hiddenCrewAny), "CHECKBOX", [LSTRING(hiddenCrewAny), LSTRING(hiddenCrewAny_desc)], SUB_DRIVING, false, true] call CBA_fnc_addSetting;
 [QGVAR(hiddenCrewMult), "SLIDER", [LSTRING(hiddenCrewMult), LSTRING(hiddenCrewMult_desc)], SUB_DRIVING, [0, 2, 0.6, 2], true] call CBA_fnc_addSetting;
 [QGVAR(reverseSpeed), "SLIDER", [LSTRING(reverseSpeed), LSTRING(reverseSpeed_desc)], SUB_DRIVING, [1, 30, 3, 0], true] call CBA_fnc_addSetting;
 [QGVAR(reverseMult), "SLIDER", [LSTRING(reverseMult), LSTRING(reverseMult_desc)], SUB_DRIVING, [1, 10, 2.5, 2], true] call CBA_fnc_addSetting;
@@ -260,6 +266,10 @@
 [QGVAR(pursuitMaxTime), "SLIDER", [LSTRING(pursuitMaxTime), LSTRING(pursuitMaxTime_desc)], SUB_PURSUIT, [30, 1800, 180, 0], true] call CBA_fnc_addSetting;
 [QGVAR(pursuitMaxDist), "SLIDER", [LSTRING(pursuitMaxDist), LSTRING(pursuitMaxDist_desc)], SUB_PURSUIT, [100, 10000, 1500, 0], true] call CBA_fnc_addSetting;
 [QGVAR(pursuitLead), "SLIDER", [LSTRING(pursuitLead), LSTRING(pursuitLead_desc)], SUB_PURSUIT, [0, 10, 2, 1], true] call CBA_fnc_addSetting;
+[QGVAR(leashEnabled), "CHECKBOX", [LSTRING(leashEnabled), LSTRING(leashEnabled_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
+[QGVAR(leashFoot), "SLIDER", [LSTRING(leashFoot), LSTRING(leashFoot_desc)], SUB_PURSUIT, [25, 3000, 200, 0], true] call CBA_fnc_addSetting;
+[QGVAR(leashVehicle), "SLIDER", [LSTRING(leashVehicle), LSTRING(leashVehicle_desc)], SUB_PURSUIT, [50, 10000, 600, 0], true] call CBA_fnc_addSetting;
+[QGVAR(leashGiveUp), "SLIDER", [LSTRING(leashGiveUp), LSTRING(leashGiveUp_desc)], SUB_PURSUIT, [1, 300, 15, 0], true] call CBA_fnc_addSetting;
 [QGVAR(footGiveUpDist), "SLIDER", [LSTRING(footGiveUpDist), LSTRING(footGiveUpDist_desc)], SUB_PURSUIT, [50, 2000, 300, 0], true] call CBA_fnc_addSetting;
 [QGVAR(followDistance), "SLIDER", [LSTRING(followDistance), LSTRING(followDistance_desc)], SUB_PURSUIT, [10, 200, 40, 0], true] call CBA_fnc_addSetting;
 [QGVAR(stopSignalHorn), "CHECKBOX", [LSTRING(stopSignalHorn), LSTRING(stopSignalHorn_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
@@ -291,7 +301,8 @@
 [QGVAR(ramDetect), "CHECKBOX", [LSTRING(ramDetect), LSTRING(ramDetect_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
 [QGVAR(ramSpeed), "SLIDER", [LSTRING(ramSpeed), LSTRING(ramSpeed_desc)], SUB_MISC, [1, 60, 5, 0], true] call CBA_fnc_addSetting;
 [QGVAR(ramSuspicion), "SLIDER", [LSTRING(ramSuspicion), LSTRING(ramSuspicion_desc)], SUB_MISC, [0, 99, 50, 0], true] call CBA_fnc_addSetting;
-[QGVAR(ramCompromise), "CHECKBOX", [LSTRING(ramCompromise), LSTRING(ramCompromise_desc)], SUB_MISC, false, true] call CBA_fnc_addSetting;
+[QGVAR(ramCompromise), "CHECKBOX", [LSTRING(ramCompromise), LSTRING(ramCompromise_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
+[QGVAR(ramBurn), "CHECKBOX", [LSTRING(ramBurn), LSTRING(ramBurn_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
 [QGVAR(swapForgive), "CHECKBOX", [LSTRING(swapForgive), LSTRING(swapForgive_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
 [QGVAR(swapMinUnseen), "SLIDER", [LSTRING(swapMinUnseen), LSTRING(swapMinUnseen_desc)], SUB_MISC, [0, 300, 2, 0], true] call CBA_fnc_addSetting;
 [QGVAR(swapBaseSuspicion), "SLIDER", [LSTRING(swapBaseSuspicion), LSTRING(swapBaseSuspicion_desc)], SUB_MISC, [0, 99, 30, 0], true] call CBA_fnc_addSetting;
@@ -379,6 +390,9 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["behStealth", ["SLIDER", 0, 3, 2, false]],
     ["skillInfluence", ["SLIDER", 0, 1, 0, true]],
     ["engagedElsewhereMult", ["SLIDER", 0, 2, 2, false]],
+    ["vehOpticsEnabled", ["CHECKBOX"]],
+    ["vehOpticsMult", ["SLIDER", 0.25, 5, 2, false]],
+    ["vehDriverOpticsMult", ["SLIDER", 0.25, 5, 2, false]],
     ["nightMult", ["SLIDER", 0, 1, 0, true]],
     ["nvgNightMult", ["SLIDER", 0, 1, 0, true]],
     ["fogInfluence", ["SLIDER", 0, 1, 0, true]],
@@ -407,8 +421,9 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["armoredAutoDetect", ["CHECKBOX"]],
     ["armoredHullMult", ["SLIDER", 0, 1, 0, true]],
     ["armoredCloseMult", ["SLIDER", 0, 1, 0, true]],
+    ["armoredDrivingOnly", ["CHECKBOX"]],
     ["gearEnabled", ["CHECKBOX"]],
-    ["gearCompareMode", ["LIST", [0, 1, 2], [LSTRING(gearCompareMode_opt0), LSTRING(gearCompareMode_opt1), LSTRING(gearCompareMode_opt2)]]],
+    ["gearCompareMode", ["LIST", [0, 1, 2, 3], [LSTRING(gearCompareMode_opt0), LSTRING(gearCompareMode_opt1), LSTRING(gearCompareMode_opt2), LSTRING(gearCompareMode_opt3)]]],
     ["uniformCivMult", ["SLIDER", 0, 3, 2, false]],
     ["uniformObserverMult", ["SLIDER", 0, 3, 2, false]],
     ["uniformHostileMult", ["SLIDER", 0, 5, 2, false]],
@@ -442,6 +457,8 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["lightMult", ["SLIDER", 1, 5, 2, false]],
     ["metaDetect", ["CHECKBOX"]],
     ["metaRange", ["SLIDER", 10, 500, 0, false]],
+    ["metaMaxSpeed", ["SLIDER", 3, 60, 0, false]],
+    ["hiddenCrewAny", ["CHECKBOX"]],
     ["hiddenCrewMult", ["SLIDER", 0, 2, 2, false]],
     ["reverseSpeed", ["SLIDER", 1, 30, 0, false]],
     ["reverseMult", ["SLIDER", 1, 10, 2, false]],
@@ -529,6 +546,10 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["pursuitMaxTime", ["SLIDER", 30, 1800, 0, false]],
     ["pursuitMaxDist", ["SLIDER", 100, 10000, 0, false]],
     ["pursuitLead", ["SLIDER", 0, 10, 1, false]],
+    ["leashEnabled", ["CHECKBOX"]],
+    ["leashFoot", ["SLIDER", 25, 3000, 0, false]],
+    ["leashVehicle", ["SLIDER", 50, 10000, 0, false]],
+    ["leashGiveUp", ["SLIDER", 1, 300, 0, false]],
     ["footGiveUpDist", ["SLIDER", 50, 2000, 0, false]],
     ["followDistance", ["SLIDER", 10, 200, 0, false]],
     ["stopSignalHorn", ["CHECKBOX"]],
@@ -559,6 +580,7 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["ramSpeed", ["SLIDER", 1, 60, 0, false]],
     ["ramSuspicion", ["SLIDER", 0, 99, 0, false]],
     ["ramCompromise", ["CHECKBOX"]],
+    ["ramBurn", ["CHECKBOX"]],
     ["swapForgive", ["CHECKBOX"]],
     ["swapMinUnseen", ["SLIDER", 0, 300, 0, false]],
     ["swapBaseSuspicion", ["SLIDER", 0, 99, 0, false]],

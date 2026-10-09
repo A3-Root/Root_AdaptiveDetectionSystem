@@ -71,11 +71,11 @@ private _fnc_record = {
 };
 private _fnc_observerText = {
     if (isNull _observer) exitWith {"observer=<none>"};
-    _parts params [["_vis", 0], ["_angle", 0], ["_fov", 0], ["_distF", 0], ["_beh", 0], ["_skill", 0], ["_light", 0], ["_close", 1], ["_aim", 1], ["_vehVis", 0], ["_hull", ""]];
-    format ["observer=%1 (%2, leader=%13) d=%3m LOS=%4 angle=%5deg fov=%6 distF=%7 beh=%8 skill=%9 light=%10 faceToFace=%11 aimed=%12 vehicleLOS=%14 hull=%15",
+    _parts params [["_vis", 0], ["_angle", 0], ["_fov", 0], ["_distF", 0], ["_beh", 0], ["_skill", 0], ["_light", 0], ["_close", 1], ["_aim", 1], ["_vehVis", 0], ["_hull", ""], ["_optics", 1]];
+    format ["observer=%1 (%2, leader=%13) d=%3m LOS=%4 angle=%5deg fov=%6 distF=%7 beh=%8 skill=%9 light=%10 faceToFace=%11 aimed=%12 vehicleLOS=%14 hull=%15 optics=%16",
         name _observer, behaviour _observer, round (_observer distance _veh), _vis toFixed 2, round _angle,
         _fov toFixed 2, _distF toFixed 2, _beh toFixed 2, _skill toFixed 2, _light toFixed 2, _close toFixed 2, _aim toFixed 2,
-        _observer == leader _grp, _vehVis toFixed 2, [_hull, "crew"] select (_hull == "")]
+        _observer == leader _grp, _vehVis toFixed 2, [_hull, "crew"] select (_hull == ""), _optics toFixed 2]
 };
 private _fnc_vehicleText = {
     format ["veh grid=%1 speed=%2kmh onRoad=%3 visDmg=%4", mapGridPosition _veh, round speed _veh, isOnRoad _veh, ([_veh] call FUNC(visibleDamage)) toFixed 2]
@@ -100,13 +100,40 @@ private _susp = _entry select D_SUSP;
 private _before = _susp;
 private _visible = _exposure > 0.01 && {!_safe};
 private _floorNote = "";
+private _hull = _parts param [10, ""];
+
+// Closed armored seat driven calmly: nothing to see but a friendly-looking vehicle, so nothing
+// builds. Speeding or off-road near them, lights off at night, honking, pointing the gun at them,
+// a damaged hull or parking next to them for long are what still give it away.
+private _armoredCalm = false;
+if (_visible && _hull == "armored" && {MSET(armoredDrivingOnly)}) then {
+    private _speed = abs speed _veh;
+    private _distance = _observer distance _veh;
+    private _isLand = !(_veh isKindOf "Air") && {!(_veh isKindOf "Ship")};
+    private _acts = [];
+    if (_distance < 100 && {_speed > MSET(speedingSpeed)}) then { _acts pushBack "speeding"; };
+    if (_isLand && _distance < 150 && _speed > 10 && {!isOnRoad _veh}) then { _acts pushBack "offroad"; };
+    if (_isLand && {sunOrMoon < 0.3} && _speed > 5 && {!isLightOn _veh}) then { _acts pushBack "lightsOff"; };
+    if (CBA_missionTime - (_veh getVariable [QGVAR(hornTime), -100]) < 10) then { _acts pushBack "horn"; };
+    if ((_parts param [8, 1]) > 1) then { _acts pushBack "aiming"; };
+    if (([_veh] call FUNC(visibleDamage)) >= MSET(damageVisibleAt)) then { _acts pushBack "damaged"; };
+    if ((_entry select D_STATIONARY) >= MSET(stationaryTime)) then { _acts pushBack "loitering"; };
+    if (_acts isEqualTo []) then {
+        _visible = false;
+        _armoredCalm = true;
+    } else {
+        if (_dbg) then { _factors pushBack format ["armoredGivenAway[%1]", _acts joinString ","]; };
+    };
+};
 
 if (_visible) then {
     ([_unit, _veh] call FUNC(seatFactor)) params ["_seatMult", "_exposedSeat"];
     // gear only counts as far as an observer can make it out
     private _gearRange = MSET(gearVisibleRange);
     private _gearVis = (((2 * _gearRange) - (_observer distance _veh)) / (_gearRange max 1)) max 0 min 1;
-    ([_unit, _grp, _exposedSeat] call FUNC(gearFactor)) params ["_gearRaw", "_gearText"];
+    // nobody reads a uniform through armor or a hull hiding the crew
+    if (_hull != "") then { _gearVis = 0; };
+    (if (_gearVis > 0) then { [_unit, _grp, _exposedSeat] call FUNC(gearFactor) } else { [1, ["out of reading range", format ["unreadable (%1)", _hull]] select (_hull != "")] }) params ["_gearRaw", "_gearText"];
     private _gearMult = 1 + (_gearRaw - 1) * _gearVis;
     private _mult = _weather * _seatMult * _gearMult;
     FACTOR("weather",_weather);
@@ -135,7 +162,6 @@ if (_visible) then {
     };
 
     // Crew kept out of sight behind the hull close to the observer, or an armored seat
-    private _hull = _parts param [10, ""];
     if (_hull == "armored") then { FACTOR("armoredHull",MSET(armoredHullMult)); };
     if (_hull in ["reversing", "rearFacing"]) then {
         _entry set [D_META, (_entry select D_META) + _dt];
@@ -268,13 +294,23 @@ if (_visible) then {
     };
 } else {
     _susp = _susp - MSET(decayRate) * _zoneDecay * _dt;
-    _entry set [D_STATIONARY, ((_entry select D_STATIONARY) - 2 * _dt) max 0];
+    if (_armoredCalm && {abs speed _veh < 3} && {(_observer distance _veh) < (MSET(identifyRange) * 3)}) then {
+        _entry set [D_STATIONARY, (_entry select D_STATIONARY) + _dt];
+    } else {
+        _entry set [D_STATIONARY, ((_entry select D_STATIONARY) - 2 * _dt) max 0];
+    };
     if (_dbg) then {
-        [format ["t=%1 unseen susp %2->%3%4 | %5", CBA_missionTime toFixed 1, _before toFixed 1, (_susp max 0) toFixed 1, [" (safe zone)", ""] select (!_safe), call _fnc_vehicleText], MSET(debugDetail) >= 2] call _fnc_record;
+        private _why = switch (true) do {
+            case (_safe): { " (safe zone)" };
+            case (_armoredCalm): { format [" (armored, driven calmly: nothing to judge | %1)", call _fnc_observerText] };
+            default { "" };
+        };
+        [format ["t=%1 unseen susp %2->%3%4 | %5", CBA_missionTime toFixed 1, _before toFixed 1, (_susp max 0) toFixed 1, _why, call _fnc_vehicleText], MSET(debugDetail) >= 2] call _fnc_record;
     };
 };
 
-_entry set [D_VISIBLE, _visible];
+// a calm armored vehicle stays in view (no new "pass" when it gives itself away)
+_entry set [D_VISIBLE, _visible || _armoredCalm];
 _susp = (_susp max 0) min 100;
 _entry set [D_SUSP, _susp];
 

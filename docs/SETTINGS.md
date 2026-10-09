@@ -82,6 +82,9 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Sneaking AI (STEALTH) | `behStealth` | 1.2 | 0 - 3 | Suspicion speed for soldiers in stealth mode. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. Higher = they are watching carefully. |
 | AI skill influence | `skillInfluence` | 50% | 0-100% | How much the AI's spotting skills change suspicion speed. 0 = skill does not matter. 1 = a skilled spotter is up to twice as fast, a poor one much slower. |
 | Busy fighting someone else | `engagedElsewhereMult` | 0.6 | 0 - 2 | Suspicion speed while the group is fighting another enemy. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
+| Vehicle optics see farther | `vehOpticsEnabled` | on |  | AI in a vehicle's gunner or commander seat (hatch closed) look through sights: they judge you from farther away. Only the range changes, not how wide they look. Turned out or firing-from-vehicle seats use their own eyes and weapons. |
+| Gunner / commander optics range | `vehOpticsMult` | 1.5 | 0.25 - 5 | Range multiplier for AI behind vehicle optics. 1 = like the naked eye. Higher = they read you from farther (and suspicion builds faster at a distance). Lower = worse than the naked eye. Example: 1.5 = a BMP gunner 300 m away judges you as if you were 200 m away. Each vehicle can set its own value (Vehicle Disguise module / setVehicleMode). |
+| Driver's view range | `vehDriverOpticsMult` | 1 | 0.25 - 5 | Range multiplier for AI driving a vehicle (hatch closed). 1 = like the naked eye. Lower = a driver behind a vision block sees less. |
 
 ## Light and Weather
 
@@ -128,15 +131,16 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Armored hulls hide the crew | `armoredDetect` | on |  | In tanks, APCs and IFVs with closed hatches the AI cannot see who is inside. They can only judge the vehicle, so suspicion builds much slower. Turned out or firing from a port = normal rules. |
 | Armored vehicle classes | `armoredClasses` | `Tank,Wheeled_APC_F` |  | Comma-separated vehicle classes treated as armored (child classes included). Example: Tank,Wheeled_APC_F |
 | Detect armored seats automatically | `armoredAutoDetect` | on |  | Seats that only see out through optics or periscopes (e.g. a BTR driver) count as armored even when the vehicle is not in the class list. |
-| Armored hull visibility | `armoredHullMult` | 35% | 0-100% | How much of the vehicle's visibility counts while the crew sits behind armor. Lower = armored vehicles are harder to see through. 1 = no protection. Example: 0.35 = a BMP builds suspicion about a third as fast as a car. |
+| Armored hull visibility | `armoredHullMult` | 25% | 0-100% | How much of the vehicle's visibility counts while the crew sits behind armor. Lower = armored vehicles are harder to see through. 1 = no protection. Example: 0.25 = a BMP that gives itself away builds suspicion about a quarter as fast as a car. |
 | Armored face-to-face | `armoredCloseMult` | 50% | 0-100% | Scales 'Face-to-face minimum visibility' for armored seats (a guard at the hull still cannot see in well). |
+| Armored: only behaviour gives it away | `armoredDrivingOnly` | on |  | On = a closed armored vehicle driven calmly builds no suspicion at all (nobody can see in) and old suspicion fades. It only builds while it gives itself away: speeding or off-road near them, lights off at night, honking, pointing a gun at them, visible damage or parking next to them for long. Ramming always identifies. Off = it builds slowly from the vehicle alone (Armored hull visibility). |
 
 ## Gear
 
 | Setting | Name | Default | Range / options | What it does |
 |---|---|---|---|---|
 | Gear affects suspicion | `gearEnabled` | on |  | Uniform, vest, helmet, goggles, backpack and visible weapons change how fast suspicion builds. Off = gear is ignored. |
-| How gear is judged | `gearCompareMode` | Both | General look only / Item matching only / Both | General look = civilian clothes, military uniform, helmets... Matching = item by item against what the watching side itself wears (see 'Gear Reference'). |
+| How gear is judged | `gearCompareMode` | General look, matching for disguises | General look only / Item matching only / General look, matching for disguises / Both, always | General look = civilian clothes, military uniform, helmets... Matching = item by item against what the watching side itself wears (see 'Gear Reference'). |
 | Civilian clothes | `uniformCivMult` | 0.6 | 0 - 3 | Suspicion speed wearing civilian clothes. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Their side's uniform | `uniformObserverMult` | 0.5 | 0 - 3 | Suspicion speed wearing a uniform of the watching side or its allies. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Enemy military uniform | `uniformHostileMult` | 1.6 | 0 - 5 | Suspicion speed wearing a military uniform of a side they are at war with (your own fatigues). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
@@ -175,6 +179,8 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Weapon light / laser at night | `lightMult` | 2 | 1 - 5 | Suspicion speed with a weapon light or laser on at night. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Catch hidden-crew tricks | `metaDetect` | on |  | Close to a group, a vehicle in plain view whose crew is hidden (reversing up to a checkpoint, parking rear-on) still builds suspicion through the vehicle itself. Armored vehicles are exempt. |
 | Hidden-crew range (m) | `metaRange` | 100 | 10 - 500 | Hidden-crew tricks are only judged within this distance of a soldier. |
+| Hidden-crew top speed (km/h) | `metaMaxSpeed` | 15 | 3 - 60 | Only vehicles slower than this are checked for hidden-crew tricks. A car driving past whose crew happens to be out of sight is not a trick. |
+| Any hidden crew counts | `hiddenCrewAny` | off |  | Off = only reversing up and parking rear-on are caught. On = also a slow vehicle close by whose crew is hidden any other way (tinted or blocked windows). |
 | Hidden crew | `hiddenCrewMult` | 0.6 | 0 - 2 | How much of the vehicle's visibility counts when the crew cannot be seen at all. 0 = a hidden crew is perfectly safe. 1 = as if they could see you. |
 | Reversing from (km/h) | `reverseSpeed` | 3 | 1 - 30 | Moving backwards faster than this counts as reversing. |
 | Reversing past the AI | `reverseMult` | 2.5 | 1 - 10 | Suspicion speed when reversing near them with the crew hidden. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. Higher = reversing through a checkpoint is a dead giveaway. |
@@ -297,6 +303,10 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Give up after (s) | `pursuitMaxTime` | 180 | 30 - 1800 | A pursuit that has not led to a stop is abandoned after this long. |
 | Give up beyond (m) | `pursuitMaxDist` | 1500 | 100 - 10000 | A pursuit is abandoned once the group is this far from where it started. |
 | Aim ahead (s) | `pursuitLead` | 2 | 0 - 10 | Pursuers head for where the vehicle will be in this many seconds. |
+| Roam limit | `leashEnabled` | on |  | Pursuing groups never go farther than the limits below from where they were (their post or patrol spot). At the edge they stop, and give up and radio if you stay beyond it. Each group can have its own limit (AI Group Profile module / setGroupProfile). |
+| Roam limit on foot (m) | `leashFoot` | 200 | 25 - 3000 | How far a foot group may go from home while chasing, searching or inspecting. |
+| Roam limit mounted (m) | `leashVehicle` | 600 | 50 - 10000 | How far a mounted group may go from home while following you. |
+| Give up beyond the limit after (s) | `leashGiveUp` | 15 | 1 - 300 | You stay beyond their roam limit this long and they give up (and alert, see 'Alert when you get away'). |
 | Foot patrols give up at (m) | `footGiveUpDist` | 300 | 50 - 2000 | A foot patrol gives up once the vehicle is this far away (they cannot catch a car). |
 | Signal to stop within (m) | `followDistance` | 40 | 10 - 200 | A pursuing vehicle signals you to stop once it is this close. |
 | Stop signal: horn | `stopSignalHorn` | on |  | Pursuing vehicles honk to make you stop. |
@@ -331,7 +341,8 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Detect ramming | `ramDetect` | on |  | Driving into or over enemy soldiers alerts their group at once. |
 | Ramming from (km/h) | `ramSpeed` | 5 | 1 - 60 | Minimum speed for contact to count as ramming. |
 | Ramming suspicion (%) | `ramSuspicion` | 50 | 0 - 99 | Suspicion given to the rammed group (at least SUSPICIOUS). |
-| Ramming = identified | `ramCompromise` | off |  | The rammed group identifies the driver at once instead. |
+| Ramming = identified | `ramCompromise` | on |  | Ramming or running over a soldier, or ramming their vehicle, gets everyone undercover in your vehicle identified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion). |
+| Ramming makes the vehicle known | `ramBurn` | on |  | The ramming vehicle is recognised on sight by that side (within 'Known vehicle range'), so swapping crews does not save it. |
 | Fresh vehicle after being identified | `swapForgive` | on |  | An identified unit that switches to another vehicle unseen is only suspected again, not identified. The old vehicle stays known. |
 | Unseen before switching (s) | `swapMinUnseen` | 2 | 0 - 300 | The group must not have seen you for this long (and must not see you now) when you switch. |
 | Suspicion after switching (%) | `swapBaseSuspicion` | 30 | 0 - 99 | Starting suspicion after the first switch. |

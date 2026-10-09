@@ -53,6 +53,28 @@ if (isNil {_grp getVariable QGVAR(pursuit)}) exitWith {};
 private _lead = (getPosATL _veh) vectorAdd ((velocity _veh) vectorMultiply MSET(pursuitLead));
 _lead set [2, 0];
 
+// Roam limit: never farther than this from home. Waiting at the edge, they give up and radio
+// once the target stays beyond it.
+if (_phase != "INSPECT") then {
+    private _leash = [_grp, _pursuit get "mounted"] call FUNC(pursuitLeash);
+    if (_leash > 0) then {
+        private _home = _pursuit get "startPos";
+        if ((_lead distance2D _home) > _leash) then {
+            _lead = _home getPos [_leash, _home getDir _lead];
+            _lead set [2, 0];
+            _pursuit set ["outside", (_pursuit get "outside") + 1];
+            if (RADS_DEBUG && {(_pursuit get "outside") == 1}) then { ["PURSUIT", format ["%1: %2 is beyond the roam limit (%3 m from home), holding at the edge", groupId _grp, name _unit, _leash], _grp, _unit] call FUNC(debugLog); };
+        } else {
+            _pursuit set ["outside", 0];
+        };
+        if ((_pursuit get "outside") > MSET(leashGiveUp)) exitWith {
+            if (MSET(alertOnEscape)) then { [_grp, _unit, "left the patrol area"] call FUNC(pursuitAlert); };
+            [_grp, format ["target beyond the %1 m roam limit for %2 s", _leash, round MSET(leashGiveUp)]] call FUNC(pursuitEnd);
+        };
+    };
+};
+if (isNil {_grp getVariable QGVAR(pursuit)}) exitWith {};
+
 switch (_phase) do {
     case "CHASE": {
         [_grp, "move", _lead] call FUNC(pursuitWaypoint);

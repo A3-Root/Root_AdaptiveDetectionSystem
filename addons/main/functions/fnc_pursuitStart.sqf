@@ -48,6 +48,15 @@ private _mounted = _aiVeh != _leader
     && {group driver _aiVeh == _grp}
     && {_aiVeh isKindOf "LandVehicle"};
 
+// Home: where the group was before it got involved. Kept for a while after a pursuit so chained
+// pursuits cannot drag it ever farther away.
+private _home = _grp getVariable [QGVAR(home), []];
+if (_home isEqualTo [] || {time > (_grp getVariable [QGVAR(homeUntil), -1])}) then {
+    _home = getPosATL _leader;
+    _grp setVariable [QGVAR(home), _home];
+};
+_grp setVariable [QGVAR(homeUntil), 1e10];
+
 private _pursuit = createHashMapFromArray [
     ["target", _unit],
     ["mounted", _mounted],
@@ -55,7 +64,8 @@ private _pursuit = createHashMapFromArray [
     ["phase", ["CHASE", "FOLLOW"] select _mounted],
     ["start", time],
     ["phaseStart", time],
-    ["startPos", getPosATL _leader],
+    ["startPos", _home],
+    ["outside", 0],
     ["savedBehaviour", behaviour _leader],
     ["savedSpeed", speedMode _grp],
     ["stopped", 0],
@@ -82,6 +92,6 @@ _grp setSpeedMode "FULL";
 
 _pursuit set ["pfh", [FUNC(pursuitTick), 1, _grp] call CBA_fnc_addPerFrameHandler];
 
-if (RADS_DEBUG) then { ["PURSUIT", format ["%1 starts %2 %3 (%4) forced=%5", groupId _grp, ["chasing on foot", "following in"] select _mounted, [name _unit, typeOf _aiVeh] select _mounted, name _unit, _forced], _grp, _unit] call FUNC(debugLog); };
+if (RADS_DEBUG) then { ["PURSUIT", format ["%1 starts %2 %3 (%4) forced=%5 home=%6 (%7 m away) roam limit=%8 m", groupId _grp, ["chasing on foot", "following in"] select _mounted, [name _unit, typeOf _aiVeh] select _mounted, name _unit, _forced, mapGridPosition _home, round (_leader distance2D _home), [_grp, _mounted] call FUNC(pursuitLeash)], _grp, _unit] call FUNC(debugLog); };
 [QGVAR(message), [format ["RADS: %1 (%2) starts pursuing %3", groupId _grp, side _grp, name _unit]]] call CBA_fnc_globalEvent;
 true
