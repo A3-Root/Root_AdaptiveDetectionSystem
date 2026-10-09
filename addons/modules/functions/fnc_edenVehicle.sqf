@@ -31,8 +31,10 @@ if (!_activated) exitWith {
 private _mode = _logic getVariable ["ROOT_ADS_V_mode", "disguise"];
 private _sides = [_logic getVariable ["ROOT_ADS_V_burnSides", ""]] call FUNC(parseSides);
 private _duration = _logic getVariable ["ROOT_ADS_V_duration", 0];
+private _mult = _logic getVariable ["ROOT_ADS_V_mult", -1];
+private _armored = _logic getVariable ["ROOT_ADS_V_armored", -1];
 {
     private _veh = _x;
-    [_veh, _mode, _duration] call API(setVehicleMode);
+    [_veh, _mode, _duration, _mult, _armored] call API(setVehicleMode);
     { [_veh, _x, [-1, _duration] select (_duration > 0)] call API(burnVehicle); } forEach _sides;
 } forEach _vehicles;

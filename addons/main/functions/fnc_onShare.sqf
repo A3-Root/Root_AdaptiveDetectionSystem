@@ -28,21 +28,21 @@ if (isNull _unit || {!alive _unit}) exitWith {};
         && {local _grp}
         && {side _grp == _side}
         && {!isPlayer (leader _grp)}
-        && {((leader _grp) distance _pos) <= _radius}
+        && {[_grp, _pos, _radius] call FUNC(groupInRange)}
         && {[_side, _unit] call FUNC(isHostile)}
     ) then {
         private _data = _grp getVariable QGVAR(data);
         private _current = if (isNil "_data") then {[]} else {_data getOrDefault [hashValue _unit, []]};
         // A group already suspicious of the unit takes the report as confirmation
         private _confirms = MSET(shareEscalate) && {_current isNotEqualTo []} && {(_current select D_STATE) in [ST_SUSPICIOUS, ST_SEARCHING]};
-        if (RADS_DEBUG) then { ["SHARE", format ["from %1 (%2 m away, radius %3) mode=%4 alreadySuspicious=%5 -> %6", groupId _source, round ((leader _grp) distance _pos), _radius, ["none", "suspicion", "full"] select _mode, _confirms, ["searching", "identify"] select (_mode == 2 || _confirms)], _grp, _unit] call FUNC(debugLog); };
+        if (RADS_DEBUG) then { ["SHARE", format ["from %1 (nearest member %2 m away, radius %3) mode=%4 alreadySuspicious=%5 -> %6", groupId _source, round (([_grp, _pos] call FUNC(groupNearest)) select 1), _radius, ["none", "suspicion", "full"] select _mode, _confirms, ["searching", "identify"] select (_mode == 2 || _confirms)], _grp, _unit] call FUNC(debugLog); };
         if (_mode == 2 || _confirms) then {
             [_grp, _unit, "shared", false, false] call FUNC(compromise);
         } else {
             private _entry = [_grp, _unit, false] call FUNC(classify);
             if ((_entry select D_STATE) != ST_COMPROMISED) then {
                 _entry set [D_SUSP, ((_entry select D_SUSP) max MSET(shareSuspicion)) min (MSET(identifyThreshold) - 1)];
-                [_grp, _entry, ST_SEARCHING, format ["share from %1 (%2 m away)", groupId _source, round ((leader _grp) distance _pos)]] call FUNC(setState);
+                [_grp, _entry, ST_SEARCHING, format ["share from %1 (%2 m away)", groupId _source, round (([_grp, _pos] call FUNC(groupNearest)) select 1)]] call FUNC(setState);
                 [_grp, true] call FUNC(publishData);
                 // uncovered units get a weak, positional lead
                 if !(_unit getVariable [QGVAR(cover), false]) then { _grp reveal [_unit, MSET(shareKA) * 0.5]; };

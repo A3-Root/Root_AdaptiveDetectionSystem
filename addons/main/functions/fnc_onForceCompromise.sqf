@@ -45,7 +45,7 @@ if (_pos isEqualTo []) then { _pos = getPosATL _unit; };
         && {(side _x) in [west, east, independent]}
         && {[side _x, _unit] call FUNC(isHostile)}
         && {_sides isEqualTo [] || {(side _x) in _sides}}
-        && {_radius < 0 || {((leader _x) distance _pos) <= _radius}}
+        && {_radius < 0 || {[_x, _pos, _radius] call FUNC(groupInRange)}}
     ) then {
         [_x, _unit, _reason, false] call FUNC(compromise);
     };

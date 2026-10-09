@@ -8,6 +8,7 @@
  * 0: Group (local) <GROUP>
  * 1: Unit <OBJECT>
  * 2: Reason <STRING> (default: "")
+ * 3: Skip the chance roll <BOOL> (default: false)
  *
  * Return Value:
  * None
@@ -15,13 +16,13 @@
  * Public: No
  */
 
-params ["_grp", "_unit", ["_reason", ""]];
+params ["_grp", "_unit", ["_reason", ""], ["_force", false]];
 
 if (!MSET(bulletinEnabled)) exitWith {};
 
 private _chance = _grp getVariable [QGVAR(bulletinChance), -1];
 if (_chance < 0) then { _chance = MSET(bulletinChance); };
-if (random 1 >= _chance) exitWith {};
+if (!_force && {random 1 >= _chance}) exitWith {};
 
 private _radioman = [_grp] call FUNC(findRadioman);
 if (isNull _radioman) exitWith { RLOG_1("%1 has no radioman for a bulletin",_grp); };

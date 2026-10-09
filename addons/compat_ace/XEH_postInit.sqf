@@ -4,7 +4,7 @@ if (!hasInterface) exitWith {};
 
 private _action = [
     QGVAR(checkCover),
-    "Check cover status",
+    localize "STR_root_ads_main_checkCover",
     "\a3\ui_f\data\igui\cfg\simpletasks\types\scout_ca.paa",
     { hint parseText ([_player] call MFUNC(coverStatusText)); },
     { GVAR(statusAction) && {!isNull objectParent _player} }

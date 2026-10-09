@@ -22,6 +22,9 @@ if ("horn" in toLower _weapon) exitWith {
     if (_veh != _unit) then { _veh setVariable [QGVAR(hornTime), CBA_missionTime, true]; };
 };
 
+// Any shot from inside a safe zone truce ends it
+if ((_unit getVariable [QGVAR(truce), []]) isNotEqualTo []) then { [_unit, format ["fired %1", _weapon]] call FUNC(breakTruce); };
+
 private _covered = _unit getVariable [QGVAR(cover), false];
 if (!_covered && {(CBA_missionTime - (_unit getVariable [QGVAR(lastCoverTime), -100])) > 3}) exitWith {};
 if (!MSET(firedBlows)) exitWith {};

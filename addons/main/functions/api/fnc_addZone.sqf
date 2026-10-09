@@ -5,7 +5,7 @@
  *
  * Arguments:
  * 0: Area [centre, a, b, angle, isRectangle] <ARRAY>
- * 1: Mode: 0 multiplier, 1 no cover (restricted area), 2 safe haven <NUMBER> (default: 0)
+ * 1: Mode: 0 multiplier, 1 no cover (restricted area), 2 safe haven (with truce) <NUMBER> (default: 0)
  * 2: Suspicion build multiplier <NUMBER> (default: 1)
  * 3: Suspicion decay multiplier <NUMBER> (default: 1)
  * 4: Observer sides affected, [] = all <ARRAY> (default: [])
@@ -15,6 +15,8 @@
  * 8: Daytime window end hour, -1 = always <NUMBER> (default: -1)
  * 9: Label <STRING> (default: "")
  * 10: Id, "" = generate <STRING> (default: "")
+ * 11: Safe haven truce [enabled, maxStay, warnBefore, careless, breakScope, breakOnAim], [] = CBA defaults
+ *     (see root_ads_fnc_setZoneTruce) <ARRAY> (default: [])
  *
  * Return Value:
  * Zone id ("" when forwarded from a client) <STRING>
@@ -25,7 +27,7 @@
  * Public: Yes
  */
 
-params [["_area", [], [[]]], ["_mode", 0], ["_build", 1], ["_decay", 1], ["_sides", []], ["_delay", 0], ["_duration", 0], ["_hourFrom", -1], ["_hourTo", -1], ["_label", ""], ["_id", ""]];
+params [["_area", [], [[]]], ["_mode", 0], ["_build", 1], ["_decay", 1], ["_sides", []], ["_delay", 0], ["_duration", 0], ["_hourFrom", -1], ["_hourTo", -1], ["_label", ""], ["_id", ""], ["_truce", [], [[]]]];
 
 if (!isServer) exitWith { [QGVAR(api), ["addZone", _this]] call CBA_fnc_serverEvent; "" };
 
@@ -52,7 +54,7 @@ if (MSET(showZoneMarkers)) then {
     _marker setMarkerColor (["ColorOrange", "ColorRed", "ColorGreen"] param [_mode, "ColorOrange"]);
 };
 
-GVAR(zones) pushBack [_id, [_center, _a, _b, _angle, _rect, -1], _mode, _build, _decay, _sides, _start, _end, _hourFrom, _hourTo, _label, _marker];
+GVAR(zones) pushBack [_id, [_center, _a, _b, _angle, _rect, -1], _mode, _build, _decay, _sides, _start, _end, _hourFrom, _hourTo, _label, _marker, _truce];
 publicVariable QGVAR(zones);
 
 if (_end > 0) then {

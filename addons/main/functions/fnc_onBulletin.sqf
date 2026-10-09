@@ -43,7 +43,7 @@ private _covered = _unit getVariable [QGVAR(cover), false];
         && {local _grp}
         && {side _grp == _side}
         && {!isPlayer (leader _grp)}
-        && {((leader _grp) distance _pos) <= _alertRadius}
+        && {[_grp, _pos, _alertRadius] call FUNC(groupInRange)}
     ) then {
         if (_setAware && {behaviour (leader _grp) in ["SAFE", "CARELESS"]}) then { _grp setBehaviour "AWARE"; };
         if (_covered && {[_side, _unit] call FUNC(isHostile)}) then {

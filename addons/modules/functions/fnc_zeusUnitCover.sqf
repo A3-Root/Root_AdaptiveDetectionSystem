@@ -19,16 +19,16 @@ private _target = attachedTo _logic;
 deleteVehicle _logic;
 
 private _controls = [
-    ["COMBO", ["Mode", "Normal, exempt (never covered) or always covered (any vehicle, ignores side/heat/zones)."], [["normal", "exempt", "force"], ["Normal", "Exempt", "Always covered"], 0]],
-    ["SLIDER", ["Suspicion multiplier", "How fast AI grow suspicious of these units."], [0, 5, 1, 2]],
-    ["SLIDER", ["Duration (s)", "Revert to normal after this long. 0 = permanent."], [0, 7200, 0, 0]]
+    ["COMBO", [LLSTRING(mode), LLSTRING(coverMode_desc)], [["normal", "exempt", "force"], [LLSTRING(normal), LLSTRING(exempt), LLSTRING(force)], 0]],
+    ["SLIDER", [LLSTRING(suspMult), LLSTRING(unitMult_desc)], [0, 5, 1, 2]],
+    ["SLIDER", [LLSTRING(durationS), LLSTRING(unitDuration_desc)], [0, 7200, 0, 0]]
 ];
 if (isNull _target) then {
-    _controls pushBack ["OWNERS", ["Units", "Sides, groups or players to apply to."], [[], [], [], 2]];
+    _controls pushBack ["OWNERS", [LLSTRING(units), LLSTRING(units_desc)], [[], [], [], 2]];
 };
 
 [
-    format ["RADS - Unit Cover Profile%1", ["", " - " + name _target] select (!isNull _target && {_target isKindOf "CAManBase"})],
+    LLSTRING(coverTitle) + (["", " - " + name _target] select (!isNull _target && {_target isKindOf "CAManBase"})),
     _controls,
     {
         params ["_results", "_target"];
@@ -42,9 +42,9 @@ if (isNull _target) then {
         } else {
             [[_target]] call FUNC(resolveUnits)
         };
-        if (_units isEqualTo []) exitWith { ["No units selected"] call zen_common_fnc_showMessage; playSound "FD_Start_F"; };
+        if (_units isEqualTo []) exitWith { [LLSTRING(msgNoUnits)] call zen_common_fnc_showMessage; playSound "FD_Start_F"; };
         { [_x, _mode, _mult, _duration] call API(setUnitMode); } forEach _units;
-        [format ["RADS profile applied to %1 unit(s)", count _units]] call zen_common_fnc_showMessage;
+        [format [LLSTRING(profileApplied), count _units]] call zen_common_fnc_showMessage;
     },
     {},
     _target

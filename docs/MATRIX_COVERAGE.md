@@ -21,7 +21,14 @@ How each scenario in `matrix.txt` is handled. The matrix is a guideline, not a s
 | MEMORY | Per-group memory kept for `memoryTime`; exiting and re-entering does not reset it. |
 | FORGET | COMPROMISED → after `forgetAfter` with no contact: `forgetTarget`, disguise works again. Optional `setTargetAge`. |
 | UPKEEP | COMPROMISED groups keep tracking: no ignore, contact time refreshed while seen. |
-| VEHSIDE | Per-side disguise check: civilian and observer-side vehicles fool, hostile military ones do not (`allowCivVeh`, `allowFriendlyVeh`, modes). |
+| VEHSIDE | Per-side disguise check: civilian and observer-side vehicles fool; the players' own side's vehicles fool only when allowed (`allowHostileVeh`: never / unarmed only / all) and then build suspicion much faster. Faction tiers: same faction < same side < civilian < allied < enemy (`sameFactionVehMult` ... `hostileVehMult`, `vehClassMults`). |
+| ARMOR | Closed armored seats (class list or optics-only seats): only the vehicle body is judged, at `armoredHullMult`. |
+| META | Vehicle body clearly visible within `metaRange` while the crew is hidden: `hiddenCrewMult`, more when reversing (`reverseMult`) or parked rear-on (`rearFacingMult`), ramping up with time. |
+| GEARMATCH | Each visible item compared with the enemy's own kit (Gear Reference / group / side): match, other camo, mismatch, missing (`gearCompareMode`). |
+| CONVOY | Covered vehicles travelling together: more of them in view builds faster; one identified → the rest suspects or identified (`convoyMode`). |
+| SYNC | Rising suspicion passed to friendly groups around after `syncDelay`, ignored once the unit changed vehicle or kit. |
+| PURSUIT | From `followThreshold` (or SEARCHING): real waypoint chase on foot, or follow + horn/lights + stop + dismounted inspection; refusing → area alert; fleeing → identified + bulletin. |
+| TRUCE | Safe haven truce: AI hold fire on players inside (also on foot / identified) until shooting, hurting, ramming, aiming or overstaying. |
 | HOSTILE | Hostile act: firing compromises groups within `firedRadius` / `firedRadiusSuppressed` or with line of sight, and adds heat. |
 | DAMAGE | Hit/kill handler: the victim's group identifies a seen attacker. Otherwise it goes SEARCHING (`damageSuspicion`). |
 | VATTACK | Optional `vehicleAttackedBlows`: AI shooting the covered vehicle anyway identify its occupants. |
@@ -238,6 +245,21 @@ How each scenario in `matrix.txt` is handled. The matrix is a guideline, not a s
 | 181 | Late-joining players and 'all players' profiles | 3DEN Unit Cover 'All players' is picked up by late joiners. |
 | 182 | Groups spawned mid-mission, side relations changed | Picked up every cycle; hostility evaluated live (`getFriend`). |
 | 183 | Vehicle hopping between two covered vehicles | Old cover dropped first, so witnesses of the swap re-classify. |
+| 184 | Reversing up to / through a checkpoint so the AI never see the crew | META: the vehicle itself is judged, reversing multiplies it. |
+| 185 | Parking rear-on next to a group | META: `rearFacingMult`, ramping with time. |
+| 186 | BLUFOR vehicle at an OPFOR checkpoint / OPFOR vehicle at an OPFOR checkpoint | VEHSIDE: enemy tier x3 (unarmed only by default) / same faction x0.6. |
+| 187 | APC / IFV / tank with hatches closed | ARMOR: only the hull is seen, slow build; turned out = normal. |
+| 188 | Same uniform/vest/helmet/rifle as the guards vs another camo vs foreign kit | GEARMATCH per slot. |
+| 189 | Convoy through a checkpoint, one vehicle identified | CONVOY (`convoyMode`), plus SHARE / instant radius for nearby groups. |
+| 190 | Group leader far away from the members watching | Exposure, ranges, sharing, overlay and status all use the members, not only the leader. |
+| 191 | Entry guards build suspicion, exit guards should know | SYNC. |
+| 192 | Changing vehicle or kit between checkpoint guards | SYNC ignores it, `appearanceChangeKeep` halves remembered suspicion. |
+| 193 | Highly suspicious vehicle drives on | PURSUIT: foot patrols chase, mounted patrols follow and signal to stop. |
+| 194 | Player stops for the patrol | PURSUIT: dismount (gunners stay), inspect face to face; survive it and you are cleared (neighbours too). |
+| 195 | Player ignores the stop signal / drives off during the inspection | PURSUIT: refused → area alert; fled → identified, vehicle known, bulletin. |
+| 196 | Roleplay area: players on foot among enemy AI (Zeus controlling them) | TRUCE. |
+| 197 | Player shoots / rams / overstays in a safe zone | TRUCE broken: zone AI go COMBAT and identify the offender. |
+| 198 | LAMBS Danger loaded | LAMBS group AI paused during a pursuit; identified targets handed to LAMBS Rush / Hunt. |
 
 ## Engine limits
 

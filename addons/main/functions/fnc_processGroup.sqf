@@ -94,4 +94,25 @@ private _oldVehs = _grp getVariable [QGVAR(ignoredVehs), []];
 { _grp ignoreTarget [_x, true]; } forEach (_wantVehs - _oldVehs);
 _grp setVariable [QGVAR(ignoredVehs), _wantVehs];
 
+// Safe zone truces: hold fire on protected players, relax inside truce zones
+[_grp] call FUNC(truceGroup);
+
+// Pass rising suspicion on to friendly groups around (checkpoint entry -> exit)
+if (MSET(syncEnabled) && {time >= (_grp getVariable [QGVAR(nextSync), 0])}) then {
+    _grp setVariable [QGVAR(nextSync), time + MSET(syncInterval)];
+    private _min = MSET(syncMin);
+    private _batch = [];
+    {
+        private _entry = _y;
+        private _susp = _entry select D_SUSP;
+        private _sent = _entry select D_SYNCSENT;
+        if (_susp < _sent - 10) then { _entry set [D_SYNCSENT, _susp]; _sent = _susp; };
+        if ((_entry select D_STATE) != ST_COMPROMISED && _susp >= _min && {_susp >= _sent + 2} && {alive (_entry select D_UNIT)}) then {
+            _entry set [D_SYNCSENT, _susp];
+            _batch pushBack [_entry select D_UNIT, _susp, [_entry select D_UNIT] call FUNC(appearanceSig)];
+        };
+    } forEach _data;
+    if (_batch isNotEqualTo []) then { [_grp, _batch] call FUNC(syncSuspicion); };
+};
+
 [_grp] call FUNC(publishData);

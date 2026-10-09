@@ -33,7 +33,7 @@ if (_state == ST_COMPROMISED) exitWith {
     [_grp, _entry, false, "identified"] call FUNC(setIgnored);
     if ([_grp, _unit] call FUNC(groupSees)) then { _entry set [D_LASTEXP, time]; };
 
-    private _lastSeen = ((leader _grp) targetKnowledge _unit) param [2, -1e10];
+    private _lastSeen = [_grp, _unit] call FUNC(groupLastSeen);
     private _since = time - (_lastSeen max (_entry select D_LASTEXP));
 
     private _age = MSET(targetAge);
@@ -46,8 +46,10 @@ if (_state == ST_COMPROMISED) exitWith {
 };
 
 // ------------------------------------------------------------------ does the vehicle fool this side at all?
+// The member closest to the vehicle stands for the group (the leader may be far away)
+private _groupPos = getPosATL (([_grp, _veh] call FUNC(groupNearest)) select 0);
 private _disguise = if (_grp getVariable [QGVAR(immune), false]) then {0} else {
-    [_veh, _side, getPosATL (leader _grp)] call FUNC(vehicleDisguise)
+    [_veh, _side, _groupPos] call FUNC(vehicleDisguise)
 };
 (([getPosATL _veh, _side] call FUNC(zoneModifiers))) params ["_noCover", "_zoneBuild", "_zoneDecay", "_safe"];
 
@@ -69,10 +71,11 @@ private _fnc_record = {
 };
 private _fnc_observerText = {
     if (isNull _observer) exitWith {"observer=<none>"};
-    _parts params [["_vis", 0], ["_angle", 0], ["_fov", 0], ["_distF", 0], ["_beh", 0], ["_skill", 0], ["_light", 0], ["_close", 1], ["_aim", 1]];
-    format ["observer=%1 (%2) d=%3m LOS=%4 angle=%5deg fov=%6 distF=%7 beh=%8 skill=%9 light=%10 faceToFace=%11 aimed=%12",
+    _parts params [["_vis", 0], ["_angle", 0], ["_fov", 0], ["_distF", 0], ["_beh", 0], ["_skill", 0], ["_light", 0], ["_close", 1], ["_aim", 1], ["_vehVis", 0], ["_hull", ""]];
+    format ["observer=%1 (%2, leader=%13) d=%3m LOS=%4 angle=%5deg fov=%6 distF=%7 beh=%8 skill=%9 light=%10 faceToFace=%11 aimed=%12 vehicleLOS=%14 hull=%15",
         name _observer, behaviour _observer, round (_observer distance _veh), _vis toFixed 2, round _angle,
-        _fov toFixed 2, _distF toFixed 2, _beh toFixed 2, _skill toFixed 2, _light toFixed 2, _close toFixed 2, _aim toFixed 2]
+        _fov toFixed 2, _distF toFixed 2, _beh toFixed 2, _skill toFixed 2, _light toFixed 2, _close toFixed 2, _aim toFixed 2,
+        _observer == leader _grp, _vehVis toFixed 2, [_hull, "crew"] select (_hull == "")]
 };
 private _fnc_vehicleText = {
     format ["veh grid=%1 speed=%2kmh onRoad=%3 visDmg=%4", mapGridPosition _veh, round speed _veh, isOnRoad _veh, ([_veh] call FUNC(visibleDamage)) toFixed 2]
@@ -103,17 +106,48 @@ if (_visible) then {
     // gear only counts as far as an observer can make it out
     private _gearRange = MSET(gearVisibleRange);
     private _gearVis = (((2 * _gearRange) - (_observer distance _veh)) / (_gearRange max 1)) max 0 min 1;
-    private _gearMult = 1 + (([_unit, _side, _exposedSeat] call FUNC(gearFactor)) - 1) * _gearVis;
+    ([_unit, _grp, _exposedSeat] call FUNC(gearFactor)) params ["_gearRaw", "_gearText"];
+    private _gearMult = 1 + (_gearRaw - 1) * _gearVis;
     private _mult = _weather * _seatMult * _gearMult;
     FACTOR("weather",_weather);
     FACTOR("seat",_seatMult);
     private _gearName = format ["gear(readable %1)", _gearVis toFixed 2];
     FACTOR(_gearName,_gearMult);
+    if (_dbg && _gearText != "") then { _factors pushBack format ["gearSlots[%1]", _gearText]; };
+
+    // Something about them changed since they were last seen (other vehicle, other kit)
+    private _sig = [_unit] call FUNC(appearanceSig);
+    private _oldSig = _entry select D_SIG;
+    if (_oldSig != "" && _oldSig != _sig && _state != ST_COMPROMISED) then {
+        private _keep = MSET(appearanceChangeKeep);
+        _susp = _susp * _keep;
+        _before = _susp;
+        if (_dbg) then { [format ["t=%1 APPEARANCE CHANGED (vehicle or kit): suspicion scaled by %2 to %3", CBA_missionTime toFixed 1, _keep, _susp toFixed 1], true] call _fnc_record; };
+    };
+    _entry set [D_SIG, _sig];
 
     // vehicle look
-    private _lookMult = [MSET(friendlyVehMult), MSET(civVehMult)] select (([_veh] call FUNC(vehicleSide)) == civilian);
-    _mult = _mult * _lookMult;
-    FACTOR("vehicleLook",_lookMult);
+    if (_veh != _unit) then {
+        ([_veh, _grp] call FUNC(vehicleLookMult)) params ["_lookMult", "_lookTier"];
+        _mult = _mult * _lookMult;
+        private _lookName = format ["vehicleLook(%1)", _lookTier];
+        FACTOR(_lookName,_lookMult);
+    };
+
+    // Crew kept out of sight behind the hull close to the observer, or an armored seat
+    private _hull = _parts param [10, ""];
+    if (_hull == "armored") then { FACTOR("armoredHull",MSET(armoredHullMult)); };
+    if (_hull in ["reversing", "rearFacing"]) then {
+        _entry set [D_META, (_entry select D_META) + _dt];
+    } else {
+        _entry set [D_META, ((_entry select D_META) - _dt) max 0];
+    };
+    if (_hull in ["hiddenCrew", "reversing", "rearFacing"]) then {
+        private _metaRamp = 1 + (MSET(metaRampMax) - 1) * (((_entry select D_META) / (MSET(metaRampTime) max 1)) min 1);
+        _mult = _mult * _metaRamp;
+        private _metaName = format ["%1(%2s)", _hull, round (_entry select D_META)];
+        FACTOR(_metaName,_metaRamp);
+    };
     if ([_veh] call FUNC(isOpenVehicle)) then { _mult = _mult * MSET(openVehicleMult); FACTOR("openVehicle",MSET(openVehicleMult)); };
     private _visibleDamage = [_veh] call FUNC(visibleDamage);
     _mult = _mult * (1 + _visibleDamage * MSET(damageInfluence));
@@ -162,12 +196,14 @@ if (_visible) then {
     if (_loiterMult != 1) then { FACTOR(_loiterName,_loiterMult); };
 
     // a group busy fighting someone else pays less attention
-    private _attackTarget = getAttackTarget (leader _grp);
-    if (!isNull _attackTarget && _attackTarget != _unit && _attackTarget != _veh) then { _mult = _mult * MSET(engagedElsewhereMult); FACTOR("busyFighting",MSET(engagedElsewhereMult)); };
+    private _busy = (units _grp) findIf {
+        private _attackTarget = getAttackTarget _x;
+        alive _x && {!isNull _attackTarget} && _attackTarget != _unit && _attackTarget != _veh
+    } > -1;
+    if (_busy) then { _mult = _mult * MSET(engagedElsewhereMult); FACTOR("busyFighting",MSET(engagedElsewhereMult)); };
 
     // wanted by this side, searching for them, per-group / per-unit profiles
     private _now = CBA_missionTime;
-    private _groupPos = getPosATL (leader _grp);
     private _wanted = (_unit getVariable [QGVAR(wantedBy), []]) findIf {
         _x params ["_wSide", "_until", "_wPos", "_range"];
         _wSide == _side && _until > _now && {_range <= 0 || {(_groupPos distance2D _wPos) <= _range}}
@@ -178,6 +214,36 @@ if (_visible) then {
     _mult = _mult * _profileMult;
     if (_profileMult != 1) then { FACTOR("profiles",_profileMult); };
     if (_zoneBuild != 1) then { FACTOR("zone",_zoneBuild); };
+
+    // A convoy of disguised vehicles in view draws more attention than a lone car
+    private _convoy = [_veh] call FUNC(convoyOf);
+    if (count _convoy > 1) then {
+        private _others = values ([_grp] call FUNC(getData));
+        private _inView = {
+            private _member = _x;
+            _member == _veh || {_others findIf {(_x select D_VEH) == _member && {_x select D_VISIBLE}} > -1}
+        } count _convoy;
+        private _convoyMult = (1 + MSET(convoyBuildPerVeh) * ((_inView - 1) max 0)) min MSET(convoyBuildMax);
+        _mult = _mult * _convoyMult;
+        private _convoyName = format ["convoy(%1 of %2 in view)", _inView, count _convoy];
+        if (_convoyMult != 1) then { FACTOR(_convoyName,_convoyMult); };
+    };
+
+    // Being inspected at a stop: they are looking right at the occupants
+    private _pursuit = _grp getVariable QGVAR(pursuit);
+    if (!isNil "_pursuit" && {(_pursuit get "phase") == "INSPECT"} && {(_pursuit get "target") == _unit}) then {
+        _mult = _mult * MSET(inspectMult);
+        FACTOR("inspection",MSET(inspectMult));
+    };
+
+    // Heads turn: a glance at first sight, a long look once suspicious
+    if (!(_entry select D_VISIBLE) && {MSET(aiGlance)} && {!isNull _observer}) then { _observer glanceAt _veh; };
+    if (_state != ST_UNAWARE && {MSET(aiLook)} && {!isNull _observer} && {(_grp getVariable [QGVAR(looker), objNull]) != _observer}) then {
+        private _old = _grp getVariable [QGVAR(looker), objNull];
+        if (!isNull _old) then { _old lookAt objNull; };
+        _observer lookAt _veh;
+        _grp setVariable [QGVAR(looker), _observer];
+    };
 
     _susp = _susp + _exposure * _mult * _zoneBuild * MSET(buildRate) * _dt;
     _entry set [D_LASTEXP, time];

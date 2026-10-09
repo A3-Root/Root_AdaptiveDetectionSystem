@@ -22,7 +22,7 @@ if (_mode == 0) exitWith {};
 // Groups right next to the identifying group see/hear the reaction and identify the unit at once
 private _instant = MSET(shareInstantRadius);
 if (_instant > 0) then {
-    [QGVAR(share), [side _grp, getPosATL (leader _grp), _instant, _unit, 2, _grp]] call CBA_fnc_globalEvent;
+    [QGVAR(share), [side _grp, getPosATL (([_grp, _unit] call FUNC(groupNearest)) select 0), _instant, _unit, 2, _grp]] call CBA_fnc_globalEvent;
 };
 
 private _radius = _grp getVariable [QGVAR(shareRadius), -1];
@@ -37,5 +37,5 @@ if (MSET(shareNeedsRadio) && {(units _grp) findIf {[_x] call FUNC(isAwake) && {[
     if (isNull _grp || {(units _grp) findIf {[_x] call FUNC(isAwake)} == -1}) exitWith {
         RLOG_1("%1 could not share (no survivors)",_grp);
     };
-    [QGVAR(share), [side _grp, getPosATL (leader _grp), _radius, _unit, _mode, _grp]] call CBA_fnc_globalEvent;
+    [QGVAR(share), [side _grp, getPosATL (([_grp, _unit] call FUNC(groupNearest)) select 0), _radius, _unit, _mode, _grp]] call CBA_fnc_globalEvent;
 }, [_grp, _unit, _mode, _radius], MSET(shareDelay)] call CBA_fnc_waitAndExecute;

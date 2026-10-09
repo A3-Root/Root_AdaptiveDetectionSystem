@@ -39,7 +39,18 @@ if ((_entry select D_STATE) == ST_COMPROMISED) exitWith {_entry};
 
 private _covered = _unit getVariable [QGVAR(cover), false];
 private _knowledge = _grp knowsAbout _unit;
-((leader _grp) targetKnowledge _unit) params [["_knownByGroup", false], "", ["_lastSeen", -1e10], ["_lastThreat", -1e10]];
+// Every member's knowledge counts, not just the leader's
+private _knownByGroup = false;
+private _lastSeen = -1e10;
+private _lastThreat = -1e10;
+{
+    if (alive _x) then {
+        (_x targetKnowledge _unit) params [["_known", false], "", ["_seen", -1e10], ["_threat", -1e10]];
+        _knownByGroup = _knownByGroup || _known;
+        _lastSeen = _lastSeen max _seen;
+        _lastThreat = _lastThreat max _threat;
+    };
+} forEach (units _grp);
 
 private _engaged = _knownByGroup && _lastThreat > 0 && {(time - _lastThreat) < MSET(combatWindow)};
 private _witnessed = _atEntry && _knownByGroup && {_knowledge >= MSET(witnessKA)} && {(time - _lastSeen) < MSET(witnessWindow)};
@@ -71,7 +82,7 @@ if (!_swapped && _knownByGroup && _knowledge > 0) then {
 private _veh = vehicle _unit;
 if (_covered
     && {!(_grp getVariable [QGVAR(immune), false])}
-    && {([_veh, side _grp, getPosATL (leader _grp)] call FUNC(vehicleDisguise)) == 1}
+    && {([_veh, side _grp, getPosATL (([_grp, _veh] call FUNC(groupNearest)) select 0)] call FUNC(vehicleDisguise)) == 1}
 ) then {
     [_grp, _entry, true, ["classified on cover", "cover gained (entry snapshot)"] select _atEntry] call FUNC(setIgnored);
     private _ignoredVehs = _grp getVariable [QGVAR(ignoredVehs), []];

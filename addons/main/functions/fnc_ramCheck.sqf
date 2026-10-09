@@ -17,7 +17,9 @@ if (!MSET(ramDetect)) exitWith {};
 
 private _unit = call CBA_fnc_currentUnit;
 private _veh = vehicle _unit;
-if (_veh == _unit || {driver _veh != _unit} || {!(_unit getVariable [QGVAR(cover), false])}) exitWith {};
+private _covered = _unit getVariable [QGVAR(cover), false];
+private _truce = (_unit getVariable [QGVAR(truce), []]) isNotEqualTo [];
+if (_veh == _unit || {driver _veh != _unit} || {!_covered && !_truce}) exitWith {};
 if (abs speed _veh < MSET(ramSpeed)) exitWith {};
 
 // Geometry clipping (type 2): the actual hull, not mirrors/antennas/view geometry
@@ -38,6 +40,7 @@ private _reported = [];
         _reported pushBack _grp;
         _grp setVariable [QGVAR(nextRam), time + 2];
         if (RADS_DEBUG) then { ["RAM-DETECT", format ["%1 touched by %2 at %3 km/h (rel %4, box %5..%6)", name _x, typeOf _veh, round speed _veh, _rel apply {_x toFixed 1}, _min apply {_x toFixed 1}, _max apply {_x toFixed 1}], _grp, _unit] call FUNC(debugLog); };
-        [QGVAR(rammed), [_grp, _unit]] call CBA_fnc_globalEvent;
+        if (_truce) then { [_unit, format ["rammed %1", name _x]] call FUNC(breakTruce); };
+        if (_covered) then { [QGVAR(rammed), [_grp, _unit]] call CBA_fnc_globalEvent; };
     };
 } forEach (_veh nearEntities [["CAManBase"], _diameter / 2 + _margin]);

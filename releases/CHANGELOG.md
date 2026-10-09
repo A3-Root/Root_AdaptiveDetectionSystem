@@ -1,5 +1,26 @@
 # Changelog
 
+## Checkpoints & Pursuit (v1.0.0.4)
+
+### Added
+- Hidden-crew detection: reversing up to or parking rear-on near the AI is judged through the vehicle.
+- Vehicle faction tiers (same faction, same side, civilian, allied, enemy) and per-class multipliers; own-side vehicles can give cover (unarmed only by default).
+- Armored hulls: closed seats in tanks/APCs only show the vehicle, slow build.
+- Gear matching per slot against an enemy gear reference (Zeus/3DEN module + API, collect from the mission's AI).
+- Convoys: more vehicles in view build faster; one identified makes the rest suspects (or identified).
+- Suspicion sync to friendly groups in range after a delay, dropped when the unit changes vehicle or kit.
+- Pursuit from a follow threshold: waypoint chase on foot; mounted follow with horn/lights, stop, dismounted inspection; refusal alert, flee = identified + bulletin. LAMBS aware.
+- Safe haven truce: AI hold fire on players inside (on foot too) until shooting, hurting/ramming AI, aiming or overstaying.
+- AI glance at / look at suspicious vehicles.
+- Zeus modules: Sync, Pursuit & Checkpoint, Truce settings, Enemy Gear Reference, Order Pursuit. 3DEN: Pursuit, Sync & Truce Settings, Enemy Gear Reference. 8 API functions.
+
+### Removed
+- Investigate settings (replaced by pursuit).
+
+### Changed
+- Every setting, module and hint rewritten in plain words and moved to stringtables; settings regrouped into 22 categories.
+- Group members count on their own: ranges, sharing, overlay and status no longer depend on the leader's position.
+
 ## Detection Range Fixes (v1.0.0.3)
 
 ### Added

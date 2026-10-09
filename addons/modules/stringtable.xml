@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="root_ads">
+    <Package name="modules">
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_burn">
+            <English>Burn vehicles</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_burn_desc">
+            <English>Synced vehicles (and vehicles of synced units) are recognised on sight.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_clear">
+            <English>Clear instead</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_clear_desc">
+            <English>Remove burned / wanted status instead of adding it.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_duration">
+            <English>Duration (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_duration_desc">
+            <English>-1 = setting.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_range">
+            <English>Range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_range_desc">
+            <English>From the module position. 0 = the whole side.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_sides">
+            <English>Receiving sides</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_sides_desc">
+            <English>Comma-separated sides: east, west, independent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_wanted">
+            <English>Mark wanted</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_B_wanted_desc">
+            <English>Synced units are wanted (suspicion builds faster in any vehicle).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_action">
+            <English>Action</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_action_desc">
+            <English>Compromise: hostile groups identify the units. Restore: hostile groups forget them.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_action_v0">
+            <English>Compromise</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_action_v1">
+            <English>Restore cover</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_action_v2">
+            <English>Restore cover + clear burned/wanted</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_allPlayers">
+            <English>All players</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_allPlayers_desc">
+            <English>Apply to every player instead of the synced units.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_radius">
+            <English>Radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_radius_desc">
+            <English>Only groups within this distance. -1 = unlimited.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_sides">
+            <English>Observer sides</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_C_sides_desc">
+            <English>Comma-separated sides: east, west, independent. Empty = all.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_bulletinChance">
+            <English>Bulletin chance (0-1)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_bulletinChance_desc">
+            <English>-1 = setting.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_followThreshold">
+            <English>Follow threshold (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_followThreshold_desc">
+            <English>Suspicion at which these groups start pursuing. -1 = setting.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_immune">
+            <English>Immune to disguises</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_immune_desc">
+            <English>These groups see through every disguise (normal detection).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_mult">
+            <English>Suspicion multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_mult_desc">
+            <English>Vigilance of the synced units' groups: 2-3 = checkpoint guards, 0.5 = sleepy sentries.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_role">
+            <English>Role</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_role_desc">
+            <English>Patrol: may chase and stop suspects. Outpost: stays put, still alerts and syncs. Static: never leaves its position.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_role_v0">
+            <English>Patrol</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_role_v1">
+            <English>Outpost</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_role_v2">
+            <English>Static</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_shareRadius">
+            <English>Share radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_G_shareRadius_desc">
+            <English>-1 = setting.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_backpack">
+            <English>Backpacks</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_backpack_desc">
+            <English>Comma-separated backpack classes.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_collect">
+            <English>Collect from that side's AI</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_collect_desc">
+            <English>Build the lists from what that side's AI wear 10 s after the start. The lists below are added to it.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_facewear">
+            <English>Facewear</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_facewear_desc">
+            <English>Comma-separated goggles / facewear classes.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_headgear">
+            <English>Headgear</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_headgear_desc">
+            <English>Comma-separated helmet / hat classes.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_launcher">
+            <English>Launchers</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_launcher_desc">
+            <English>Comma-separated launcher classes.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_primary">
+            <English>Rifles</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_primary_desc">
+            <English>Comma-separated primary weapon classes (attachments do not matter).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_side">
+            <English>Observer side</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_side_desc">
+            <English>The side whose expected kit this is: east, west or independent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_uniform">
+            <English>Uniforms</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_uniform_desc">
+            <English>Comma-separated uniform classes they wear.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_vest">
+            <English>Vests</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_R_vest_desc">
+            <English>Comma-separated vest classes.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_action">
+            <English>Action</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_action_desc">
+            <English>Turn RADS off or on, or return to the CBA setting.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_action_v0">
+            <English>Disable</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_action_v1">
+            <English>Enable</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_action_v2">
+            <English>Back to CBA setting</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_delay">
+            <English>Delay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_delay_desc">
+            <English>Seconds after activation.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_duration">
+            <English>Duration (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_T_duration_desc">
+            <English>Revert after this long. 0 = permanent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_allPlayers">
+            <English>All players</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_allPlayers_desc">
+            <English>Apply to every player (also players joining later) instead of the synced units.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_duration">
+            <English>Duration (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_duration_desc">
+            <English>Back to normal after this long. 0 = permanent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_mode">
+            <English>Mode</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_mode_desc">
+            <English>Normal: usual rules. Exempt: never undercover. Always covered: undercover in any vehicle, ignoring side, heat and zones.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_mode_v0">
+            <English>Normal</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_mode_v1">
+            <English>Exempt</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_mode_v2">
+            <English>Always covered</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_mult">
+            <English>Suspicion multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_U_mult_desc">
+            <English>How fast the AI grow suspicious of these units. 2 = twice as fast, 0.5 = half.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_armored">
+            <English>Armored</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_armored_desc">
+            <English>Can the AI see the crew? Armored = only the vehicle can be judged (slow build).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_armored_v0">
+            <English>Auto</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_armored_v1">
+            <English>Not armored</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_armored_v2">
+            <English>Armored</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_burnSides">
+            <English>Burned for sides</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_burnSides_desc">
+            <English>Sides that already know this vehicle. Comma-separated sides: east, west, independent. Empty = none.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_duration">
+            <English>Duration (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_duration_desc">
+            <English>Back to auto after this long. 0 = permanent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_mode">
+            <English>Mode</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_mode_desc">
+            <English>Auto: by side and settings. Always disguise. Never disguise. Burned: everyone recognises it on sight.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_mode_v0">
+            <English>Auto</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_mode_v1">
+            <English>Always disguise</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_mode_v2">
+            <English>Never disguise</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_mode_v3">
+            <English>Burned (all sides)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_mult">
+            <English>Suspicion multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_V_mult_desc">
+            <English>How suspicious this vehicle looks, replacing the faction multipliers. -1 = by faction/side.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_build">
+            <English>Build multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_build_desc">
+            <English>Multiplier mode: suspicion builds this much faster inside. 2 = twice as fast, 0.5 = half.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_decay">
+            <English>Decay multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_decay_desc">
+            <English>Multiplier mode: suspicion fades this much faster inside.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_delay">
+            <English>Delay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_delay_desc">
+            <English>Seconds after activation before the zone works.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_duration">
+            <English>Duration (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_duration_desc">
+            <English>The zone disappears after this long. 0 = permanent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_hourFrom">
+            <English>Active from hour</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_hourFrom_desc">
+            <English>Only active from this time of day (0-24). -1 = always.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_hourTo">
+            <English>Active until hour</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_hourTo_desc">
+            <English>Only active until this time of day (0-24). -1 = always.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_label">
+            <English>Label</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_label_desc">
+            <English>Name shown in Zeus lists and the debug log.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_mode">
+            <English>Mode</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_mode_desc">
+            <English>Multiplier: scale how fast suspicion builds (checkpoints, bases). No cover: disguises do not work (restricted area). Safe haven: no suspicion builds and, with the truce, the AI do not attack players inside.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_mode_v0">
+            <English>Multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_mode_v1">
+            <English>No cover (restricted area)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_mode_v2">
+            <English>Safe haven (truce)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_sides">
+            <English>Observer sides</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_sides_desc">
+            <English>Sides of the AI the zone applies to. Comma-separated sides: east, west, independent. Empty = all.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truce">
+            <English>Truce (safe haven)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceAim">
+            <English>Truce: aiming breaks it</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceAim_desc">
+            <English>Pointing a weapon at an AI soldier for a few seconds breaks the truce.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceCareless">
+            <English>Truce: AI relax</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceCareless_desc">
+            <English>AI inside the zone are CARELESS and hold fire.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceScope">
+            <English>Truce: who loses it</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceScope_desc">
+            <English>When one player breaks the truce (shooting, hurting or ramming AI, overstaying)...</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceScope_v0">
+            <English>Only the offender</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceScope_v1">
+            <English>The offender's group</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceScope_v2">
+            <English>Everyone in the zone</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceStay">
+            <English>Truce: allowed stay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceStay_desc">
+            <English>How long players may stay before the truce ends. 0 = no limit.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceWarn">
+            <English>Truce: warning before the end (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truceWarn_desc">
+            <English>Players are warned this long before their stay runs out.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truce_desc">
+            <English>Safe haven only: do the AI hold fire on players inside, even on foot, while they behave?</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truce_v0">
+            <English>Use the CBA settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truce_v1">
+            <English>Truce with the options below</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_Z_truce_v2">
+            <English>No truce (only no suspicion)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_action">
+            <English>Action</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_alertArea">
+            <English>Alert the area</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_alertArea_desc">
+            <English>Groups near this position start searching.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_always">
+            <English>Always disguise</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_angle">
+            <English>Angle</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_armored">
+            <English>Armored</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_armored_desc">
+            <English>Can the AI see the crew? Armored = only the vehicle can be judged (slow build).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_auto">
+            <English>Auto</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_backToCba">
+            <English>Back to CBA setting</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_broadcast">
+            <English>Broadcast</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_buildMult">
+            <English>Build multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_buildMult_desc">
+            <English>Multiplier mode: suspicion builds this much faster inside. 2 = twice as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_bulletinChance">
+            <English>Bulletin chance (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_bulletinCleared">
+            <English>RADS status cleared</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_bulletinDuration_desc">
+            <English>0 = settings.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_bulletinRange_desc">
+            <English>Only groups within this distance know. 0 = the whole side.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_bulletinSent">
+            <English>RADS bulletin broadcast</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_bulletinTitle">
+            <English>RADS - Radio Bulletin</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_burnSides">
+            <English>Burned for sides</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_burnSides_desc">
+            <English>Sides that recognise this vehicle on sight (in addition to the mode).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_burnVehicle">
+            <English>Burn vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_burnVehicle_desc">
+            <English>The vehicle is recognised on sight.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_burned">
+            <English>Burned (all sides)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_category">
+            <English>Root's Adaptive Detection</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_clearBurned">
+            <English>Clear burned status</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_clearBurned_desc">
+            <English>Forget every side's burn of this vehicle first.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_clearOverrides">
+            <English>Clear these overrides</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_clearOverrides_desc">
+            <English>Ignore the values above and return each of these settings to its CBA value.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_clearStatus">
+            <English>Clear burned/wanted</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_compromise">
+            <English>Compromise (hostile AI identify them)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_compromiseDone">
+            <English>RADS: %1 unit(s) %2</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_compromiseRadius_desc">
+            <English>Compromise only: groups within this distance of each unit. 0 = unlimited.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_compromiseSides_desc">
+            <English>Compromise only: sides that identify. None = all hostile.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_compromiseTitle">
+            <English>RADS - Compromise / Restore Cover</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_compromised">
+            <English>compromised</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_coverMode_desc">
+            <English>Normal, exempt (never undercover) or always covered (any vehicle, ignores side, heat and zones).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_coverTitle">
+            <English>RADS - Unit Cover Profile</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_decayMult">
+            <English>Decay multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_decayMult_desc">
+            <English>Multiplier mode: suspicion fades this much faster inside.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_delayS">
+            <English>Delay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_disable">
+            <English>Disable</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_durationS">
+            <English>Duration (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Bulletin">
+            <English>Radio Bulletin</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Bulletin_desc">
+            <English>Sync units / vehicles (and optionally a trigger): broadcasts them as hostile to the receiving sides.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Compromise">
+            <English>Compromise / Restore Cover</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Compromise_desc">
+            <English>Sync a trigger: when it fires, the synced units (or all players) are compromised or get their cover back.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_GearReference">
+            <English>Enemy Gear Reference</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_GearReference_desc">
+            <English>What a side's AI expect to see: players wearing the same items build suspicion slower, mismatched items faster (Gear settings: 'How gear is judged'). Tip: the Zeus module of the same name lists everything a side wears, ready to paste here.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_GroupProfile">
+            <English>AI Group Profile</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_GroupProfile_desc">
+            <English>Observer profile for the groups of the synced AI units.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_PursuitSettings">
+            <English>Pursuit, Sync &amp; Truce Settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_PursuitSettings_desc">
+            <English>Overrides for suspicion sync between groups, pursuits and checkpoint stops, and safe zone truces. Every value left on 'Keep setting' (or -1, -9999 for the sync radius) leaves the CBA setting alone. Sync a trigger to apply them only when it fires.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Settings">
+            <English>Detection Settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Settings_desc">
+            <English>Mission-wide overrides of the main RADS settings. Hover an attribute for what it does. Every value left on 'Keep setting' (or -1) leaves the CBA setting alone. Sync a trigger to apply the values only when it fires.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Toggle">
+            <English>Enable / Disable RADS</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Toggle_desc">
+            <English>Turns RADS on or off at mission start, after a delay, or when a synced trigger fires.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_UnitCover">
+            <English>Unit Cover Profile</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_UnitCover_desc">
+            <English>Cover profile for the synced units (or all players).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Vehicle">
+            <English>Vehicle Disguise</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Vehicle_desc">
+            <English>Disguise behaviour for the synced vehicles.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Zone">
+            <English>Detection Zone</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Zone_desc">
+            <English>Detection zone in the module's area. Activates at mission start, or when a synced trigger fires (deactivation removes it).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ellipse">
+            <English>Ellipse</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_enable">
+            <English>Enable</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_exempt">
+            <English>Exempt</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_followThreshold">
+            <English>Follow threshold (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_followThreshold_desc">
+            <English>Suspicion at which this group starts pursuing. -1 = setting.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_force">
+            <English>Always covered</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearApplied">
+            <English>RADS gear reference for %1 applied</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearBackpack">
+            <English>Backpacks</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearClear">
+            <English>Clear the list</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearClearedMsg">
+            <English>RADS gear reference for %1 cleared</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearCollect">
+            <English>Collect from that side's AI now</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearCopy">
+            <English>Copy to clipboard</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearCopy_desc">
+            <English>Copies all seven lists (also written to the RPT). Clipboard access may be blocked in multiplayer.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearCurrent">
+            <English>Current list</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearEditTitle">
+            <English>RADS - Enemy Gear Reference - %1</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearFacewear">
+            <English>Facewear</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearHeadgear">
+            <English>Headgear</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearLauncher">
+            <English>Launchers</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearList_desc">
+            <English>Comma-separated classes. Paste into the 3DEN Enemy Gear Reference module to reuse.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearPrimary">
+            <English>Rifles</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearSide">
+            <English>Observer side</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearSide_desc">
+            <English>The side whose expected kit this is (whose AI compare players against it).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearStart">
+            <English>Start from</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearStart_desc">
+            <English>Current list: edit what is set. Collect: fill the lists with everything that side's AI wear now.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearTitle">
+            <English>RADS - Enemy Gear Reference</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearUniform">
+            <English>Uniforms</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_gearVest">
+            <English>Vests</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_groupApplied">
+            <English>RADS group profile applied</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_groupMult_desc">
+            <English>Vigilance: 2-3 checkpoint guards, 0.5 sleepy sentries.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_groupTitle">
+            <English>RADS - AI Group Profile - %1</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_hourFrom">
+            <English>Active from hour</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_hourTo">
+            <English>Active until hour</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_hour_desc">
+            <English>Daytime window. -1 = always.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_immune">
+            <English>Immune to disguises</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_immune_desc">
+            <English>This group sees through every disguise (normal detection).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_inspectLine">
+            <English>%1: max %2, identified by %3%4</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_inspectNobody">
+            <English>Nobody is undercover.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_inspectNote">
+            <English>Values refresh on state changes (enable 'Publish suspicion live' for live values).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_inspectTitle">
+            <English>RADS - covered players</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_inspectWanted">
+            <English>(wanted)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_keepSetting">
+            <English>Keep setting</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_markWanted">
+            <English>Mark crew wanted</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_markWanted_desc">
+            <English>Covered units build suspicion faster in any vehicle.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_mode">
+            <English>Mode</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_msgApplied">
+            <English>RADS settings applied</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_msgCleared">
+            <English>RADS overrides cleared</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_msgNoUnits">
+            <English>No units selected</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_msgPlaceAI">
+            <English>Place the module on an AI unit</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_msgPlaceUnit">
+            <English>Place the module on a unit or vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_msgPlaceVehicle">
+            <English>Place the module on a vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_never">
+            <English>Never disguise</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_noZones">
+            <English>No RADS zones exist</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_normal">
+            <English>Normal</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_notArmored">
+            <English>Not armored</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_observerSides">
+            <English>Observer sides</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_off">
+            <English>Off</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_on">
+            <English>On</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_profileApplied">
+            <English>RADS profile applied to %1 unit(s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_pursuitCallOff">
+            <English>Call off the current pursuit</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_pursuitNoTargets">
+            <English>Nobody is undercover</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_pursuitOrderTitle">
+            <English>RADS - Order Pursuit - %1</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_pursuitOrdered">
+            <English>RADS pursuit ordered</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_pursuitStopped">
+            <English>RADS pursuit called off</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_pursuitTarget">
+            <English>Target</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_pursuitTarget_desc">
+            <English>Undercover unit to chase (on foot) or follow and stop (mounted), then inspect.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_pursuitTitle">
+            <English>RADS - Pursuit &amp; Checkpoint Settings (mission override)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_radius">
+            <English>Radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_range">
+            <English>Range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_receivingSides">
+            <English>Receiving sides</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_receivingSides_desc">
+            <English>Sides that hear the bulletin (or that are cleared). None = all.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_rectangle">
+            <English>Rectangle</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_remove">
+            <English>Remove</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_removeAll">
+            <English>All zones</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_removeNear">
+            <English>Zones near this position</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_removeRadius">
+            <English>Near radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_removeRadius_desc">
+            <English>Zones whose centre is within this radius (first option).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_removeTitle">
+            <English>RADS - Remove Detection Zones</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_restore">
+            <English>Restore cover (hostile AI forget them)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_restoreClear">
+            <English>Restore cover + clear burned/wanted</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_restored">
+            <English>restored</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_role">
+            <English>Role</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_roleOutpost">
+            <English>Outpost</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_rolePatrol">
+            <English>Patrol</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_roleStatic">
+            <English>Static</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_role_desc">
+            <English>Patrol: may chase and stop suspects. Outpost: stays put, still alerts and syncs. Static: never leaves its position.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_settingDefault">
+            <English>-1 = setting.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_settingsTitle">
+            <English>RADS - Detection Settings (mission override)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_shareRadius">
+            <English>Share radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_sizeA">
+            <English>Size A (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_sizeA_desc">
+            <English>Radius / half-width.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_sizeB">
+            <English>Size B (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_sizeB_desc">
+            <English>Second half-axis. 0 = same as A.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_suspMult">
+            <English>Suspicion multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_syncTitle">
+            <English>RADS - Suspicion Sync Settings (mission override)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_toggleDelay_desc">
+            <English>Apply after this long.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_toggleDone">
+            <English>RADS toggle scheduled</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_toggleDuration_desc">
+            <English>Revert after this long. 0 = permanent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_toggleTitle">
+            <English>RADS - Enable / Disable</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truce">
+            <English>Truce (safe haven)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceAim">
+            <English>Truce: aiming breaks it</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceCareless">
+            <English>Truce: AI relax</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceCareless_desc">
+            <English>AI inside the zone are CARELESS and hold fire.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceCba">
+            <English>Use the CBA settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceOff">
+            <English>No truce (only no suspicion)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceOn">
+            <English>Truce with the options below</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceScope">
+            <English>Truce: who loses it</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceScope0">
+            <English>Only the offender</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceScope1">
+            <English>The offender's group</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceScope2">
+            <English>Everyone in the zone</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceStay">
+            <English>Truce: allowed stay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceStay_desc">
+            <English>How long players may stay before the truce ends. 0 = no limit.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceTitle">
+            <English>RADS - Safe Zone Truce Settings (mission override)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truceWarn">
+            <English>Truce: warning before the end (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_truce_desc">
+            <English>Safe haven only: do the AI hold fire on players inside, even on foot, while they behave?</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_unitDuration_desc">
+            <English>Back to normal after this long. 0 = permanent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_unitMult_desc">
+            <English>How fast the AI grow suspicious of these units. 2 = twice as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_units">
+            <English>Units</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_units_desc">
+            <English>Sides, groups or players to apply to.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_vehDuration_desc">
+            <English>Mode / burn revert after this long. 0 = permanent (burn uses the setting).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_vehMode_desc">
+            <English>Auto: by side and settings. Always disguise. Never disguise. Burned: recognised on sight by everyone.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_vehMult_desc">
+            <English>How suspicious this vehicle looks, replacing the faction multipliers. -1 = by faction/side.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_vehicleTitle">
+            <English>RADS - Vehicle Disguise - %1</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_vehicleUpdated">
+            <English>RADS vehicle updated</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_AddZone">
+            <English>Add Detection Zone</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_Bulletin">
+            <English>Radio Bulletin</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_Compromise">
+            <English>Compromise / Restore Cover</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_GearReference">
+            <English>Enemy Gear Reference</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_GroupProfile">
+            <English>AI Group Profile</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_Inspect">
+            <English>Inspect Detection Status</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_OrderPursuit">
+            <English>Order Pursuit / Call Off</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_PursuitSettings">
+            <English>Pursuit &amp; Checkpoint Settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_RemoveZones">
+            <English>Remove Detection Zones</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_Settings">
+            <English>Detection Settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_SyncSettings">
+            <English>Suspicion Sync Settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_Toggle">
+            <English>Enable / Disable RADS</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_TruceSettings">
+            <English>Safe Zone Truce Settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_UnitCover">
+            <English>Unit Cover Profile</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_Vehicle">
+            <English>Vehicle Disguise</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneAdded">
+            <English>RADS zone added</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneDelay_desc">
+            <English>The zone becomes active after this long.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneDuration_desc">
+            <English>0 = permanent.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneEntry">
+            <English>%1 (%2, %3 m away)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneLabel">
+            <English>Label</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneLabel_desc">
+            <English>Name shown when removing zones and in the debug log.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneMode_desc">
+            <English>Multiplier: scale suspicion speed (checkpoints, bases). No cover: disguises do not work. Safe haven: no suspicion builds and, with the truce, players inside are not attacked.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneMult">
+            <English>Multiplier (checkpoint / base)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneNoCover">
+            <English>No cover (restricted area)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneSafe">
+            <English>Safe haven (truce)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneShape">
+            <English>Shape</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneSides_desc">
+            <English>Sides of the AI the zone applies to. None selected = all.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zoneTitle">
+            <English>RADS - Add Detection Zone</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zonesRemoved">
+            <English>RADS zones removed</English>
+        </Key>
+    </Package>
+</Project>

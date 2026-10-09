@@ -42,9 +42,9 @@ if (RADS_DEBUG) then { ["COVER", format ["cover %1 -> %2 (vehicle %3)", _was, _n
 
 if (hasInterface && {_unit == player} && GVAR(notifyCover)) then {
     if (_now) then {
-        hintSilent parseText format ["<t color='#66ff66'>Undercover</t><br/>%1", getText (configOf _veh >> "displayName")];
+        hintSilent parseText format ["<t color='#66ff66'>%1</t><br/>%2", localize LSTRING(undercover), getText (configOf _veh >> "displayName")];
     } else {
-        hintSilent parseText "<t color='#ff6666'>Cover lost</t>";
+        hintSilent parseText format ["<t color='#ff6666'>%1</t>", localize LSTRING(coverLost)];
     };
 };
 

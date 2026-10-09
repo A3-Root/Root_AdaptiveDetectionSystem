@@ -65,6 +65,8 @@ GVAR(attachUnit) = {
         };
     };
 
+    [_unit] call FUNC(truceUpdate);
+
     private _units = (units group _unit) + (crew vehicle _unit) + GVAR(managedUnits);
     _units = (_units arrayIntersect _units) select {local _x};
     { [_x] call FUNC(updateCover); } forEach _units;

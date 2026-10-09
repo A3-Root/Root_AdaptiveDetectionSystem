@@ -1,0 +1,1931 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="root_ads">
+    <Package name="main">
+        <Key ID="STR_root_ads_main_aiAware">
+            <English>Suspicious groups go alert</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiAware_desc">
+            <English>SAFE / CARELESS groups switch to AWARE while suspicious, and back when calm.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiCombatOnIdentify">
+            <English>Identifying groups go COMBAT</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiCombatOnIdentify_desc">
+            <English>Groups that identify you switch to COMBAT.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiGlance">
+            <English>AI glance at new vehicles</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiGlance_desc">
+            <English>The soldier who first notices your vehicle glances at it (they turn their head, so they see more).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiLook">
+            <English>Suspicious AI keep looking</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiLook_desc">
+            <English>Once suspicious, the best placed soldier keeps looking at your vehicle until the group calms down.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiWatch">
+            <English>Suspicious groups watch you</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aiWatch_desc">
+            <English>Every soldier of a suspicious group turns to watch the vehicle (stronger than looking).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aimAngle">
+            <English>Aiming cone (deg)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aimAngle_desc">
+            <English>How close to a soldier your weapon must point to count as aiming at them (half-angle).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aimMult">
+            <English>Aiming at the AI</English>
+        </Key>
+        <Key ID="STR_root_ads_main_aimMult_desc">
+            <English>Suspicion speed while your weapon or turret points at a soldier. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alertOnEscape">
+            <English>Alert when you get away</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alertOnEscape_desc">
+            <English>When a pursuit is given up (you were too fast or too far), the pursuers alert the area too.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alertRadius">
+            <English>Alert radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alertRadius_desc">
+            <English>Groups and outposts within this distance of the pursuers hear their alerts.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alertSuspicion">
+            <English>Alert suspicion (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alertSuspicion_desc">
+            <English>Groups hearing an alert start SEARCHING with at least this suspicion.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alliedVehMult">
+            <English>Allied side's vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alliedVehMult_desc">
+            <English>Suspicion speed in a vehicle of a side allied to the watching AI. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowAir">
+            <English>Aircraft give cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowAir_desc">
+            <English>Helicopters and planes can disguise the people inside.\nOff = aircraft never give cover.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowBoats">
+            <English>Boats give cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowBoats_desc">
+            <English>Boats can disguise the people inside.\nOff = boats never give cover.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowCivVeh">
+            <English>Civilian vehicles give cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowCivVeh_desc">
+            <English>Civilian cars, trucks, boats and aircraft disguise the people inside.\nOff = civilian vehicles do not hide anyone.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowFriendlyVeh">
+            <English>Enemy-owned vehicles give cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowFriendlyVeh_desc">
+            <English>Vehicles of the watching AI's own or allied side disguise the people inside.\nExample: BLUFOR players in a captured OPFOR truck fool OPFOR.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowHostileVeh">
+            <English>Own-side vehicles give cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowHostileVeh_desc">
+            <English>Vehicles of a side the watching AI is at war with can still disguise the people inside,\nbut suspicion builds much faster (see 'Vehicle Faction').\nExample: BLUFOR players in an unarmed BLUFOR Hunter at an OPFOR checkpoint.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowHostileVeh_opt0">
+            <English>Never</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowHostileVeh_opt0_desc">
+            <English>Your own side's vehicles are recognised and attacked on sight.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowHostileVeh_opt1">
+            <English>Unarmed vehicles only</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowHostileVeh_opt1_desc">
+            <English>Trucks and unarmed cars can bluff their way through, gun trucks, APCs and tanks cannot.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowHostileVeh_opt2">
+            <English>All vehicles</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowHostileVeh_opt2_desc">
+            <English>Even armed vehicles, tanks and APCs start undercover (not recommended for assaults).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowWatchedHints">
+            <English>Allow suspicion feedback</English>
+        </Key>
+        <Key ID="STR_root_ads_main_allowWatchedHints_desc">
+            <English>Server permission for the watched / identified hints and the ACE status readout.\nOff = players get no hints about how suspicious the AI are.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_altitudeFalloff">
+            <English>Aircraft altitude falloff (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_altitudeFalloff_desc">
+            <English>Aircraft above this height get proportionally less attention.\nExample: 60 = at 120 m suspicion builds half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_appearanceChangeKeep">
+            <English>Suspicion kept after changing looks</English>
+        </Key>
+        <Key ID="STR_root_ads_main_appearanceChangeKeep_desc">
+            <English>When a group sees you again in another vehicle or kit, it keeps this share of its suspicion.\n1 = changing makes no difference. 0 = a complete fresh start.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_areaAlertAware">
+            <English>Alerts make AI alert</English>
+        </Key>
+        <Key ID="STR_root_ads_main_areaAlertAware_desc">
+            <English>Alerted SAFE / CARELESS groups switch to AWARE.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_areaAlertRadius">
+            <English>Area alert radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_areaAlertRadius_desc">
+            <English>Radius around the reported position.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredAutoDetect">
+            <English>Detect armored seats automatically</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredAutoDetect_desc">
+            <English>Seats that only see out through optics or periscopes (e.g. a BTR driver) count as armored\neven when the vehicle is not in the class list.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredClasses">
+            <English>Armored vehicle classes</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredClasses_desc">
+            <English>Comma-separated vehicle classes treated as armored (child classes included).\nExample: Tank,Wheeled_APC_F</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredCloseMult">
+            <English>Armored face-to-face</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredCloseMult_desc">
+            <English>Scales 'Face-to-face minimum visibility' for armored seats (a guard at the hull still cannot see in well).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredDetect">
+            <English>Armored hulls hide the crew</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredDetect_desc">
+            <English>In tanks, APCs and IFVs with closed hatches the AI cannot see who is inside. They can only judge\nthe vehicle, so suspicion builds much slower. Turned out or firing from a port = normal rules.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredHullMult">
+            <English>Armored hull visibility</English>
+        </Key>
+        <Key ID="STR_root_ads_main_armoredHullMult_desc">
+            <English>How much of the vehicle's visibility counts while the crew sits behind armor.\nLower = armored vehicles are harder to see through. 1 = no protection.\nExample: 0.35 = a BMP builds suspicion about a third as fast as a car.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_behAware">
+            <English>Alert AI (AWARE)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_behAware_desc">
+            <English>Suspicion speed for alert soldiers. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_behCombat">
+            <English>Fighting AI (COMBAT)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_behCombat_desc">
+            <English>Suspicion speed for soldiers in combat. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nLower = they are busy with the fight and pay less attention to traffic.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_behSafe">
+            <English>Relaxed AI (SAFE / CARELESS)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_behSafe_desc">
+            <English>Suspicion speed for relaxed soldiers. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nExample: 0.7 = bored sentries are slower to notice.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_behStealth">
+            <English>Sneaking AI (STEALTH)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_behStealth_desc">
+            <English>Suspicion speed for soldiers in stealth mode. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nHigher = they are watching carefully.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_buildRate">
+            <English>Base build speed (%/s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_buildRate_desc">
+            <English>Suspicion gained per second when an alert soldier gets a clear look at you up close.\nHigher = identified faster. Lower = more time to pass through.\nExample: 12 = about 8 s of a clear close look from 0 to 100%.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinAreaAlert">
+            <English>Bulletin alerts the area</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinAreaAlert_desc">
+            <English>Groups near the reported position start SEARCHING.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinBurn">
+            <English>Bulletin makes the vehicle known</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinBurn_desc">
+            <English>Receiving groups recognise the vehicle on sight and attack its covered occupants.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinChance">
+            <English>Bulletin chance</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinChance_desc">
+            <English>Chance per identifying group that a bulletin is sent.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinDelayMax">
+            <English>Bulletin delay max (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinDelayMax_desc">
+            <English>Longest time to send.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinDelayMin">
+            <English>Bulletin delay min (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinDelayMin_desc">
+            <English>Shortest time to send. Killing or knocking out the radioman first cancels it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinEnabled">
+            <English>Radio bulletins</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinEnabled_desc">
+            <English>On identification a radioman may broadcast you and your vehicle over a long range.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinOnHostile">
+            <English>Also after shooting / attacks</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinOnHostile_desc">
+            <English>Groups that identified you because of gunfire or attacks also roll.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinRange">
+            <English>Bulletin range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinRange_desc">
+            <English>Groups farther from the sender do not hear it. 0 = the whole side.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinWanted">
+            <English>Bulletin makes you wanted</English>
+        </Key>
+        <Key ID="STR_root_ads_main_bulletinWanted_desc">
+            <English>The receiving side builds suspicion faster against you in any vehicle.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_burnDuration">
+            <English>Known vehicle duration (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_burnDuration_desc">
+            <English>How long a reported vehicle stays known.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_burnOnIdentify">
+            <English>Identified vehicle is known</English>
+        </Key>
+        <Key ID="STR_root_ads_main_burnOnIdentifyRange">
+            <English>Known vehicle range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_burnOnIdentifyRange_desc">
+            <English>Distance from the identification within which that side recognises the vehicle. 0 = everywhere.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_burnOnIdentify_desc">
+            <English>The vehicle someone was identified in is recognised on sight by that side nearby (see range).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_captiveStandDown">
+            <English>Leave captive units alone</English>
+        </Key>
+        <Key ID="STR_root_ads_main_captiveStandDown_desc">
+            <English>If a mission or another undercover script makes a unit captive, RADS ignores it.\nKeep on when combining RADS with other undercover scripts.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat">
+            <English>RADS - Adaptive Detection</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_ai">
+            <English>20 AI Reactions</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_armored">
+            <English>09 Armored Vehicles</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_basics">
+            <English>01 Basics</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_build">
+            <English>04 How Fast Suspicion Builds</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_convoy">
+            <English>17 Convoys</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_debug">
+            <English>22 Debug</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_driving">
+            <English>11 Driving Behaviour</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_eligibility">
+            <English>02 Who and What Gets Cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_entry">
+            <English>03 Getting Into a Vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_environment">
+            <English>06 Light and Weather</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_faction">
+            <English>08 Vehicle Faction</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_gear">
+            <English>10 Gear</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_hostile">
+            <English>12 Hostile Acts</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_memory">
+            <English>14 Memory and Forgetting</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_misc">
+            <English>19 Informants, Theft, Ramming, Plates</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_notify">
+            <English>21 Notifications</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_observers">
+            <English>05 What the AI Can See</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_pursuit">
+            <English>18 Pursuit and Checkpoint Stops</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_radio">
+            <English>16 Radio Bulletins</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_seats">
+            <English>07 Seats and Vehicle Type</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_share">
+            <English>15 Sharing and Suspicion Sync</English>
+        </Key>
+        <Key ID="STR_root_ads_main_cat_truce">
+            <English>13 Safe Zones and Truce</English>
+        </Key>
+        <Key ID="STR_root_ads_main_checkCover">
+            <English>Check cover status</English>
+        </Key>
+        <Key ID="STR_root_ads_main_civVehMult">
+            <English>Civilian vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_main_civVehMult_desc">
+            <English>Suspicion speed in a civilian vehicle. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_combatWindow">
+            <English>Combat window (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_combatWindow_desc">
+            <English>A group you fought within this many seconds keeps fighting you after you get in.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_compromiseCrew">
+            <English>Identify the whole crew</English>
+        </Key>
+        <Key ID="STR_root_ads_main_compromiseCrew_desc">
+            <English>Identifying one person in a vehicle identifies everyone undercover in it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyBuildMax">
+            <English>Convoy multiplier cap</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyBuildMax_desc">
+            <English>The convoy multiplier never goes above this.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyBuildPerVeh">
+            <English>Extra suspicion per vehicle in view</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyBuildPerVeh_desc">
+            <English>Each additional convoy vehicle the group can see adds this to the suspicion speed.\nExample: 0.15 = three vehicles in view build 1.3x as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyEnabled">
+            <English>Recognise convoys</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyEnabled_desc">
+            <English>Undercover vehicles driving close together in the same direction count as one convoy.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyFormTime">
+            <English>Convoy forms after (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyFormTime_desc">
+            <English>Vehicles must stay together this long before they count as a convoy (two cars meeting at a junction do not).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyGap">
+            <English>Convoy gap (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyGap_desc">
+            <English>Vehicles within this distance of each other (chains count) form a convoy.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyMode">
+            <English>One vehicle identified, the rest...</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyMode_desc">
+            <English>What happens to the other vehicles of a convoy when one of them is identified (by that group).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyMode_opt0">
+            <English>Nothing</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyMode_opt0_desc">
+            <English>Every vehicle is judged on its own.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyMode_opt1">
+            <English>Become suspects</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyMode_opt1_desc">
+            <English>They get the spill-over suspicion and are SEARCHED for.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyMode_opt2">
+            <English>Are identified too</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoyMode_opt2_desc">
+            <English>The whole convoy is identified at once.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoySpillSusp">
+            <English>Spill-over suspicion (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_convoySpillSusp_desc">
+            <English>Suspicion the other convoy vehicles get when 'Become suspects' is chosen.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverAIPassengers">
+            <English>Cover AI passengers</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverAIPassengers_desc">
+            <English>AI soldiers of a covered side riding with an undercover player are undercover too.\nOff = enemy AI shoot at the vehicle because of the AI passenger.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverEast">
+            <English>OPFOR can go undercover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverEast_desc">
+            <English>OPFOR players can hide their identity inside vehicles.\nTurn on when OPFOR is the player side.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverGraceTime">
+            <English>Entry sync delay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverGraceTime_desc">
+            <English>Technical: other machines wait this long after you get in before judging you, so the entry snapshot is used.\nLeave at 2 unless told otherwise.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverGuer">
+            <English>INDFOR can go undercover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverGuer_desc">
+            <English>Independent players can hide their identity inside vehicles.\nTurn on when INDFOR is the player side.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverLost">
+            <English>Cover lost</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverWest">
+            <English>BLUFOR can go undercover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_coverWest_desc">
+            <English>BLUFOR players (and their AI passengers) can hide their identity inside vehicles.\nOff = BLUFOR is always detected normally.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageBlows">
+            <English>Hurting AI blows cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageBlows_desc">
+            <English>When a covered unit (or its vehicle) hurts an AI soldier, that soldier's group reacts.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageFloorScale">
+            <English>Damage suspicion floor</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageFloorScale_desc">
+            <English>How far above 'Suspicious at' heavy damage pushes suspicion straight away.\n0 = only to the suspicious level. 100% = up to just below identification for a wreck.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageInfluence">
+            <English>Damaged vehicle influence</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageInfluence_desc">
+            <English>Visibly damaged vehicles (broken glass, bullet holes, burning) build suspicion faster:\nmultiplier = 1 + visible damage x this. 0 = damage does not matter.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageNeedsLOS">
+            <English>Victims must see the attacker</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageNeedsLOS_desc">
+            <English>On = a group hurt by someone it did not see only starts SEARCHING.\nOff = it identifies the attacker anyway.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageSuspicion">
+            <English>Unseen attack suspicion (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageSuspicion_desc">
+            <English>Suspicion given to a group hurt by an attacker it did not see.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageVisibleAt">
+            <English>Suspicious on sight from damage</English>
+        </Key>
+        <Key ID="STR_root_ads_main_damageVisibleAt_desc">
+            <English>A vehicle with at least this much visible damage makes the group SUSPICIOUS the moment they see it.\n100% = off.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugDetail">
+            <English>Debug log detail</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugDetail_desc">
+            <English>What is logged besides events and identification reports.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugDetail_opt0">
+            <English>Events and reports</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugDetail_opt1">
+            <English>Also big jumps</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugDetail_opt1_desc">
+            <English>An evaluation that adds a lot of suspicion is logged on its own.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugDetail_opt2">
+            <English>Every evaluation</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugDetail_opt2_desc">
+            <English>Very verbose.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugHistory">
+            <English>History length</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugHistory_desc">
+            <English>Evaluations kept per group and unit and printed with every report.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugJump">
+            <English>Big jump from (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugJump_desc">
+            <English>With 'Also big jumps', an evaluation adding at least this much is logged.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugLog">
+            <English>Debug log</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugLog_desc">
+            <English>Writes every RADS decision to the RPT of the machine that owns the AI (server / headless client) and of the player:\nidentifications with full history, state changes, ramming, hits, shots, shares, syncs, truces, pursuits, cover changes.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugOverlay">
+            <English>Debug overlay</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugOverlay_desc">
+            <English>Draws every nearby group's suspicion of you over its closest member (needs 'Publish suspicion live'). Per player.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugPublish">
+            <English>Publish suspicion live</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugPublish_desc">
+            <English>Group owners broadcast suspicion every evaluation so overlays and Zeus Inspect stay live. Costs network traffic.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_decayRate">
+            <English>Calm-down speed (%/s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_decayRate_desc">
+            <English>Suspicion lost per second while nobody in the group can see you.\nHigher = they forget you fast. Lower = they stay wary longer.\nExample: 1.5 = from 60% back to 0% in 40 s out of sight.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_distanceCurve">
+            <English>Distance falloff</English>
+        </Key>
+        <Key ID="STR_root_ads_main_distanceCurve_desc">
+            <English>How quickly seeing you gets harder beyond the close look range: (close range / distance) ^ this.\nHigher = distance protects you more.\nExample: 1.5 with 40 m: 35% as effective at 80 m, 9% at 200 m, 3% at 400 m.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_enabled">
+            <English>Enable RADS</English>
+        </Key>
+        <Key ID="STR_root_ads_main_enabled_desc">
+            <English>Master switch for the whole undercover system.\nOff = every player is back to normal Arma detection right away (AI shoot on sight).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_engagedElsewhereMult">
+            <English>Busy fighting someone else</English>
+        </Key>
+        <Key ID="STR_root_ads_main_engagedElsewhereMult_desc">
+            <English>Suspicion speed while the group is fighting another enemy. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_exitRevealThreshold">
+            <English>Getting out in view reveals at (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_exitRevealThreshold_desc">
+            <English>Getting out of the vehicle in view of a group at or above this suspicion reveals you to it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fastMult">
+            <English>Fast drive-by multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fastMult_desc">
+            <English>Suspicion speed above the fast drive-by speed. 1 = no protection. 0.4 = 40% speed.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fastSpeed">
+            <English>Fast drive-by speed (km/h)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fastSpeed_desc">
+            <English>Above this speed the AI only get a short glimpse of you.\nExample: 50 = passing at 60 km/h is much safer than crawling past.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_firedBlows">
+            <English>Shooting blows cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_firedBlows_desc">
+            <English>Firing a weapon from cover gets you identified by nearby groups and by groups that see you.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_firedLOS">
+            <English>Seen shooting = identified</English>
+        </Key>
+        <Key ID="STR_root_ads_main_firedLOS_desc">
+            <English>Any group with line of sight to the shooter (within spotting range) identifies them.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_firedRadius">
+            <English>Shot heard within (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_firedRadiusSuppressed">
+            <English>Suppressed shot heard within (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_firedRadiusSuppressed_desc">
+            <English>Same, for suppressed weapons.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_firedRadius_desc">
+            <English>Groups within this distance of an unsuppressed shot identify the shooter.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBulletin">
+            <English>Fleeing sends a bulletin</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBulletin_desc">
+            <English>Fleeing a stop gets you identified on the spot. Should they also radio a bulletin?</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBulletin_opt0">
+            <English>Never</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBulletin_opt1">
+            <English>By chance</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBulletin_opt1_desc">
+            <English>The normal bulletin chance.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBulletin_opt2">
+            <English>Always</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBulletin_opt2_desc">
+            <English>Always (a radioman is still needed).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBurn">
+            <English>Fleeing makes the vehicle known</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeBurn_desc">
+            <English>The vehicle you fled in is recognised on sight within the bulletin range.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeDistance">
+            <English>Fleeing distance (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeDistance_desc">
+            <English>Driving more than this far from where you stopped, during the inspection, counts as fleeing.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeSpeed">
+            <English>Fleeing speed (km/h)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fleeSpeed_desc">
+            <English>Driving faster than this during the inspection counts as fleeing.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fogInfluence">
+            <English>Fog</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fogInfluence_desc">
+            <English>How much fog hides you. 0 = fog does nothing. 1 = thick fog hides you completely.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_followDistance">
+            <English>Signal to stop within (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_followDistance_desc">
+            <English>A pursuing vehicle signals you to stop once it is this close.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_followEnabled">
+            <English>Pursue from the follow threshold</English>
+        </Key>
+        <Key ID="STR_root_ads_main_followEnabled_desc">
+            <English>Groups start a pursuit once their suspicion reaches the follow threshold (searching groups always may).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_followThreshold">
+            <English>Follow threshold (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_followThreshold_desc">
+            <English>Suspicion at which a group starts following or chasing you instead of just watching.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_footGiveUpDist">
+            <English>Foot patrols give up at (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_footGiveUpDist_desc">
+            <English>A foot patrol gives up once the vehicle is this far away (they cannot catch a car).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_forgetAfter">
+            <English>Forget after (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_forgetAfter_desc">
+            <English>A group that identified you forgets you after not seeing you this long, and your disguise works again.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fovAngle">
+            <English>Field of view (deg)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_fovAngle_desc">
+            <English>Width of the cone a soldier is really looking at. Outside it only peripheral vision applies.\nExample: 140 = roughly what a person takes in without turning their head.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_friendlyVehMult">
+            <English>Their side, other faction</English>
+        </Key>
+        <Key ID="STR_root_ads_main_friendlyVehMult_desc">
+            <English>Suspicion speed in a vehicle of the same side but another faction. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode">
+            <English>How gear is judged</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_desc">
+            <English>General look = civilian clothes, military uniform, helmets... Matching = item by item against\nwhat the watching side itself wears (see 'Gear Reference').</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_opt0">
+            <English>General look only</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_opt0_desc">
+            <English>Old behaviour: side of the uniform, armored helmet/vest, NVG, visible weapon.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_opt1">
+            <English>Item matching only</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_opt1_desc">
+            <English>Each visible item is compared with the enemy's own kit.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_opt2">
+            <English>Both</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearCompareMode_opt2_desc">
+            <English>Both multipliers apply (recommended).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearEnabled">
+            <English>Gear affects suspicion</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearEnabled_desc">
+            <English>Uniform, vest, helmet, goggles, backpack and visible weapons change how fast suspicion builds.\nOff = gear is ignored.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMatchMax">
+            <English>Matching highest multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMatchMax_desc">
+            <English>Item matching never raises suspicion speed above this.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMatchMin">
+            <English>Matching lowest multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMatchMin_desc">
+            <English>Item matching never lowers suspicion speed below this.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMatchMult">
+            <English>Same item as theirs</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMatchMult_desc">
+            <English>Suspicion speed for each visible item that is exactly what they wear. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMismatchMult">
+            <English>Item they never wear</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMismatchMult_desc">
+            <English>Suspicion speed for each visible item that none of them wears. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nExample: 1.15 with three wrong items = about 1.5x.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMissingMult">
+            <English>Missing item they all wear</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearMissingMult_desc">
+            <English>Suspicion speed for each empty slot they always fill (no helmet when every guard wears one). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearNeutral">
+            <English>Neutral items</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearNeutral_desc">
+            <English>Comma-separated item classes that never count, good or bad (mission-specific kit).\nExample: H_Cap_red,G_Aviator</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefAutoCollect">
+            <English>Collect enemy gear at mission start</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefAutoCollect_desc">
+            <English>10 s after the mission starts, every side without a Gear Reference list gets one built from what its AI wear.\nOff = use the group's own kit until a list is set.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefSource">
+            <English>Gear reference source</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefSource_desc">
+            <English>What the AI compare your kit against when 'How gear is judged' uses matching.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefSource_opt0">
+            <English>Their own group's kit</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefSource_opt0_desc">
+            <English>What the soldiers of the watching group wear right now.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefSource_opt1">
+            <English>Gear Reference list only</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefSource_opt1_desc">
+            <English>Only the lists set by the Gear Reference module or API.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefSource_opt2">
+            <English>List, else group, else side</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearRefSource_opt2_desc">
+            <English>The list when one exists, otherwise the group, otherwise every unit of that side (recommended).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearSimilarMult">
+            <English>Same item, other camo</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearSimilarMult_desc">
+            <English>Suspicion speed for each item of the same model but another variant (other camo). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearSlotWeights">
+            <English>Slot weights</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearSlotWeights_desc">
+            <English>How much each slot counts (slot:weight, comma-separated). 2 = counts double, 0 = ignored.\nSlots: uniform, vest, headgear, primary, launcher, backpack, facewear.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVisibleRange">
+            <English>Gear readable range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVisibleRange_desc">
+            <English>Gear counts fully within this distance and fades out by twice this distance.\nExample: 50 = nobody can read your uniform at 100 m.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidHelmet">
+            <English>...ballistic helmet</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidHelmet_desc">
+            <English>Wearing armored headgear.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidUniform">
+            <English>...own military uniform</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidUniform_desc">
+            <English>Wearing a military uniform of a covered side (e.g. BLUFOR fatigues).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidVest">
+            <English>...armored vest</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidVest_desc">
+            <English>Wearing an armored vest.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidWeapon">
+            <English>...visible weapon</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidWeapon_desc">
+            <English>Carrying a rifle or launcher in a seat that shows it (turned out, firing seat, open vehicle).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidsCover">
+            <English>Military gear blows cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_gearVoidsCover_desc">
+            <English>Units wearing the gear ticked below get no cover in vehicles at all (normal detection).\nOn foot always uses normal detection anyway.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_groupsPerFrame">
+            <English>Groups checked per frame</English>
+        </Key>
+        <Key ID="STR_root_ads_main_groupsPerFrame_desc">
+            <English>Performance budget: how many enemy groups are checked in a single frame.\nLower = smoother frame rate with many AI. Higher = every group is updated sooner.\nLeave at 6 unless you have hundreds of AI groups.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_heatDuration">
+            <English>Heat after shooting (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_heatDuration_desc">
+            <English>After firing you cannot regain cover for this long. 0 = off.\nExample: 120 = jumping into another car right after a firefight does not work for 2 minutes.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_helmetMult">
+            <English>Ballistic helmet</English>
+        </Key>
+        <Key ID="STR_root_ads_main_helmetMult_desc">
+            <English>Suspicion speed wearing an armored helmet. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hiddenCrewMult">
+            <English>Hidden crew</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hiddenCrewMult_desc">
+            <English>How much of the vehicle's visibility counts when the crew cannot be seen at all.\n0 = a hidden crew is perfectly safe. 1 = as if they could see you.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornMult">
+            <English>Honking</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornMult_desc">
+            <English>Suspicion speed for 10 s after honking near them. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hostileVehMult">
+            <English>Enemy side's vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hostileVehMult_desc">
+            <English>Suspicion speed in a vehicle of a side they are at war with (only when 'Own-side vehicles give cover'). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nExample: 3 = a BLUFOR Hunter at an OPFOR checkpoint is identified three times as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hullBlocks">
+            <English>Vehicle body blocks sight</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hullBlocks_desc">
+            <English>Line of sight respects the vehicle itself: glass lets some sight through, doors and roof block it.\nOff = only terrain and buildings block sight, the vehicle is see-through.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_identifiedText">
+            <English>%1 has identified you.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_identifiedTitle">
+            <English>Identified!</English>
+        </Key>
+        <Key ID="STR_root_ads_main_identifyRange">
+            <English>Close look range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_identifyRange_desc">
+            <English>Within this distance the AI sees you just as well as up close. Farther away it gets harder fast.\nHigher = suspicion builds from farther away.\nExample: 40 = full effect inside 40 m.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_identifyThreshold">
+            <English>Identified at (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_identifyThreshold_desc">
+            <English>At this suspicion the group sees through your disguise and attacks.\nLower = cover breaks sooner. 100 = only at full suspicion.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_informantChance">
+            <English>Informant chance</English>
+        </Key>
+        <Key ID="STR_root_ads_main_informantChance_desc">
+            <English>Chance per civilian group that witnesses it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_informantDelay">
+            <English>Informant delay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_informantDelay_desc">
+            <English>Time to make the report. Cancelled if the informant dies.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_informantRange">
+            <English>Informant range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_informantRange_desc">
+            <English>How far away a civilian can witness from.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_informantsEnabled">
+            <English>Civilian informants</English>
+        </Key>
+        <Key ID="STR_root_ads_main_informantsEnabled_desc">
+            <English>Civilians who see a soldier get into a vehicle or a hostile act may report it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectClearSusp">
+            <English>Cleared suspicion (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectClearSusp_desc">
+            <English>Suspicion after passing an inspection. Nearby friendly groups drop to it too.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectCooldown">
+            <English>Cleared for (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectCooldown_desc">
+            <English>After passing an inspection that group will not pursue you again for this long.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectHint">
+            <English>%1 is inspecting your vehicle. Stay put - driving off now means you are identified.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectHintTitle">
+            <English>Vehicle inspection</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectMult">
+            <English>Inspection multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectMult_desc">
+            <English>Suspicion speed while being inspected (on top of face-to-face). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectRange">
+            <English>Inspect within (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectRange_desc">
+            <English>A foot patrol starts its inspection when your vehicle stops within this distance.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectTime">
+            <English>Inspection length (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectTime_desc">
+            <English>How long the inspection lasts. Survive it without being identified and you are cleared.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_instantMult">
+            <English>Face-to-face multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_instantMult_desc">
+            <English>How much faster suspicion builds inside face-to-face range. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nExample: 4 = a guard at your window is four times as effective.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_instantRange">
+            <English>Face-to-face range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_instantRange_desc">
+            <English>Within this distance a soldier is looking straight into the vehicle (checkpoint, walking past).\nHigher = the face-to-face bonus starts farther away.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_lambsDisableDuringPursuit">
+            <English>LAMBS: hold off during pursuit</English>
+        </Key>
+        <Key ID="STR_root_ads_main_lambsDisableDuringPursuit_desc">
+            <English>With LAMBS Danger loaded, its group AI is paused while a group pursues, so it does not break the chase.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_lambsHuntOnCompromise">
+            <English>LAMBS: hunt when identified</English>
+        </Key>
+        <Key ID="STR_root_ads_main_lambsHuntOnCompromise_desc">
+            <English>With LAMBS loaded, pursuers that identify you hand over to LAMBS Rush (on foot) or Hunt (mounted).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_lightMult">
+            <English>Weapon light / laser at night</English>
+        </Key>
+        <Key ID="STR_root_ads_main_lightMult_desc">
+            <English>Suspicion speed with a weapon light or laser on at night. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_lightsOffMult">
+            <English>Lights off at night</English>
+        </Key>
+        <Key ID="STR_root_ads_main_lightsOffMult_desc">
+            <English>Suspicion speed driving at night with headlights off. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_maxObservers">
+            <English>Observers checked per group</English>
+        </Key>
+        <Key ID="STR_root_ads_main_maxObservers_desc">
+            <English>How many soldiers of each group (closest to the vehicle first) get a line-of-sight check.\nHigher = more accurate in big groups, costs more CPU.\nEvery member counts, not only the group leader.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_maxRange">
+            <English>Maximum spotting range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_maxRange_desc">
+            <English>Enemy AI farther away than this can never become suspicious of a vehicle.\nLower = drive past distant positions freely. Higher = long-range observers matter.\nExample: 800 = a sniper team 1 km away ignores you.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_memoryTime">
+            <English>Memory after leaving the vehicle (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_memoryTime_desc">
+            <English>Suspicion is remembered this long after you get out, so getting out and back in does not reset it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaDetect">
+            <English>Catch hidden-crew tricks</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaDetect_desc">
+            <English>Close to a group, a vehicle in plain view whose crew is hidden (reversing up to a checkpoint,\nparking rear-on) still builds suspicion through the vehicle itself. Armored vehicles are exempt.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaRampMax">
+            <English>Hidden-crew ramp maximum</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaRampMax_desc">
+            <English>Extra suspicion speed after the full ramp time of hidden-crew tricks. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaRampTime">
+            <English>Hidden-crew ramp time (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaRampTime_desc">
+            <English>Keep reversing or parking rear-on this long and the extra penalty below is at its maximum.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaRange">
+            <English>Hidden-crew range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_metaRange_desc">
+            <English>Hidden-crew tricks are only judged within this distance of a soldier.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_minCloseExposure">
+            <English>Face-to-face minimum visibility</English>
+        </Key>
+        <Key ID="STR_root_ads_main_minCloseExposure_desc">
+            <English>How well a guard at face-to-face range sees you even through a closed body (they can lean in).\n0 = a closed hull fully protects. 1 = always seen perfectly up close.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMode">
+            <English>Uncovered people in the vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMode_desc">
+            <English>What happens when someone in the vehicle has no cover (an exempt player, AI of another side).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMode_opt0">
+            <English>Ignore</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMode_opt0_desc">
+            <English>They do not affect the others.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMode_opt1">
+            <English>Faster suspicion</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMode_opt1_desc">
+            <English>Each of them makes suspicion build faster (see 'Mixed crew multiplier').</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMode_opt2">
+            <English>Nobody has cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMode_opt2_desc">
+            <English>One uncovered occupant blows the cover of the whole vehicle.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMult">
+            <English>Mixed crew multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_mixedCrewMult_desc">
+            <English>Suspicion speed for each uncovered person in the vehicle (when 'Uncovered people' = Faster suspicion). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_nightMult">
+            <English>Darkness</English>
+        </Key>
+        <Key ID="STR_root_ads_main_nightMult_desc">
+            <English>How well the AI sees into vehicles in full darkness (scaled smoothly by sun and moon light).\n0 = blind at night. 1 = night makes no difference.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyCompromised">
+            <English>Warn when identified</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyCompromised_desc">
+            <English>Hint when an enemy group identifies you. Per player.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyCover">
+            <English>Show cover changes</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyCover_desc">
+            <English>Hint when you gain or lose cover. Per player.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyInspect">
+            <English>Inspection hint</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyInspect_desc">
+            <English>Hint while an enemy patrol is inspecting your vehicle. Per player.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyTruce">
+            <English>Safe zone truce hints</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyTruce_desc">
+            <English>Hints when a truce starts, ends, is about to run out or is broken. Per player.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyWatched">
+            <English>Warn when watched</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyWatched_desc">
+            <English>Hint when an enemy group becomes suspicious of you. Per player.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyZeus">
+            <English>Zeus messages</English>
+        </Key>
+        <Key ID="STR_root_ads_main_notifyZeus_desc">
+            <English>Curators get messages for identifications, bulletins, pursuits and truce breaks. Per player.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_nvgDayMult">
+            <English>Night vision in daylight</English>
+        </Key>
+        <Key ID="STR_root_ads_main_nvgDayMult_desc">
+            <English>Suspicion speed with NVGs on the head during the day. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_nvgNightMult">
+            <English>Darkness with night vision</English>
+        </Key>
+        <Key ID="STR_root_ads_main_nvgNightMult_desc">
+            <English>Same as Darkness, for AI wearing night vision goggles.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_offroadMult">
+            <English>Off-road approach</English>
+        </Key>
+        <Key ID="STR_root_ads_main_offroadMult_desc">
+            <English>Suspicion speed driving off-road within 150 m of a group. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleClasses">
+            <English>Open vehicle classes</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleClasses_desc">
+            <English>Comma-separated vehicle classes treated as open vehicles. Child classes are included.\nExample: Quadbike_01_base_F,Motorcycle</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleMode">
+            <English>Open vehicles (quads, bikes...)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleMode_desc">
+            <English>What happens in vehicles where everyone can see you (quad bikes, motorbikes, open boats).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleMode_opt0">
+            <English>Cover, but easy to spot</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleMode_opt0_desc">
+            <English>You get cover, but suspicion builds faster (see 'Open vehicle multiplier').</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleMode_opt1">
+            <English>No cover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleMode_opt1_desc">
+            <English>Riding an open vehicle never hides you.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleMult">
+            <English>Open vehicle multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_openVehicleMult_desc">
+            <English>Suspicion speed on quads, bikes and other open vehicles (when they give cover). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_passBonus">
+            <English>Repeated pass bonus</English>
+        </Key>
+        <Key ID="STR_root_ads_main_passBonus_desc">
+            <English>Extra suspicion speed for each separate time you drive past the same group (circling, drive-bys).\nExample: 0.25 = second pass x1.25, third x1.5 ...</English>
+        </Key>
+        <Key ID="STR_root_ads_main_passGap">
+            <English>Time between passes (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_passGap_desc">
+            <English>You must be out of sight this long before the next sighting counts as a new pass.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_passMax">
+            <English>Repeated pass cap</English>
+        </Key>
+        <Key ID="STR_root_ads_main_passMax_desc">
+            <English>The repeated pass bonus never goes above this multiplier.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_peripheralMult">
+            <English>Peripheral vision</English>
+        </Key>
+        <Key ID="STR_root_ads_main_peripheralMult_desc">
+            <English>How well a soldier notices you outside their field of view.\n0 = not at all. 1 = as well as looking straight at you.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_plateCombat">
+            <English>Reported plate = COMBAT</English>
+        </Key>
+        <Key ID="STR_root_ads_main_plateCombat_desc">
+            <English>A group that reads a reported plate goes COMBAT at once.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_plateReadRange">
+            <English>Plate reading range (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_plateReadRange_desc">
+            <English>Soldiers must be this close (with line of sight) to read a plate.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_plateRecognition">
+            <English>Recognise reported number plates</English>
+        </Key>
+        <Key ID="STR_root_ads_main_plateRecognition_desc">
+            <English>A reported vehicle's number plate is reported too: any vehicle with that plate is identified as soon as\nthe plate is read, whatever its side.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitEnabled">
+            <English>AI pursue suspects</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitEnabled_desc">
+            <English>Suspicious and searching groups go after the vehicle with real waypoints: foot patrols run at it,\nmounted patrols follow it, signal it to stop and inspect it. Their own route resumes afterwards.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitLead">
+            <English>Aim ahead (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitLead_desc">
+            <English>Pursuers head for where the vehicle will be in this many seconds.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitMaxDist">
+            <English>Give up beyond (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitMaxDist_desc">
+            <English>A pursuit is abandoned once the group is this far from where it started.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitMaxGroups">
+            <English>Pursuers per target</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitMaxGroups_desc">
+            <English>Most groups that pursue the same unit at once. Keeps the whole map from converging on you.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitMaxStart">
+            <English>Start distance (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitMaxStart_desc">
+            <English>Only groups within this distance start a pursuit.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitMaxTime">
+            <English>Give up after (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitMaxTime_desc">
+            <English>A pursuit that has not led to a stop is abandoned after this long.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radioBackpacks">
+            <English>Radio backpacks</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radioBackpacks_desc">
+            <English>Comma-separated backpack classes that make a radioman (child classes included).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanClasses">
+            <English>Radioman classes</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanClasses_desc">
+            <English>Comma-separated unit classes that count as radiomen. Classes with 'radio' in the name always count.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode">
+            <English>Who can send</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode_desc">
+            <English>Which soldiers can send a bulletin.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode_opt0">
+            <English>Radioman only</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode_opt0_desc">
+            <English>Radio backpack or radioman class.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode_opt1">
+            <English>Radioman or any radio</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode_opt1_desc">
+            <English>Also anyone carrying a radio item.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode_opt2">
+            <English>Group leader only</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode_opt3">
+            <English>Anyone</English>
+        </Key>
+        <Key ID="STR_root_ads_main_radiomanMode_opt3_desc">
+            <English>No radioman needed.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_rainInfluence">
+            <English>Rain</English>
+        </Key>
+        <Key ID="STR_root_ads_main_rainInfluence_desc">
+            <English>How much rain hides you. 0 = rain does nothing. 1 = heavy rain hides you completely.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramCompromise">
+            <English>Ramming = identified</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramCompromise_desc">
+            <English>The rammed group identifies the driver at once instead.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramDetect">
+            <English>Detect ramming</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramDetect_desc">
+            <English>Driving into or over enemy soldiers alerts their group at once.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramSpeed">
+            <English>Ramming from (km/h)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramSpeed_desc">
+            <English>Minimum speed for contact to count as ramming.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramSuspicion">
+            <English>Ramming suspicion (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramSuspicion_desc">
+            <English>Suspicion given to the rammed group (at least SUSPICIOUS).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_rearFacingAngle">
+            <English>Rear-facing cone (deg)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_rearFacingAngle_desc">
+            <English>The vehicle counts as rear-on when the soldier is within this angle of straight behind it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_rearFacingMult">
+            <English>Parked rear-on</English>
+        </Key>
+        <Key ID="STR_root_ads_main_rearFacingMult_desc">
+            <English>Suspicion speed when stopped or crawling with the back towards them and the crew hidden. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_recoverThreshold">
+            <English>Calm at (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_recoverThreshold_desc">
+            <English>SUSPICIOUS or SEARCHING groups calm down (UNAWARE) once suspicion falls below this.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_refuseSuspBonus">
+            <English>Refusing to stop adds (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_refuseSuspBonus_desc">
+            <English>Suspicion added to the pursuers when you refuse to stop.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_revealKA">
+            <English>Knowledge on identification</English>
+        </Key>
+        <Key ID="STR_root_ads_main_revealKA_desc">
+            <English>How much the AI know about you once identified (0-4, the engine's knowsAbout).\n4 = they know exactly where you are.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_reverseMult">
+            <English>Reversing past the AI</English>
+        </Key>
+        <Key ID="STR_root_ads_main_reverseMult_desc">
+            <English>Suspicion speed when reversing near them with the crew hidden. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nHigher = reversing through a checkpoint is a dead giveaway.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_reverseSpeed">
+            <English>Reversing from (km/h)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_reverseSpeed_desc">
+            <English>Moving backwards faster than this counts as reversing.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_sameFactionVehMult">
+            <English>Their own faction's vehicle</English>
+        </Key>
+        <Key ID="STR_root_ads_main_sameFactionVehMult_desc">
+            <English>Suspicion speed in a vehicle of the exact faction watching you (CSAT truck at a CSAT checkpoint). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nLower = they expect their own vehicles and barely look twice.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_sameVehicleInstant">
+            <English>Enemy riding with you = identified</English>
+        </Key>
+        <Key ID="STR_root_ads_main_sameVehicleInstant_desc">
+            <English>An enemy AI sitting in the same vehicle identifies everyone in it at once.\nOff = they build suspicion like everyone else.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_searchingBuildMult">
+            <English>Searching groups build faster</English>
+        </Key>
+        <Key ID="STR_root_ads_main_searchingBuildMult_desc">
+            <English>Suspicion speed for groups that are already SEARCHING for you. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatCargo">
+            <English>Passenger seat</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatCargo_desc">
+            <English>Suspicion speed for passengers. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nLower = passengers in the back are harder to make out.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatDriver">
+            <English>Driver seat</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatDriver_desc">
+            <English>Suspicion speed for the driver. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatFFV">
+            <English>Firing from vehicle seat</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatFFV_desc">
+            <English>Suspicion speed in seats where you hold your weapon out of the window. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatTurnedOut">
+            <English>Turned out (head out of the hatch)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatTurnedOut_desc">
+            <English>Suspicion speed when turned out. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.\nHigher = sticking your head out is a giveaway.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatTurret">
+            <English>Gunner / commander seat</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seatTurret_desc">
+            <English>Suspicion speed for gunners and commanders inside. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seedFactor">
+            <English>Earlier knowledge becomes suspicion</English>
+        </Key>
+        <Key ID="STR_root_ads_main_seedFactor_desc">
+            <English>Share of a group's earlier (non-witness) knowledge of you that turns into starting suspicion when you get in.\n0 = a clean slate every time. 1 = what they knew carries over fully.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareDelay">
+            <English>Share delay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareDelay_desc">
+            <English>Time before the information arrives. Killing the whole group first stops it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareEscalate">
+            <English>Suspicious groups confirm</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareEscalate_desc">
+            <English>A group already SUSPICIOUS or SEARCHING identifies the unit when it hears about it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareInstantRadius">
+            <English>Right next to it (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareInstantRadius_desc">
+            <English>Groups this close to an identifying group see the reaction and identify at once. 0 = off.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareKA">
+            <English>Shared knowledge</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareKA_desc">
+            <English>How much receiving groups learn about the position (0-4) on a full share.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareMode">
+            <English>On identification, nearby groups...</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareMode_desc">
+            <English>What friendly groups around learn when a group identifies someone.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareMode_opt0">
+            <English>Learn nothing</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareMode_opt0_desc">
+            <English>Every group finds out on its own.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareMode_opt1">
+            <English>Start searching</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareMode_opt1_desc">
+            <English>They become SEARCHING with the shared suspicion.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareMode_opt2">
+            <English>Identify too</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareMode_opt2_desc">
+            <English>They identify the unit at once.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareNeedsRadio">
+            <English>Sharing needs a radio</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareNeedsRadio_desc">
+            <English>The identifying group needs a soldier with a radio to share.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareRadius">
+            <English>Share radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareRadius_desc">
+            <English>Friendly groups within this distance of any member of the identifying group get the information.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareSuspicion">
+            <English>Shared suspicion (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_shareSuspicion_desc">
+            <English>Starting suspicion for groups that start searching.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_showZoneMarkers">
+            <English>Show zone markers</English>
+        </Key>
+        <Key ID="STR_root_ads_main_showZoneMarkers_desc">
+            <English>Creates map markers for detection zones (visible to everyone).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_skillInfluence">
+            <English>AI skill influence</English>
+        </Key>
+        <Key ID="STR_root_ads_main_skillInfluence_desc">
+            <English>How much the AI's spotting skills change suspicion speed.\n0 = skill does not matter. 1 = a skilled spotter is up to twice as fast, a poor one much slower.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_speedingMult">
+            <English>Speeding multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_speedingMult_desc">
+            <English>Suspicion speed while speeding near a group. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_speedingSpeed">
+            <English>Speeding near AI (km/h)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_speedingSpeed_desc">
+            <English>Driving faster than this within 100 m of a group is suspicious.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stationaryMult">
+            <English>Loitering maximum multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stationaryMult_desc">
+            <English>How much faster suspicion builds when parked near a group for the full ramp time. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stationaryTime">
+            <English>Loitering ramp time (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stationaryTime_desc">
+            <English>How long you must stay parked near a group before the loitering penalty is at its maximum.\nLower = parking near the enemy becomes suspicious sooner.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusAction">
+            <English>ACE self-action: cover status</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusAction_desc">
+            <English>Adds 'Check cover status' to the ACE self-interaction menu while in a vehicle. Per player.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusActive">
+            <English>active</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusAttention">
+            <English>Attention: %1</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusBurned">
+            <English>Vehicle known to: %1</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusCalm">
+            <English>calm</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusClose">
+            <English>close to identified</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusCover">
+            <English>Cover: %1</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusHeat">
+            <English>Heat: %1 s</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusIdentified">
+            <English>Identified by %1 group(s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusNone">
+            <English>none</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusNoticed">
+            <English>noticed</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusPursued">
+            <English>Pursued by %1 group(s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusSuspicious">
+            <English>suspicious</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusTitle">
+            <English>RADS: %1</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusTruce">
+            <English>Truce: %1</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusTruceLeft">
+            <English>%1 s left</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusTruceUnlimited">
+            <English>no time limit</English>
+        </Key>
+        <Key ID="STR_root_ads_main_statusWanted">
+            <English>Wanted by: %1</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopSignalHorn">
+            <English>Stop signal: horn</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopSignalHorn_desc">
+            <English>Pursuing vehicles honk to make you stop.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopSignalLights">
+            <English>Stop signal: flashing lights</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopSignalLights_desc">
+            <English>Pursuing vehicles flash their headlights to make you stop.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopTimeout">
+            <English>Time to stop (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopTimeout_desc">
+            <English>Not stopping within this long after the signal counts as refusing: they radio an alert.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_suspiciousThreshold">
+            <English>Suspicious at (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_suspiciousThreshold_desc">
+            <English>At this suspicion the group becomes SUSPICIOUS: it may go alert, watch you, and you get a warning hint.\nLower = they react to you earlier.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapBaseSuspicion">
+            <English>Suspicion after switching (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapBaseSuspicion_desc">
+            <English>Starting suspicion after the first switch.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapForgive">
+            <English>Fresh vehicle after being identified</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapForgive_desc">
+            <English>An identified unit that switches to another vehicle unseen is only suspected again, not identified.\nThe old vehicle stays known.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapMemory">
+            <English>Switch memory (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapMemory_desc">
+            <English>How long a group remembers earlier switches.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapMinUnseen">
+            <English>Unseen before switching (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapMinUnseen_desc">
+            <English>The group must not have seen you for this long (and must not see you now) when you switch.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapPenalty">
+            <English>Repeat switch penalty (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_swapPenalty_desc">
+            <English>Extra starting suspicion for every earlier switch. Once it reaches 'Identified at', switching no longer works.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncCanIdentify">
+            <English>Synced suspicion can identify</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncCanIdentify_desc">
+            <English>Off = synced suspicion stops just below 'Identified at', the receivers still need their own look.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncDelay">
+            <English>Sync delay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncDelay_desc">
+            <English>Time for the information to pass (radio, shouting). Killing the senders first stops it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncEnabled">
+            <English>Sync suspicion between groups</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncEnabled_desc">
+            <English>While suspicion builds, nearby friendly groups get the same level after the sync delay.\nExample: the guards at a checkpoint's exit are as wary as the ones who watched you arrive.\nChanging vehicle, uniform, vest, helmet or weapon in between shakes it off.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncFactor">
+            <English>Synced share</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncFactor_desc">
+            <English>Share of the sender's suspicion the receivers take. 1 = the same level. 0.5 = half.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncInterval">
+            <English>Sync every (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncInterval_desc">
+            <English>How often a group passes on rising suspicion. Lower = closer to real time, more network traffic.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncMin">
+            <English>Sync from (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncMin_desc">
+            <English>Suspicion below this is not passed on.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncNeedsRadio">
+            <English>Sync needs a radio</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncNeedsRadio_desc">
+            <English>The sending group needs a soldier with a radio.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncRadius">
+            <English>Sync radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncRadius_desc">
+            <English>Groups within this distance of any member of the sending group receive it. -1 = use 'Share radius'.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncRespectSig">
+            <English>Changing looks shakes it off</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncRespectSig_desc">
+            <English>Synced suspicion only sticks while you still have the same vehicle and kit the sender saw.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge">
+            <English>Age knowledge after losing contact</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAgeDelay">
+            <English>Age knowledge after (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAgeDelay_desc">
+            <English>Time without contact before the knowledge is aged.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_desc">
+            <English>Optionally ages what EVERY side knows about an identified unit after it breaks contact (setTargetAge).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_opt0">
+            <English>Disabled</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_opt1">
+            <English>Actual</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_opt2">
+            <English>5 min</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_opt3">
+            <English>10 min</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_opt4">
+            <English>15 min</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_opt5">
+            <English>30 min</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_opt6">
+            <English>60 min</English>
+        </Key>
+        <Key ID="STR_root_ads_main_targetAge_opt7">
+            <English>Unknown</English>
+        </Key>
+        <Key ID="STR_root_ads_main_theftEnabled">
+            <English>Stolen vehicles are known</English>
+        </Key>
+        <Key ID="STR_root_ads_main_theftEnabled_desc">
+            <English>Taking a vehicle last used by an AI group makes it known to that side if the owners are near or see it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_theftRadius">
+            <English>Theft witness radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_theftRadius_desc">
+            <English>Owners within this distance always notice the theft.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_tickInterval">
+            <English>Check every (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_tickInterval_desc">
+            <English>How often each enemy group re-checks every undercover player.\nLower = reacts faster but costs more CPU. Higher = cheaper but jumpier.\nExample: 1 = once per second (recommended).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceAimTime">
+            <English>Aiming time (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceAimTime_desc">
+            <English>How long aiming at an AI soldier is tolerated.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakOnAim">
+            <English>Aiming at AI breaks the truce</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakOnAim_desc">
+            <English>Pointing a weapon at an AI soldier for the time below breaks the truce.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakRadius">
+            <English>Break reaction radius (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakRadius_desc">
+            <English>Besides the groups inside the zone, groups within this distance of the offender (or seeing them) react.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakScope">
+            <English>Who loses the truce</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakScope_desc">
+            <English>When one player breaks the truce (shooting, hurting or ramming AI, overstaying)...</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakScope_opt0">
+            <English>Only the offender</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakScope_opt0_desc">
+            <English>Everyone else keeps the truce.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakScope_opt1">
+            <English>The offender's group</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakScope_opt1_desc">
+            <English>The offender's whole player group loses it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakScope_opt2">
+            <English>Everyone in the zone</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBreakScope_opt2_desc">
+            <English>All players in that zone lose it.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBroken">
+            <English>Truce broken!</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBulletin">
+            <English>Breaking the truce triggers a bulletin</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceBulletin_desc">
+            <English>Groups reacting to a broken truce roll for a radio bulletin (see 'Radio Bulletins').</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceCareless">
+            <English>AI relax inside safe zones</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceCareless_desc">
+            <English>AI groups standing in a safe zone are CARELESS and hold fire until the truce is broken.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceCooldown">
+            <English>Truce cooldown (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceCooldown_desc">
+            <English>After a break, the players who lost the truce cannot get it back for this long, even by leaving and re-entering.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceEnabled">
+            <English>Safe zones hold a truce</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceEnabled_desc">
+            <English>Inside a Safe haven zone the AI do not attack players of the zone's sides, not even on foot or\nonce identified, as long as the players behave. Made for roleplay areas (Zeus playing the locals).\nOff = safe zones only stop suspicion from building.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceEntered">
+            <English>Safe zone: truce</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceExitGrace">
+            <English>Exit grace (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceExitGrace_desc">
+            <English>The truce lasts this long after leaving the zone, so the AI do not open fire at the border.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceLeft">
+            <English>You left the safe zone: truce over.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceMaxStay">
+            <English>Allowed stay (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceMaxStay_desc">
+            <English>How long players may stay in a safe zone before the truce ends. 0 = no limit.\nEach zone can set its own value in the Zone module.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceNoLimit">
+            <English>The AI will not attack you while you stay peaceful.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceStayFor">
+            <English>The AI will not attack you while you stay peaceful. You may stay %1 s.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceWarn">
+            <English>Warning before the end (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceWarn_desc">
+            <English>Players get a warning this long before their allowed stay runs out.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_truceWarning">
+            <English>Safe zone: leave within %1 s or the truce ends.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_undercover">
+            <English>Undercover</English>
+        </Key>
+        <Key ID="STR_root_ads_main_uniformCivMult">
+            <English>Civilian clothes</English>
+        </Key>
+        <Key ID="STR_root_ads_main_uniformCivMult_desc">
+            <English>Suspicion speed wearing civilian clothes. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_uniformHostileMult">
+            <English>Enemy military uniform</English>
+        </Key>
+        <Key ID="STR_root_ads_main_uniformHostileMult_desc">
+            <English>Suspicion speed wearing a military uniform of a side they are at war with (your own fatigues). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_uniformObserverMult">
+            <English>Their side's uniform</English>
+        </Key>
+        <Key ID="STR_root_ads_main_uniformObserverMult_desc">
+            <English>Suspicion speed wearing a uniform of the watching side or its allies. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehBlacklist">
+            <English>Never-disguise vehicles</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehBlacklist_desc">
+            <English>Comma-separated vehicle classes that never disguise anyone.\nExample: B_MRAP_01_F (the Hunter is too obviously NATO).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehClassMults">
+            <English>Per-class multipliers</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehClassMults_desc">
+            <English>Comma-separated class:multiplier pairs that replace the faction multipliers. First match wins, child classes included.\nExample: O_MRAP_02_F:0.4,B_MRAP_01_F:5</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehWhitelist">
+            <English>Always-disguise vehicles</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehWhitelist_desc">
+            <English>Comma-separated vehicle classes that always disguise, whatever their side.\nExample: C_Van_01_transport_F</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehicleAttackedBlows">
+            <English>AI shooting your vehicle = identified</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vehicleAttackedBlows_desc">
+            <English>If enemy AI shoot a covered vehicle anyway (it looked dangerous), they identify its occupants.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vestMult">
+            <English>Armored vest</English>
+        </Key>
+        <Key ID="STR_root_ads_main_vestMult_desc">
+            <English>Suspicion speed wearing an armored vest. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_wantedDuration">
+            <English>Wanted duration (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_wantedDuration_desc">
+            <English>How long the wanted status lasts.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_wantedMult">
+            <English>Wanted multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_wantedMult_desc">
+            <English>Suspicion speed against wanted units. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_watchedText">
+            <English>%1 is suspicious of you.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_watchedTitle">
+            <English>You are being watched</English>
+        </Key>
+        <Key ID="STR_root_ads_main_weaponVisibleMult">
+            <English>Visible weapon</English>
+        </Key>
+        <Key ID="STR_root_ads_main_weaponVisibleMult_desc">
+            <English>Suspicion speed when a rifle or launcher can be seen (turned out, firing seat, open vehicle). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_witnessKA">
+            <English>Witness knowledge</English>
+        </Key>
+        <Key ID="STR_root_ads_main_witnessKA_desc">
+            <English>A group that knows you this well (0-4, the engine's knowsAbout) and saw you just before you got in\nkeeps full knowledge: getting into a car in front of them does not fool them.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_witnessWindow">
+            <English>Witness window (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_witnessWindow_desc">
+            <English>A group that saw you within this many seconds before you got in counts as a witness.</English>
+        </Key>
+    </Package>
+</Project>

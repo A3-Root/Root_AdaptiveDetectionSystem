@@ -27,13 +27,13 @@ if (!isNull _unit) exitWith {
     hint parseText ([_unit, true] call MFUNC(coverStatusText));
 };
 
-private _lines = ["<t size='1.2'>RADS - covered players</t>"];
+private _lines = [format ["<t size='1.2'>%1</t>", LLSTRING(inspectTitle)]];
 {
     if (_x getVariable [QMVAR(cover), false]) then {
         ([_x] call API(getStatus)) params ["", "_heat", "_wanted", "_max", "_identified"];
-        _lines pushBack format ["%1: max %2, identified by %3%4", name _x, _max, _identified, ["", " (wanted)"] select (_wanted isNotEqualTo [])];
+        _lines pushBack format [LLSTRING(inspectLine), name _x, _max, _identified, ["", " " + LLSTRING(inspectWanted)] select (_wanted isNotEqualTo [])];
     };
 } forEach (allPlayers - entities "HeadlessClient_F");
-if (count _lines == 1) then { _lines pushBack "Nobody is undercover."; };
-if !(["debugPublish"] call FUNC(settingValue)) then { _lines pushBack "<t size='0.8'>Values refresh on state changes (enable 'Publish suspicion' for live values).</t>"; };
+if (count _lines == 1) then { _lines pushBack LLSTRING(inspectNobody); };
+if !(["debugPublish"] call FUNC(settingValue)) then { _lines pushBack format ["<t size='0.8'>%1</t>", LLSTRING(inspectNote)]; };
 hint parseText (_lines joinString "<br/>");

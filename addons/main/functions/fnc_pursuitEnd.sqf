@@ -1,0 +1,66 @@
+#include "..\script_component.hpp"
+/*
+ * Author: Root
+ * Ends a pursuit: removes the pursuit waypoint (the group resumes its own route), remounts
+ * dismounted inspectors, restores behaviour, speed and LAMBS. With "combat" the group stays in
+ * COMBAT and, with LAMBS loaded and enabled, hunts the target.
+ *
+ * Arguments:
+ * 0: Group <GROUP>
+ * 1: Reason <STRING>
+ * 2: Combat (target identified or fled) <BOOL> (default: false)
+ *
+ * Return Value:
+ * None
+ *
+ * Public: No
+ */
+
+params ["_grp", ["_reason", ""], ["_combat", false]];
+
+private _pursuit = _grp getVariable QGVAR(pursuit);
+if (isNil "_pursuit") exitWith {};
+
+private _pfh = _pursuit getOrDefault ["pfh", -1];
+if (_pfh >= 0) then { [_pfh] call CBA_fnc_removePerFrameHandler; };
+[_grp, false] call FUNC(pursuitSignal);
+[_grp, "remove"] call FUNC(pursuitWaypoint);
+
+// back in the vehicle (fighting dismounts stay out)
+private _inspectors = (_pursuit get "inspectors") select {alive _x};
+if (_inspectors isNotEqualTo []) then {
+    { _x doWatch objNull; _x lookAt objNull; } forEach _inspectors;
+    if (!_combat && {_pursuit get "mounted"}) then {
+        _inspectors allowGetIn true;
+        _inspectors orderGetIn true;
+    } else {
+        _inspectors allowGetIn true;
+    };
+};
+(units _grp) doFollow (leader _grp);
+
+if (_combat) then {
+    _grp setBehaviour "COMBAT";
+} else {
+    _grp setBehaviour (_pursuit get "savedBehaviour");
+};
+_grp setSpeedMode (_pursuit get "savedSpeed");
+
+if ("lambs" in _pursuit) then { _grp setVariable ["lambs_danger_disableGroupAI", _pursuit get "lambs", true]; };
+
+_grp setVariable [QGVAR(pursuit), nil];
+_grp setVariable [QGVAR(pursuitTarget), objNull, true];
+_grp setVariable [QGVAR(nextPursuit), time + 20];
+
+private _unit = _pursuit get "target";
+if (_combat && {MSET(lambsHuntOnCompromise)} && {!isNil "lambs_wp_fnc_taskRush"} && {alive _unit}) then {
+    if (_pursuit get "mounted") then {
+        [_grp, 1000] spawn lambs_wp_fnc_taskHunt;
+    } else {
+        [_grp, 500] spawn lambs_wp_fnc_taskRush;
+    };
+    if (RADS_DEBUG) then { ["PURSUIT", format ["%1 handed to LAMBS %2", groupId _grp, ["taskRush", "taskHunt"] select (_pursuit get "mounted")], _grp, _unit] call FUNC(debugLog); };
+};
+
+if (RADS_DEBUG) then { ["PURSUIT", format ["%1 ends its pursuit of %2 after %3 s in phase %4: %5 (combat=%6)", groupId _grp, name _unit, round (time - (_pursuit get "start")), _pursuit get "phase", _reason, _combat], _grp, _unit] call FUNC(debugLog); };
+[QGVAR(message), [format ["RADS: %1 stops pursuing %2 - %3", groupId _grp, name _unit, _reason]]] call CBA_fnc_globalEvent;

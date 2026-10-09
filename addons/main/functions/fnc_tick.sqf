@@ -34,10 +34,16 @@ if (GVAR(queue) isEqualTo [] && {(time - GVAR(cycleStart)) >= MSET(tickInterval)
         if (alive _x && {_x getVariable [QGVAR(cover), false]}) then { _covered pushBackUnique _x; };
     } forEach (missionNamespace getVariable [QGVAR(extraUnits), []]);
     GVAR(covered) = _covered;
+    [_covered] call FUNC(updateConvoys);
+
+    // Players protected by a safe zone truce (on foot too)
+    GVAR(truceUnits) = _players select {alive _x && {(_x getVariable [QGVAR(truce), []]) isNotEqualTo []}};
 
     private _queue = allGroups select {local _x && {(side _x) in [west, east, independent]}};
     // nothing covered: only groups holding state still need work (release / forget)
-    if (_covered isEqualTo []) then { _queue = _queue select {!isNil {_x getVariable QGVAR(data)}}; };
+    if (_covered isEqualTo [] && {GVAR(truceUnits) isEqualTo []}) then {
+        _queue = _queue select {!isNil {_x getVariable QGVAR(data)} || {!isNil {_x getVariable QGVAR(truceSaved)}} || {(_x getVariable [QGVAR(ignoredTruce), []]) isNotEqualTo []}};
+    };
     GVAR(queue) = _queue;
 };
 

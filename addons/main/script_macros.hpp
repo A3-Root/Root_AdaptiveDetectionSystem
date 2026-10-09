@@ -41,14 +41,18 @@
 #define D_SWAPTIME 14
 #define D_COMPVEH 15
 #define D_HISTORY 16
-#define NEW_ENTRY(unit) [unit, 0, ST_UNAWARE, -1000, time, 0, false, 0, false, false, -1000, vehicle unit, false, 0, -1e6, objNull, []]
+#define D_META 17
+#define D_SIG 18
+#define D_SYNCSENT 19
+#define D_CLEARED 20
+#define NEW_ENTRY(unit) [unit, 0, ST_UNAWARE, -1000, time, 0, false, 0, false, false, -1000, vehicle unit, false, 0, -1e6, objNull, [], 0, "", 0, -1]
 
 #define ST_UNAWARE 0
 #define ST_SUSPICIOUS 1
 #define ST_SEARCHING 2
 #define ST_COMPROMISED 3
 
-// Zone layout: [id, area, mode, buildMul, decayMul, sides, start, end, hourFrom, hourTo, label, marker]
+// Zone layout: [id, area, mode, buildMul, decayMul, sides, start, end, hourFrom, hourTo, label, marker, truce]
 #define Z_ID 0
 #define Z_AREA 1
 #define Z_MODE 2
@@ -61,12 +65,24 @@
 #define Z_HTO 9
 #define Z_LABEL 10
 #define Z_MARKER 11
+#define Z_TRUCE 12
+
+// Truce options of a safe zone: [enabled, maxStay, warnBefore, careless, breakScope, breakOnAim]
+#define T_ENABLED 0
+#define T_MAXSTAY 1
+#define T_WARN 2
+#define T_CARELESS 3
+#define T_SCOPE 4
+#define T_AIM 5
 
 #define ZONE_MULTIPLIER 0
 #define ZONE_NOCOVER 1
 #define ZONE_SAFE 2
 
 #define STATE_NAMES ["UNAWARE", "SUSPICIOUS", "SEARCHING", "COMPROMISED"]
+
+// Gear slots compared against the enemy reference kit
+#define GEAR_SLOTS ["uniform", "vest", "headgear", "primary", "launcher", "backpack", "facewear"]
 
 #define RADS_DEBUG (MSET(debugLog))
 #define RLOG(msg) if (RADS_DEBUG) then { diag_log text format ["[RADS] %1", msg] }

@@ -1,13 +1,14 @@
 #include "..\script_component.hpp"
 /*
  * Author: Root
- * Optional visible AI reactions while suspicious/searching (AWARE, watch, investigate), and
- * their restoration once the group calms down. All off by default.
+ * Optional AI reactions while a group is suspicious or searching: go AWARE, watch the vehicle,
+ * and once suspicion reaches the follow threshold (or the group is searching) chase or
+ * interdict it (pursuit). Undone when the group calms down.
  *
  * Arguments:
  * 0: Group (local) <GROUP>
  * 1: Entry <ARRAY>
- * 2: Active <BOOL>
+ * 2: Suspicious or searching <BOOL>
  *
  * Return Value:
  * None
@@ -18,10 +19,11 @@
 params ["_grp", "_entry", "_active"];
 
 if (_active) then {
-    private _veh = vehicle (_entry select D_UNIT);
+    private _unit = _entry select D_UNIT;
+    private _veh = vehicle _unit;
     private _leader = leader _grp;
 
-    if (MSET(aiAware) && {behaviour _leader in ["SAFE", "CARELESS"]}) then {
+    if (MSET(aiAware) && {behaviour _leader in ["SAFE", "CARELESS"]} && {isNil {_grp getVariable QGVAR(truceSaved)}}) then {
         if (isNil {_grp getVariable QGVAR(savedBehaviour)}) then { _grp setVariable [QGVAR(savedBehaviour), behaviour _leader]; };
         _grp setBehaviour "AWARE";
     };
@@ -31,14 +33,18 @@ if (_active) then {
         _grp setVariable [QGVAR(watching), true];
     };
 
-    if (MSET(aiInvestigate)
-        && {(_entry select D_SUSP) >= MSET(aiInvestigateMin)}
-        && {(_leader distance _veh) <= MSET(aiInvestigateRange)}
-        && {time > (_grp getVariable [QGVAR(nextInvestigate), 0])}
+    // Follow / chase / stop the vehicle once suspicion is high enough or the group is searching
+    private _threshold = _grp getVariable [QGVAR(followThreshold), -1];
+    if (_threshold < 0) then { _threshold = MSET(followThreshold); };
+    if (MSET(pursuitEnabled)
+        && {MSET(followEnabled)}
+        && {(_entry select D_STATE) == ST_SEARCHING || {(_entry select D_SUSP) >= _threshold}}
+        && {isNil {_grp getVariable QGVAR(pursuit)}}
+        && {time >= (_entry select D_CLEARED)}
+        && {time >= (_grp getVariable [QGVAR(nextPursuit), 0])}
     ) then {
-        _grp setVariable [QGVAR(nextInvestigate), time + 20];
-        _grp setVariable [QGVAR(investigating), true];
-        _leader doMove (getPosATL _veh);
+        _grp setVariable [QGVAR(nextPursuit), time + 10];
+        [_grp, _unit] call FUNC(pursuitStart);
     };
 
     _entry set [D_HOOKS, true];
@@ -55,11 +61,10 @@ if (_active) then {
             { _x doWatch objNull; } forEach (units _grp);
             _grp setVariable [QGVAR(watching), nil];
         };
-        if (_grp getVariable [QGVAR(investigating), false]) then {
-            // hand the group back to its waypoints
-            (units _grp) doFollow (leader _grp);
-            _grp setCurrentWaypoint [_grp, currentWaypoint _grp];
-            _grp setVariable [QGVAR(investigating), nil];
+        private _looker = _grp getVariable [QGVAR(looker), objNull];
+        if (!isNull _looker) then {
+            _looker lookAt objNull;
+            _grp setVariable [QGVAR(looker), nil];
         };
     };
 };

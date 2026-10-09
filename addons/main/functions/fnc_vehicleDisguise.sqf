@@ -33,6 +33,13 @@ if (([MSET(vehBlacklist)] call FUNC(parseList)) findIf {_veh isKindOf _x} > -1) 
 
 private _vehSide = [_veh] call FUNC(vehicleSide);
 if (_vehSide == civilian) exitWith { [0, 1] select MSET(allowCivVeh) };
-if (_vehSide != sideUnknown && {(_side getFriend _vehSide) >= 0.6}) exitWith { [0, 1] select MSET(allowFriendlyVeh) };
+if (_vehSide == sideUnknown) exitWith {0};
+if ((_side getFriend _vehSide) >= 0.6) exitWith { [0, 1] select MSET(allowFriendlyVeh) };
 
-0
+// An enemy-side vehicle may still pass, but it looks far more suspicious (see vehicleLookMult).
+// 0 never, 1 unarmed vehicles only, 2 any vehicle
+switch (MSET(allowHostileVeh)) do {
+    case 2: {1};
+    case 1: { [1, 0] select ([_veh] call FUNC(isArmedVehicle)) };
+    default {0};
+}

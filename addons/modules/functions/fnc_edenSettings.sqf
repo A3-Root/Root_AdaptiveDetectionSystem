@@ -1,7 +1,9 @@
 #include "..\script_component.hpp"
 /*
  * Author: Root
- * 3DEN: mission-level setting overrides (-1 / Keep leaves the CBA value).
+ * 3DEN: mission-level setting overrides (Detection Settings / Pursuit, Sync & Truce Settings).
+ * Every attribute is named ROOT_ADS_S_<setting>; "Keep setting" (-1, or -9999 for settings that
+ * accept -1 themselves) leaves the CBA value alone.
  *
  * Arguments:
  * 0: Module logic <OBJECT>
@@ -18,17 +20,29 @@ params ["_logic", ["_units", []], ["_activated", true]];
 
 if (!isServer || {!_activated}) exitWith {};
 
-private _numbers = ["buildRate", "decayRate", "suspiciousThreshold", "identifyThreshold", "maxRange", "identifyRange", "instantRange", "forgetAfter", "memoryTime", "heatDuration", "firedRadius", "shareMode", "shareRadius", "bulletinChance", "bulletinRange", "burnDuration", "wantedDuration"];
-private _booleans = ["enabled", "bulletinEnabled", "informantsEnabled", "theftEnabled", "aiAware", "aiWatch", "aiInvestigate"];
-
+private _meta = missionNamespace getVariable [QMVAR(settingMeta), createHashMap];
 private _pairs = [];
 {
-    private _value = _logic getVariable ["ROOT_ADS_S_" + _x, -1];
-    if (_value >= 0) then { _pairs pushBack [_x, _value]; };
-} forEach _numbers;
-{
-    private _value = _logic getVariable ["ROOT_ADS_S_" + _x, -1];
-    if (_value >= 0) then { _pairs pushBack [_x, _value == 1]; };
-} forEach _booleans;
+    private _name = _x;
+    private _info = _y;
+    private _value = _logic getVariable ["ROOT_ADS_S_" + _name, "unset"];
+    if (_value isEqualType 0) then {
+        switch (_info select 0) do {
+            case "CHECKBOX": { if (_value >= 0) then { _pairs pushBack [_name, _value == 1]; }; };
+            case "SLIDER": {
+                private _keep = [-1, -9999] select ((_info select 1) < 0);
+                if (_value != _keep) then {
+                    _value = (_value max (_info select 1)) min (_info select 2);
+                    if ((_info select 3) == 0 && {!(_info select 4)}) then { _value = round _value; };
+                    _pairs pushBack [_name, _value];
+                };
+            };
+            case "LIST": { if (_value >= 0 && {_value in (_info select 1)}) then { _pairs pushBack [_name, _value]; }; };
+        };
+    };
+} forEach _meta;
 
-if (_pairs isNotEqualTo []) then { [_pairs] call API(setOverride); };
+if (_pairs isNotEqualTo []) then {
+    [_pairs] call API(setOverride);
+    if (RADS_DEBUG) then { diag_log text format ["[RADS] 3DEN %1 applied %2 overrides: %3", typeOf _logic, count _pairs, _pairs]; };
+};

@@ -18,7 +18,7 @@
 params ["_grp", "_unit", "_reason", "_side"];
 
 if (_unit == player && GVAR(notifyCompromised) && MSET(allowWatchedHints)) then {
-    hint parseText format ["<t color='#ff4444' size='1.2'>Identified!</t><br/>%1 has identified you.", groupId _grp];
+    hint parseText format ["<t color='#ff4444' size='1.2'>%1</t><br/>%2", localize LSTRING(identifiedTitle), format [localize LSTRING(identifiedText), groupId _grp]];
 };
 
 if (GVAR(notifyZeus) && {!isNull getAssignedCuratorLogic player} && {!isNil "zen_common_fnc_showMessage"}) then {

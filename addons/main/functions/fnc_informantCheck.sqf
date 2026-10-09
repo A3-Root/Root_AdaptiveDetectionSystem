@@ -26,11 +26,12 @@ private _chance = MSET(informantChance);
     if (local _grp
         && {side _grp == civilian}
         && {!isPlayer (leader _grp)}
-        && {((leader _grp) distance _pos) <= _range}
+        && {[_grp, _pos, _range] call FUNC(groupInRange)}
         && {[_grp, _unit, _range] call FUNC(groupSees)}
         && {random 1 < _chance}
     ) then {
-        RLOG_2("civilian %1 will inform on %2",leader _grp,_unit);
+        private _witness = ([_grp, _pos] call FUNC(groupNearest)) select 0;
+        RLOG_2("civilian %1 will inform on %2",_witness,_unit);
         [{
             params ["_civ", "_unit", "_type"];
             if (!([_civ] call FUNC(isAwake)) || {isNull _unit}) exitWith {};
@@ -40,6 +41,6 @@ private _chance = MSET(informantChance);
                     [QGVAR(bulletin), [_x, getPosATL _civ, MSET(bulletinRange), _unit, [objNull, _veh] select (_veh != _unit), "informant: " + _type, grpNull]] call CBA_fnc_globalEvent;
                 };
             } forEach [west, east, independent];
-        }, [leader _grp, _unit, _type], MSET(informantDelay)] call CBA_fnc_waitAndExecute;
+        }, [_witness, _unit, _type], MSET(informantDelay)] call CBA_fnc_waitAndExecute;
     };
 } forEach allGroups;

@@ -20,22 +20,22 @@ deleteVehicle _logic;
 
 private _zones = missionNamespace getVariable [QMVAR(zones), []];
 if (_zones isEqualTo []) exitWith {
-    ["No RADS zones exist"] call zen_common_fnc_showMessage;
+    [LLSTRING(noZones)] call zen_common_fnc_showMessage;
     playSound "FD_Start_F";
 };
 
 private _values = ["__near", "__all"];
-private _labels = ["Zones near this position", "All zones"];
+private _labels = [LLSTRING(removeNear), LLSTRING(removeAll)];
 {
     _values pushBack (_x select Z_ID);
-    _labels pushBack format ["%1 (%2, %3 m away)", [_x select Z_ID, _x select Z_LABEL] select ((_x select Z_LABEL) != ""), ["multiplier", "no cover", "safe haven"] select (_x select Z_MODE), round (_pos distance2D ((_x select Z_AREA) select 0))];
+    _labels pushBack format [LLSTRING(zoneEntry), [_x select Z_ID, _x select Z_LABEL] select ((_x select Z_LABEL) != ""), [LLSTRING(zoneMult), LLSTRING(zoneNoCover), LLSTRING(zoneSafe)] select (_x select Z_MODE), round (_pos distance2D ((_x select Z_AREA) select 0))];
 } forEach _zones;
 
 [
-    "RADS - Remove Detection Zones",
+    LLSTRING(removeTitle),
     [
-        ["COMBO", ["Remove", ""], [_values, _labels, 0]],
-        ["SLIDER:RADIUS", ["Near radius (m)", "Zones whose centre is within this radius (first option)."], [10, 5000, 200, 0, _pos, [1, 0, 0, 0.7]]]
+        ["COMBO", [LLSTRING(remove), ""], [_values, _labels, 0]],
+        ["SLIDER:RADIUS", [LLSTRING(removeRadius), LLSTRING(removeRadius_desc)], [10, 5000, 200, 0, _pos, [1, 0, 0, 0.7]]]
     ],
     {
         params ["_results", "_pos"];
@@ -49,7 +49,7 @@ private _labels = ["Zones near this position", "All zones"];
             };
             default { [_choice] call API(removeZone); };
         };
-        ["RADS zones removed"] call zen_common_fnc_showMessage;
+        [LLSTRING(zonesRemoved)] call zen_common_fnc_showMessage;
     },
     {},
     _pos

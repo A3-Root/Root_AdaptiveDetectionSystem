@@ -9,6 +9,10 @@ GVAR(coverConditions) = [];
 GVAR(queue) = [];
 GVAR(cycleStart) = -1;
 GVAR(covered) = [];
+GVAR(truceUnits) = [];
+GVAR(convoys) = createHashMap;
+GVAR(convoyPairs) = createHashMap;
+GVAR(truceRevoked) = createHashMap;
 
 if (isNil QGVAR(zones)) then { GVAR(zones) = []; };
 

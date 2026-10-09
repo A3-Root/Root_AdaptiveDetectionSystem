@@ -34,7 +34,7 @@ private _fnc_known = {
     };
 };
 
-private _lastSeen = ((leader _grp) targetKnowledge _unit) param [2, -1e10];
+private _lastSeen = [_grp, _unit] call FUNC(groupLastSeen);
 private _unseen = time - (_lastSeen max (_entry select D_LASTEXP));
 if (RADS_DEBUG) then { ["SWAP", format ["identified in %1, now in %2: unseen=%3s (need %4s) seesNow=%5 previousSwaps=%6", typeOf (_entry select D_COMPVEH), typeOf _veh, _unseen toFixed 1, MSET(swapMinUnseen), [_grp, _unit] call FUNC(groupSees), _entry select D_SWAPS], _grp, _unit] call FUNC(debugLog); };
 // Seen in the new vehicle: they watched the swap, the new vehicle is now the known one
@@ -70,7 +70,7 @@ _entry set [D_AGED, false];
 _entry set [D_COMPVEH, objNull];
 
 // Fool the group in the new vehicle right away (unless it is burned or does not fool this side)
-if (([_veh, side _grp, getPosATL (leader _grp)] call FUNC(vehicleDisguise)) == 1 && {!(_grp getVariable [QGVAR(immune), false])}) then {
+if (([_veh, side _grp, getPosATL (([_grp, _veh] call FUNC(groupNearest)) select 0)] call FUNC(vehicleDisguise)) == 1 && {!(_grp getVariable [QGVAR(immune), false])}) then {
     [_grp, _entry, true, "fooled by an unseen vehicle swap"] call FUNC(setIgnored);
     private _ignoredVehs = _grp getVariable [QGVAR(ignoredVehs), []];
     if !(_veh in _ignoredVehs) then {

@@ -21,20 +21,20 @@ private _pos = getPosATL _logic;
 deleteVehicle _logic;
 
 if (isNull _target) exitWith {
-    ["Place the module on a unit or vehicle"] call zen_common_fnc_showMessage;
+    [LLSTRING(msgPlaceUnit)] call zen_common_fnc_showMessage;
     playSound "FD_Start_F";
 };
 
 [
-    "RADS - Radio Bulletin",
+    LLSTRING(bulletinTitle),
     [
-        ["COMBO", ["Action", ""], [[0, 1], ["Broadcast", "Clear burned/wanted"], 0]],
-        ["SIDES", ["Receiving sides", "Sides that hear the bulletin (or that are cleared). None = all."], [east]],
-        ["CHECKBOX", ["Burn vehicle", "The vehicle is recognised on sight."], true],
-        ["CHECKBOX", ["Mark crew wanted", "Covered units build suspicion faster in any vehicle."], true],
-        ["CHECKBOX", ["Alert the area", "Groups near this position start searching."], true],
-        ["SLIDER", ["Duration (s)", "0 = settings."], [0, 7200, 0, 0]],
-        ["SLIDER:RADIUS", ["Range (m)", "Only groups within this distance know. 0 = side-wide."], [0, 30000, 0, 0, _pos, [1, 0.5, 0, 0.7]]]
+        ["COMBO", [LLSTRING(action), ""], [[0, 1], [LLSTRING(broadcast), LLSTRING(clearStatus)], 0]],
+        ["SIDES", [LLSTRING(receivingSides), LLSTRING(receivingSides_desc)], [east]],
+        ["CHECKBOX", [LLSTRING(burnVehicle), LLSTRING(burnVehicle_desc)], true],
+        ["CHECKBOX", [LLSTRING(markWanted), LLSTRING(markWanted_desc)], true],
+        ["CHECKBOX", [LLSTRING(alertArea), LLSTRING(alertArea_desc)], true],
+        ["SLIDER", [LLSTRING(durationS), LLSTRING(bulletinDuration_desc)], [0, 7200, 0, 0]],
+        ["SLIDER:RADIUS", [LLSTRING(range), LLSTRING(bulletinRange_desc)], [0, 30000, 0, 0, _pos, [1, 0.5, 0, 0.7]]]
     ],
     {
         params ["_results", "_args"];
@@ -47,7 +47,7 @@ if (isNull _target) exitWith {
         if (_action == 1) exitWith {
             [_target, _sides, true] call API(clearBulletins);
             { [_x, _sides, false] call API(clearBulletins); } forEach _units;
-            ["RADS status cleared"] call zen_common_fnc_showMessage;
+            [LLSTRING(bulletinCleared)] call zen_common_fnc_showMessage;
         };
 
         private _time = [-1, _duration] select (_duration > 0);
@@ -60,7 +60,7 @@ if (isNull _target) exitWith {
                 { [QMVAR(bulletin), [_side, _pos, _range, _x, objNull, "areaOnly", grpNull]] call CBA_fnc_globalEvent; } forEach _units;
             };
         } forEach _sides;
-        ["RADS bulletin broadcast"] call zen_common_fnc_showMessage;
+        [LLSTRING(bulletinSent)] call zen_common_fnc_showMessage;
     },
     {},
     [_target, _pos]

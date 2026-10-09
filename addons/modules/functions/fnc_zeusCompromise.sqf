@@ -20,16 +20,16 @@ private _pos = getPosATL _logic;
 deleteVehicle _logic;
 
 private _controls = [
-    ["COMBO", ["Action", ""], [[0, 1, 2], ["Compromise (hostile AI identify them)", "Restore cover (hostile AI forget them)", "Restore cover + clear burned/wanted"], 0]],
-    ["SIDES", ["Observer sides", "Compromise only: sides that identify. None = all hostile."], []],
-    ["SLIDER:RADIUS", ["Radius (m)", "Compromise only: groups within this distance of each unit. 0 = unlimited."], [0, 10000, 0, 0, _pos, [1, 0, 0, 0.7]]]
+    ["COMBO", [LLSTRING(action), ""], [[0, 1, 2], [LLSTRING(compromise), LLSTRING(restore), LLSTRING(restoreClear)], 0]],
+    ["SIDES", [LLSTRING(observerSides), LLSTRING(compromiseSides_desc)], []],
+    ["SLIDER:RADIUS", [LLSTRING(radius), LLSTRING(compromiseRadius_desc)], [0, 10000, 0, 0, _pos, [1, 0, 0, 0.7]]]
 ];
 if (isNull _target) then {
-    _controls pushBack ["OWNERS", ["Units", "Sides, groups or players."], [[], [], [], 2]];
+    _controls pushBack ["OWNERS", [LLSTRING(units), LLSTRING(units_desc)], [[], [], [], 2]];
 };
 
 [
-    "RADS - Compromise / Restore Cover",
+    LLSTRING(compromiseTitle),
     _controls,
     {
         params ["_results", "_target"];
@@ -43,7 +43,7 @@ if (isNull _target) then {
         } else {
             [[_target]] call FUNC(resolveUnits)
         };
-        if (_units isEqualTo []) exitWith { ["No units selected"] call zen_common_fnc_showMessage; playSound "FD_Start_F"; };
+        if (_units isEqualTo []) exitWith { [LLSTRING(msgNoUnits)] call zen_common_fnc_showMessage; playSound "FD_Start_F"; };
         {
             if (_action == 0) then {
                 [_x, _sides, [-1, _radius] select (_radius > 0)] call API(forceCompromise);
@@ -51,7 +51,7 @@ if (isNull _target) then {
                 [_x, _action == 2] call API(restoreCover);
             };
         } forEach _units;
-        [format ["RADS: %1 unit(s) %2", count _units, ["compromised", "restored", "restored"] select _action]] call zen_common_fnc_showMessage;
+        [format [LLSTRING(compromiseDone), count _units, [LLSTRING(compromised), LLSTRING(restored), LLSTRING(restored)] select _action]] call zen_common_fnc_showMessage;
     },
     {},
     _target

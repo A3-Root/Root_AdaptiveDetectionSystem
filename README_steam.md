@@ -6,7 +6,7 @@ In vanilla Arma, enemy AI open fire the moment a player climbs into a civilian c
 
 Fully integrated with CBA, ZEN, Zeus, and Eden, with optional ACE3 support. Load the mod on the server and every client. Works in singleplayer, multiplayer, on dedicated servers, and with headless clients.
 
-[b]Current version:[/b] 1.0.0.3
+[b]Current version:[/b] 1.0.0.4
 
 [hr]
 [h2]Requirements[/h2]
@@ -20,9 +20,12 @@ Fully integrated with CBA, ZEN, Zeus, and Eden, with optional ACE3 support. Load
 [h2]What RADS Adds[/h2]
 [table]
 [tr][th]System[/th][th]Gameplay[/th][/tr]
-[tr][td][b]Vehicle cover[/b][/td][td]Civilian vehicles, and vehicles of the observing side, disguise their occupants. Per-vehicle modes, whitelists, and blacklists.[/td][/tr]
+[tr][td][b]Vehicle cover[/b][/td][td]Civilian vehicles and vehicles of the observing side disguise their occupants; your own side's unarmed vehicles can too, at a much higher risk. Their own faction's vehicles barely get a second look. Per-vehicle modes, multipliers, whitelists, and blacklists.[/td][/tr]
 [tr][td][b]Entry snapshot[/b][/td][td]Groups that saw you get in, or were already fighting you, keep their knowledge. Groups that never saw you are fooled.[/td][/tr]
-[tr][td][b]Suspicion[/b][/td][td]Builds from line of sight through the glass, distance, light, weather, seat, gear, driving, loitering, repeated passes, and visible damage. Decays when out of sight.[/td][/tr]
+[tr][td][b]Suspicion[/b][/td][td]Builds from line of sight through the glass, distance, light, weather, seat, gear (item by item against the enemy's own kit), driving, loitering, repeated passes, convoys, and visible damage. Closed armor slows it down; hiding your face by reversing up to a checkpoint does not work. Decays when out of sight.[/td][/tr]
+[tr][td][b]Checkpoints that talk[/b][/td][td]Suspicion built by the guards at the entry reaches the guards at the exit, unless you changed vehicle or kit in between.[/td][/tr]
+[tr][td][b]Pursuit and stops[/b][/td][td]Suspicious foot patrols chase you; mounted patrols follow, flash and honk. Stop and they dismount and inspect you; drive off and you are identified and reported. LAMBS Danger aware.[/td][/tr]
+[tr][td][b]Safe zone truce[/b][/td][td]Roleplay areas where the enemy will not attack players, even on foot, until someone shoots, rams or overstays.[/td][/tr]
 [tr][td][b]Hostile acts[/b][/td][td]Shooting from the vehicle or hurting an AI blows your cover. Ramming makes the group suspicious at once.[/td][/tr]
 [tr][td][b]Forgetting[/b][/td][td]Break contact long enough and the group forgets you. An unseen swap to a fresh vehicle can lose them, but every repeat makes them more suspicious.[/td][/tr]
 [tr][td][b]Radio bulletins[/b][/td][td]A radioman may broadcast your vehicle and number plate over long range, and any enemy who sees them later engages on sight. Silence him before he finishes and the call never goes out. Adjustable through CBA settings, Zeus and 3DEN modules, and the API.[/td][/tr]
@@ -53,6 +56,9 @@ Open Zeus and select [b]Modules → Root's Adaptive Detection[/b].
 [table]
 [tr][th]Module[/th][th]Purpose[/th][/tr]
 [tr][td][b]Detection Settings[/b][/td][td]Live mission-wide overrides of the main settings, without a restart.[/td][/tr]
+[tr][td][b]Sync / Pursuit / Truce Settings[/b][/td][td]Live overrides for suspicion sync, pursuits and checkpoint stops, and safe zone truces.[/td][/tr]
+[tr][td][b]Enemy Gear Reference[/b][/td][td]Collect, edit and copy what a side's AI wear, so players dressed like them blend in.[/td][/tr]
+[tr][td][b]Order Pursuit / Call Off[/b][/td][td]Send a patrol after an undercover unit, or call it off.[/td][/tr]
 [tr][td][b]Add / Remove Detection Zone[/b][/td][td]Checkpoint and base multipliers, restricted (no cover) areas, and safe havens, with side filter, delay, duration, and time-of-day window.[/td][/tr]
 [tr][td][b]Unit Cover Profile[/b][/td][td]Exempt, always covered, or a custom suspicion multiplier for units, groups, sides, or players.[/td][/tr]
 [tr][td][b]Vehicle Disguise[/b][/td][td]Always disguise, never disguise, or burned (recognised on sight) for a vehicle.[/td][/tr]
@@ -72,14 +78,15 @@ RADS modules are available in [b]Systems (F5) → Modules → Root's Adaptive De
 [*]Unit cover profiles for synced units or all players, including late joiners.
 [*]Vehicle disguise and burned status, AI group vigilance, compromise/restore, and radio bulletins.
 [/list]
-[b]Scripting API:[/b] 15 public [code]root_ads_fnc_*[/code] functions (zones, overrides, vehicle modes, unit and group profiles, compromise, restore, burn, wanted, status) plus CBA events for identifications, cover changes, and bulletins.
+[b]Scripting API:[/b] 23 public [code]root_ads_fnc_*[/code] functions (zones and truces, overrides, vehicle modes, unit and group profiles, gear reference, pursuits, convoys, compromise, restore, burn, wanted, status) plus CBA events for identifications, cover changes, bulletins, syncs, pursuit alerts and truce breaks.
 [hr]
 [h2]CBA Settings[/h2]
-Configure RADS from [b]Main Menu → Options → Addon Options → RADS - Adaptive Detection[/b]. All 171 settings apply live, mid-mission. They cover:
+Configure RADS from [b]Main Menu → Options → Addon Options → RADS - Adaptive Detection[/b]. All 258 settings apply live, mid-mission, and every tooltip explains in plain words what higher and lower values do. They cover:
 [list]
 [*]Covered sides, evaluation rate, ranges, and which vehicles give cover.
 [*]Suspicion build-up and decay, thresholds, observer behaviour, environment, seat, gear, and driving.
-[*]Hostile acts, memory and forgetting, knowledge sharing, radio bulletins, informants, theft, ramming, vehicle swaps, and number plates.
+[*]Vehicle faction, armored vehicles, gear matching, and hidden-crew tricks.
+[*]Hostile acts, safe zone truces, memory and forgetting, knowledge sharing and suspicion sync, radio bulletins, convoys, pursuits and checkpoint stops, informants, theft, ramming, vehicle swaps, and number plates.
 [*]Optional AI reactions, player and Zeus notifications, and a detailed RPT debug log.
 [/list]
 [hr]

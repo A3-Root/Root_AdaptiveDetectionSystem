@@ -10,6 +10,7 @@
  * 2: Reason <STRING> (default: "")
  * 3: Allow radio bulletin roll <BOOL> (default: true)
  * 4: Primary (false for crew cascade / received shares: no further spreading) <BOOL> (default: true)
+ * 5: Bulletin always goes out (skips the chance roll, still needs a radioman) <BOOL> (default: false)
  *
  * Return Value:
  * None
@@ -17,7 +18,7 @@
  * Public: No
  */
 
-params ["_grp", "_unit", ["_reason", ""], ["_bulletin", true], ["_primary", true]];
+params ["_grp", "_unit", ["_reason", ""], ["_bulletin", true], ["_primary", true], ["_forceBulletin", false]];
 
 if (isNull _grp || {!local _grp} || {isNull _unit}) exitWith {};
 
@@ -78,7 +79,32 @@ if (MSET(compromiseCrew) && _veh != _unit) then {
     } forEach (crew _veh);
 };
 
+// Guilt by association: the rest of the convoy this vehicle travels in
+private _convoyMode = MSET(convoyMode);
+if (_primary && _convoyMode > 0 && _veh != _unit) then {
+    private _spill = MSET(convoySpillSusp);
+    {
+        private _member = _x;
+        if (_member != _veh) then {
+            {
+                if (_x getVariable [QGVAR(cover), false] && {[side _grp, _x] call FUNC(isHostile)}) then {
+                    if (_convoyMode == 2) then {
+                        [_grp, _x, "convoy of " + name _unit, false, false] call FUNC(compromise);
+                    } else {
+                        private _other = [_grp, _x, false] call FUNC(classify);
+                        if ((_other select D_STATE) != ST_COMPROMISED) then {
+                            _other set [D_SUSP, ((_other select D_SUSP) max _spill) min (MSET(identifyThreshold) - 1)];
+                            [_grp, _other, ST_SEARCHING, format ["travels in the convoy of identified %1", name _unit]] call FUNC(setState);
+                        };
+                    };
+                };
+            } forEach (crew _member);
+        };
+    } forEach ([_veh] call FUNC(convoyOf));
+    [_grp, true] call FUNC(publishData);
+};
+
 if (_primary) then {
     [_grp, _unit] call FUNC(shareKnowledge);
-    if (_bulletin) then { [_grp, _unit, _reason] call FUNC(radioBulletin); };
+    if (_bulletin) then { [_grp, _unit, _reason, _forceBulletin] call FUNC(radioBulletin); };
 };

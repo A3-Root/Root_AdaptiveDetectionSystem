@@ -4,6 +4,8 @@
  * Best per-observer exposure of a covered unit to a group: line of sight through the vehicle's
  * view geometry (glass lets partial sight through), field of view, distance, light, observer
  * behaviour, skill, face-to-face proximity and whether the unit is aiming at the observer.
+ * Armored seats only show the vehicle (slow build). A soft vehicle kept close with its crew
+ * hidden from the observer (reversing up, parking rear-on) is caught through the vehicle body.
  *
  * Arguments:
  * 0: Group <GROUP>
@@ -12,6 +14,8 @@
  *
  * Return Value:
  * [exposure <NUMBER>, hostile in same vehicle <BOOL>, best observer <OBJECT>, best observer factors <ARRAY>]
+ * Factors: [visibility, angle, fov, distance, behaviour, skill, light, faceToFace, aimed, vehicleVisibility, hullMode]
+ * hullMode: "" crew seen directly, "armored", "hiddenCrew", "reversing", "rearFacing"
  *
  * Public: No
  */
@@ -31,17 +35,7 @@ _observers = [_observers, [], {_x distance _unit}, "ASCEND"] call BIS_fnc_sortBy
 _observers resize ((count _observers) min (round MSET(maxObservers)));
 
 // Direction the unit's weapon points, if it can aim from where it sits
-private _aimDir = [];
-if (isTurnedOut _unit || {[_unit] call CBA_fnc_canUseWeapon}) then {
-    private _weapon = currentWeapon _unit;
-    if (_weapon != "") then { _aimDir = _unit weaponDirection _weapon; };
-} else {
-    private _role = assignedVehicleRole _unit;
-    if (toLower (_role param [0, ""]) == "turret") then {
-        private _turretWeapon = _veh currentWeaponTurret (_role param [1, []]);
-        if (_turretWeapon != "") then { _aimDir = _veh weaponDirection _turretWeapon; };
-    };
-};
+private _aimDir = [_unit] call FUNC(aimDirection);
 
 private _target = eyePos _unit;
 private _identifyRange = MSET(identifyRange);
@@ -59,6 +53,25 @@ private _aimAngle = MSET(aimAngle);
 private _aimMult = MSET(aimMult);
 private _light = sunOrMoon;
 
+// Armored seat: nobody can see in, only the vehicle counts (and slowly)
+private _inVehicle = _veh != _unit;
+private _armored = _inVehicle && {[_unit, _veh] call FUNC(isArmoredSeat)};
+private _armoredMult = MSET(armoredHullMult);
+private _armoredClose = MSET(armoredCloseMult);
+// Anti-meta: soft vehicle near the observer whose crew is hidden by the hull
+private _meta = _inVehicle && {!_armored} && {MSET(metaDetect)};
+private _metaRange = MSET(metaRange);
+private _hiddenMult = MSET(hiddenCrewMult);
+private _reverseMult = MSET(reverseMult);
+private _rearMult = MSET(rearFacingMult);
+private _rearAngle = 180 - MSET(rearFacingAngle);
+private _reversing = _inVehicle && {((velocityModelSpace _veh) select 1) < -(MSET(reverseSpeed) / 3.6)};
+private _slow = (abs speed _veh) < 10;
+private _vehTarget = aimPos _veh;
+private _vehDir = vectorDir _veh;
+_vehDir set [2, 0];
+_vehDir = vectorNormalized _vehDir;
+
 private _best = 0;
 private _bestObserver = objNull;
 private _bestParts = [];
@@ -71,7 +84,36 @@ private _bestParts = [];
 
     // With hull blocking we ignore the unit itself so the ray stops at the vehicle's glass/body
     private _visibility = [_observerVeh, "VIEW", [_unit, _veh] select _ignoreHull] checkVisibility [_eye, _target];
-    if (_distance <= _instantRange) then { _visibility = _visibility max _minClose; };
+    private _vehVis = 0;
+    private _hull = "";
+    if (_armored) then {
+        _vehVis = [_observerVeh, "VIEW", _veh] checkVisibility [_eye, _vehTarget];
+        _visibility = _vehVis * _armoredMult;
+        _hull = "armored";
+    } else {
+        if (_meta && _distance <= _metaRange && _visibility < 0.15) then {
+            _vehVis = [_observerVeh, "VIEW", _veh] checkVisibility [_eye, _vehTarget];
+            if (_vehVis >= 0.5) then {
+                // 0 deg = nose towards the observer, 180 deg = rear towards the observer
+                private _toObserver = (getPosASL _veh) vectorFromTo _eye;
+                _toObserver set [2, 0];
+                private _relative = acos ((((vectorNormalized _toObserver) vectorDotProduct _vehDir) min 1) max -1);
+                private _hiddenFactor = _hiddenMult;
+                _hull = "hiddenCrew";
+                if (_reversing) then {
+                    _hiddenFactor = _hiddenFactor * _reverseMult;
+                    _hull = "reversing";
+                } else {
+                    if (_slow && _relative >= _rearAngle) then {
+                        _hiddenFactor = _hiddenFactor * _rearMult;
+                        _hull = "rearFacing";
+                    };
+                };
+                _visibility = _visibility max (_vehVis * _hiddenFactor);
+            };
+        };
+    };
+    if (_distance <= _instantRange) then { _visibility = _visibility max ([_minClose, _minClose * _armoredClose] select _armored); };
 
     if (_visibility > 0) then {
         private _toTarget = _eye vectorFromTo _target;
@@ -112,7 +154,7 @@ private _bestParts = [];
         if (_exposure > _best) then {
             _best = _exposure;
             _bestObserver = _observer;
-            _bestParts = [_visibility, _angle, _fov, _distanceFactor, _behaviour, _skill, _lightFactor, _close, _aim];
+            _bestParts = [_visibility, _angle, _fov, _distanceFactor, _behaviour, _skill, _lightFactor, _close, _aim, _vehVis, _hull];
         };
     };
 } forEach _observers;

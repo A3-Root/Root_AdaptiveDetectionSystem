@@ -18,11 +18,17 @@
 
 params ["_unit", "_source", "", ["_instigator", objNull]];
 
-if (!local _unit || {isPlayer _unit} || {!MSET(damageBlows)}) exitWith {};
+if (!local _unit || {isPlayer _unit}) exitWith {};
 
 private _attacker = _instigator;
 if (isNull _attacker && {!isNull _source}) then { _attacker = effectiveCommander _source; };
 if (isNull _attacker || _attacker == _unit) exitWith {};
+
+// Hurting AI ends a safe zone truce, whatever the attacker's cover
+if ((_attacker getVariable [QGVAR(truce), []]) isNotEqualTo [] && {[side group _unit, _attacker] call FUNC(isHostile)}) then {
+    [_attacker, format ["hurt %1", name _unit]] call FUNC(breakTruce);
+};
+if (!MSET(damageBlows)) exitWith {};
 
 private _recent = (_attacker getVariable [QGVAR(cover), false])
     || {(CBA_missionTime - (_attacker getVariable [QGVAR(lastCoverTime), -100])) < 5};

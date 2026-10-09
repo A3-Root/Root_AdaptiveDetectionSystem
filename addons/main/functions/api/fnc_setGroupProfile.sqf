@@ -10,6 +10,8 @@
  * 2: Immune to disguises (vanilla detection) <BOOL> (default: false)
  * 3: Share radius override, -1 = setting <NUMBER> (default: -1)
  * 4: Bulletin chance override (0-1), -1 = setting <NUMBER> (default: -1)
+ * 5: Role: "patrol" (may pursue), "outpost" (stays put, still alerts and syncs), "static" (never moves) <STRING> (default: "patrol")
+ * 6: Follow threshold override (%), -1 = setting <NUMBER> (default: -1)
  *
  * Return Value:
  * None
@@ -20,7 +22,7 @@
  * Public: Yes
  */
 
-params [["_grp", grpNull, [grpNull, objNull]], ["_mult", 1, [0]], ["_immune", false, [false]], ["_shareRadius", -1, [0]], ["_bulletinChance", -1, [0]]];
+params [["_grp", grpNull, [grpNull, objNull]], ["_mult", 1, [0]], ["_immune", false, [false]], ["_shareRadius", -1, [0]], ["_bulletinChance", -1, [0]], ["_role", "patrol", [""]], ["_followThreshold", -1, [0]]];
 
 if (!isServer) exitWith { [QGVAR(api), ["setGroupProfile", _this]] call CBA_fnc_serverEvent; };
 if (_grp isEqualType objNull) then { _grp = group _grp; };
@@ -30,3 +32,7 @@ _grp setVariable [QGVAR(groupMult), _mult, true];
 _grp setVariable [QGVAR(immune), _immune, true];
 _grp setVariable [QGVAR(shareRadius), _shareRadius, true];
 _grp setVariable [QGVAR(bulletinChance), _bulletinChance, true];
+_role = toLower _role;
+if !(_role in ["patrol", "outpost", "static"]) then { _role = "patrol"; };
+_grp setVariable [QGVAR(role), _role, true];
+_grp setVariable [QGVAR(followThreshold), _followThreshold, true];
