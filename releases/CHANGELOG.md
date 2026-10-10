@@ -1,287 +1,48 @@
 # Changelog
 
-## Back In The Truck (v1.0.0.20)
-
-### Fixed
-- Script error when crew remount after a fled inspection (allowGetIn needs an array); it also cut short the end of the pursuit (AI features, end log).
-
-## Lean On The Horn (v1.0.0.19)
+## Public Release (v2.0.0.0)
 
 ### Added
-- Repeated honking escalates: each honk in a series adds more (x1.8), capped at 95%, never identifies. SEARCHING after 3 honks. Settings: multiplier, window, cap, honks before search.
-- "Stopping calls off the alert" setting: a "refused to stop" vehicle that stops for the inspection after all puts alerted groups back how they were.
-- "Notices anything this close" setting (20 m): field of view ignored right beside a soldier or crew.
-
-### Fixed
-- Parking alongside a vehicle crew (outside their view cone) built no suspicion and no loitering, ever.
-
-## One Stop, One Verdict (v1.0.0.18)
-
-### Added
-- "Share starting suspicion" setting (default off): a starting suspicion stays with its own group, only suspicion built on top is synced.
-
-### Fixed
-- Starting suspicion synced to neighbours, making unrelated groups suspicious and chase.
-- "Refused to stop" fired while the vehicle was already stopping, alerting every group into SEARCHING.
-- Second group inspecting the same vehicle called driving off after a clearance "fleeing" and identified it. One inspection per vehicle now; a clearance ends every other pursuit or inspection of it.
-
-## Benefit of the Doubt (v1.0.0.17)
-
-### Changed
-- Vehicle under inspection: idle/proximity build paused for every group, not only the inspectors.
-- Post-inspection grace applies to every group, for that vehicle only.
-
-### Fixed
-- Grace now ends at once on a give-away: identified or uncovered occupant, someone new getting in, wrong gear, shots, aiming, turning out, horn, weapon light. Cleared calm is lifted too.
-
-## Grace Period Per Vehicle (v1.0.0.16)
-
-### Changed
-- Post-inspection pause now covers only the inspected vehicle (all its occupants); other vehicles build as usual.
-
-## Grace Period (v1.0.0.15)
-
-### Added
-- "Cleared: suspicion paused for (s)" setting (default 15): after a clean inspection the inspecting group's suspicion holds still, unless the players give themselves away.
-- Wrong gear on show and shots fired now count as give-aways during inspections too.
-
-## Cleared Means Calm (v1.0.0.14)
-
-### Added
-- "Cleared: suspicious again after (+%)" setting (default 15): cleared groups stay calm until suspicion climbs this far above the cleared level.
-- RPT logs honks nobody hears, with the closest hostile group's distance.
-
-### Changed
-- Clean inspection now also lowers suspicion below a starting suspicion, for the "Cleared for" time.
-- All-clear calms every friendly group in sync range, not only those more suspicious; no new suspicion shared while cleared.
-- Horn heard within 150 m by default (was 60).
-
-### Fixed
-- Neighbours turned SUSPICIOUS right after a clean inspection (start-suspicion floor re-synced).
-
-## Inspection Crews (v1.0.0.13)
-
-### Added
-- Clean inspection lowers suspicion by a set amount (default 25%), still capped at "Cleared suspicion".
-- Inspectors setting: how many dismount, in order passengers > other unarmed crew > commander > driver; gunners never leave.
-- Crew remount before engaging: on flight or identification, dismounted driver/commander/turret crew get back in first, then hunt the target. Passengers fight on foot.
-
-### Removed
-- N/A
-
-### Changed
-- "Cleared suspicion" is now the highest value left after a clean inspection.
-
-### Fixed
-- N/A
-
-## Inspections (v1.0.0.12)
-
-### Added
-- Cooldown between pursuits per group (default 60 s).
-- Inspection gestures: the first inspector out signals stop; when cleared, they wave the vehicle on before remounting.
-- Inspections judge the vehicle, not the wait: standing next to them builds nothing; exposed/turned-out occupants, aiming, damage, uncovered occupants, weapon lights and honking still count (new setting, on).
-
-### Removed
-- N/A
-
-### Changed
-- Horn also detected from a driver's fire key (the game does not always report it as a shot).
-
-### Fixed
-- One impact counted as two rams (several reports of the same hit).
-
-## Rams & Horns (v1.0.0.11)
-
-### Added
-- Honking is heard: enemy groups within 60 m get +5% per honk (no line of sight). Settings "Honking adds" / "Honking heard within".
-- Repeated ramming: first ram only raises suspicion; from ram #2 (within 300 s) the ramming settings apply. Settings "Full reaction from ram #" / "Repeated ramming window".
-
-### Removed
-- N/A
-
-### Changed
-- Stop request holds suspicion where it was when the pursuit started (at least the suspicious threshold), with no decay.
-- Pursuits ordered by Zeus/API no longer end because the group is unaware.
-
-### Fixed
-- Zeus "AI Starting Suspicion" module missing (not listed in units[]); units[] now generated.
-- Follow threshold below 35% dropping the pursuers to UNAWARE the moment they started following.
-
-## Pursuit Catch-Up (v1.0.0.10)
-
-### Added
-- N/A
-
-### Removed
-- N/A
-
-### Changed
-- Mounted pursuers drive in SAFE at full speed and aim ahead of a moving target (20 m behind only when close and slow).
-- Time to stop and the pulling-away check start once the pursuers are under way, not while still parked.
-
-### Fixed
-- Target always counted as fleeing while the pursuit vehicle was still pulling out.
-- Light flashes overridden by the crew: light AI paused for every AI crew member during a flash.
-
-## Pursuit Driving (v1.0.0.9)
-
-### Added
-- N/A
-
-### Removed
-- N/A
-
-### Changed
-- Mounted pursuit drives with direct driver orders only (no waypoint), aiming 20 m behind the target along its heading; crew set AWARE while following.
-
-### Fixed
-- Pursuing vehicle staying parked while the target drove: move orders were re-issued every 1-2 s, restarting the route each time. Now throttled (8 s to start, then at most every 3 s).
-
-## Starting Suspicion (v1.0.0.8)
-
-### Added
-- AI starting suspicion: Zeus / 3DEN module and `root_ads_fnc_setStartSuspicion` set a per-unit floor suspicion starts at and never decays below.
-
-### Removed
-- N/A
-
-### Changed
-- N/A
-
-### Fixed
-- Pursuing vehicle staying parked while signalling: horn now fired by the driver directly.
-- Light flashes near-instant: AI no longer switches the lights straight back during a flash.
-
-## Stop Requests (v1.0.0.6)
-
-### Added
-- Stop request: a vehicle patrol that starts following holds suspicion at the follow threshold, starts its engine, honks and flashes every few seconds for the time to stop. Refusing, pulling away, shooting or ramming ends the hold.
-- Settings: hold suspicion during a stop request, signal range, signal interval, pulling-away distance. Zeus/3DEN pursuit settings include them; getPursuit returns the held value.
-
-### Removed
-- ACE self-interaction "Check cover status" and its setting. Zeus Inspect keeps the readout.
-
-### Changed
-- Defaults updated to the tested server preset.
-- All settings are server-only (admins); only debug options stay per player, and only for players the server allows ("Who may use debug": admins / admins and Zeus / everyone).
-- "Signal to stop within" is now the separate inspect distance; signalling starts at the new signal range (150 m).
-
-### Fixed
-- Mounted pursuers identifying the target within seconds of starting to follow.
-- Stop signal flashing once per second and honking once: now 0.5 s flashes and honks 1 s apart.
-- Mounted pursuers staying parked: the commander gets direct move orders, stopped crew is released and PATH/MOVE re-enabled for the pursuit (restored afterwards).
-
-## Balance & Fixes (v1.0.0.5)
-
-### Added
-- Vehicle optics: AI in gunner/commander seats judge from farther (range multiplier, per vehicle via module/API).
-- Roam limit: pursuing groups stay within 200 m (foot) / 600 m (mounted) of home, give up and alert beyond it. Per group via profile/API.
-- Ramming an AI vehicle counts as ramming (PhysX contact).
-- Ramming makes the vehicle known (new setting, on).
-
-### Removed
-- N/A
-
-### Changed
-- Gear: item matching only refines a disguise (their/allied uniform); enemy fatigues no longer penalised twice. Old stacking kept as "Both, always".
-- Gear does not count through armor or a hidden crew.
-- Armored seats driven calmly build nothing; only speeding, off-road, lights off, horn, aiming, damage or loitering give them away.
-- Hidden-crew check only below 15 km/h; plain hidden crew off by default (reversing / rear-on still caught).
-- Ramming identifies the whole vehicle by default.
-- Queued suspicion syncs are dropped once the unit is identified.
-
-### Fixed
-- Safe zone truce check spamming the RPT with "0 elements provided, 1 expected".
-- Same error in getGearReference for a side without a list.
-
-## Checkpoints & Pursuit (v1.0.0.4)
-
-### Added
+- Per-group, per-player suspicion for players in civilian or observer-side vehicles, replacing instant vanilla detection.
+- Entry snapshot: groups that saw you get in or were fighting you keep their knowledge; groups that knew you earlier start searching; the rest are fooled.
+- Exposure from line of sight through the vehicle, field of view, distance, light, NVGs, fog and rain, observer behaviour and skill, seat, gear, driving, loitering, repeated passes and aiming.
+- Close-range awareness: a vehicle parked right beside a soldier or crew is noticed outside their view cone.
+- Vehicle faction tiers (same faction, same side, civilian, allied, enemy), per-class multipliers, whitelists and blacklists.
+- Armored hulls: closed seats show only the vehicle; driven calmly they build nothing.
 - Hidden-crew detection: reversing up to or parking rear-on near the AI is judged through the vehicle.
-- Vehicle faction tiers (same faction, same side, civilian, allied, enemy) and per-class multipliers; own-side vehicles can give cover (unarmed only by default).
-- Armored hulls: closed seats in tanks/APCs only show the vehicle, slow build.
-- Gear matching per slot against an enemy gear reference (Zeus/3DEN module + API, collect from the mission's AI).
-- Convoys: more vehicles in view build faster; one identified makes the rest suspects (or identified).
-- Suspicion sync to friendly groups in range after a delay, dropped when the unit changes vehicle or kit.
-- Pursuit from a follow threshold: waypoint chase on foot; mounted follow with horn/lights, stop, dismounted inspection; refusal alert, flee = identified + bulletin. LAMBS aware.
-- Safe haven truce: AI hold fire on players inside (on foot too) until shooting, hurting/ramming AI, aiming or overstaying.
-- AI glance at / look at suspicious vehicles.
-- Zeus modules: Sync, Pursuit & Checkpoint, Truce settings, Enemy Gear Reference, Order Pursuit. 3DEN: Pursuit, Sync & Truce Settings, Enemy Gear Reference. 8 API functions.
-
-### Removed
-- Investigate settings (replaced by pursuit).
-
-### Changed
-- Every setting, module and hint rewritten in plain words and moved to stringtables; settings regrouped into 22 categories.
-- Group members count on their own: ranges, sharing, overlay and status no longer depend on the leader's position.
-
-## Detection Range Fixes (v1.0.0.3)
-
-### Added
-- Gear readable range (default 50 m): gear multipliers fade out by twice that distance.
-
-### Removed
-- N/A
-
-### Changed
-- Distance falloff is now (close range / distance) ^ exponent: 0.09 at 200 m instead of 0.64 (drivers were being identified from 200+ m).
-- Visible damage uses the average hit-point damage instead of the single worst hit point (one broken window no longer counts as a wreck).
-- Ramming detection uses the geometry hull with a 0.15 m margin (bystanders next to the road were counted as rammed).
-- Vehicle swap: only a group that sees the unit in the new vehicle learns it; a swap that is merely too soon is re-checked every evaluation instead of burning the new vehicle.
-
-## Debug Logging (v1.0.0.2)
-
-### Added
-- Detailed RPT debug log: identification/state/forget reports with group, target, vehicle context and per-entry evaluation history.
-- Per-evaluation breakdown: observer factors, every multiplier, vehicle grid/speed/damage; instant triggers marked.
-- Event logs for classification, ram detection, hits (gunfire vs collision), shots, shares, attacks, vehicle swaps and cover changes.
-- Settings: debug detail level, large-jump threshold, history length.
-- Every state change (any path) and every fooled/not-fooled change is logged with its cause.
-- Number plates: burning a vehicle also reports its plate (ZEN Plate Number); a group that reads it within 50 m identifies at once and goes COMBAT.
-
-### Removed
-- N/A
+- Gear matching per slot against an enemy gear reference, collected from the mission's AI or set by hand.
+- Visible vehicle damage, wanted units, burned vehicles and reported number plates.
+- Hostile acts: shooting, hurting AI and aiming turrets blow cover; heat denies cover for a while.
+- Ramming: a first ram raises suspicion, repeated ramming identifies and burns the vehicle.
+- Honking: heard without line of sight and escalating with every honk in a series, capped below identification; the group searches after a few honks.
+- Forgetting and vehicle swaps: break contact and they forget you; unseen swaps escalate with every repeat.
+- Knowledge sharing between nearby groups and radio bulletins from radiomen (burned vehicles, wanted units, area alerts).
+- Suspicion sync: checkpoint entry guards pass their suspicion to the exit guards, dropped when you change vehicle or kit.
+- Convoys: more vehicles in view build faster; one identified makes the rest suspects.
+- Pursuits: foot patrols chase; mounted patrols start up, follow, honk and flash for a stop while suspicion is held.
+- Refusal alerts, called off again if the vehicle stops for the inspection after all.
+- Inspections: priority dismount (passengers, spare crew, commander, driver; gunners stay), gestures, calm while nothing gives you away for every group.
+- Clean inspections lower suspicion, pause it for that vehicle, send an all-clear to neighbours and block new pursuits for a cooldown; any give-away ends the grace.
+- Fleeing an inspection identifies and reports you; dismounted crew remount before hunting.
+- Roam limits and cooldowns for pursuing groups; one inspection per vehicle at a time.
+- LAMBS Danger support: danger FSM paused during pursuits, hunt or rush on identification.
+- AI starting suspicion per unit or group, kept out of the suspicion sync.
+- Safe zone truces: AI hold fire on players inside until shooting, ramming, aiming or overstaying.
+- Detection zones: multiplier, restricted and safe-haven areas with side filter, delay, duration and time window.
+- Civilian informants, stolen-vehicle detection and optional AI reactions (AWARE, glance, look, watch).
+- 291 live CBA settings with plain-language tooltips, server-wide and admin-only; the server decides who may use the debug tools.
+- 16 Zeus modules and 11 Eden modules.
+- 24 public API functions, runtime setting overrides and CBA events.
+- Detailed RPT debug log with per-evaluation history, and a live debug overlay.
+- ACE3 compatibility: handcuffed and surrendering units lose cover, unconscious AI do not observe.
+- Works in singleplayer, multiplayer, on dedicated servers and with headless clients.
 
 ### Changed
-- Collisions/run-overs no longer count as attacks: they go through the ramming path (suspicious, not identified).
-- Ramming detection uses the vehicle footprint + 0.5 m instead of the bounding sphere + 1.5 m; default ramming suspicion 75% -> 50%.
-- Vehicle swap: identified-in vehicle tracked separately (no tick race), swap also checked during evaluation, default unseen time 15 s -> 2 s; a watched swap makes the new vehicle the known one.
-
-## Testing Fixes (v1.0.0.1)
-
-### Added
-- Instant identification for groups near an identifying group (`shareInstantRadius`); already-suspicious groups confirm on any share.
-- Visible vehicle damage (glass, body, wheels, fire): suspicious on sight above a threshold, faster build-up below it.
-- Ramming/running over detection: rammed group suspicious at once (optional instant identification).
-- Vehicle swap after identification: unseen swap only suspected, repeats escalate, old vehicle burned locally.
-- Optional "Hostile gear voids cover" with per-item toggles (uniform, helmet, vest, visible weapon).
+- Version jumps from the 1.0.0.x development builds to 2.0.0.0 for the public Workshop release.
+- Default settings tuned through the development test rounds.
+- Investigating replaced by pursuits, stops and inspections.
+- All text moved to stringtables and settings regrouped into 22 categories.
 
 ### Removed
-- N/A
-
-### Changed
-- Face-to-face range slider max 30 m -> 100 m (default stays 6 m; 18 m made checkpoints impossible to pass).
-- Damaged vehicle influence default 1 -> 2.
-- Identified vehicles are burned for that side within 1500 m by default.
-
-## Initial Public Release (v1.0.0.0)
-
-### Added
-- Initial release: per-group, per-player suspicion for units in civilian/observer-side vehicles.
-- Entry snapshot: witnessed/engaged keep knowledge, stale seeds a search, unaware are fooled.
-- Exposure from checkVisibility, FOV, distance, light, weather, behaviour, skill, seat, gear, driving, loitering, passes, aiming.
-- Hostile acts, hit/kill reactions, heat, crew compromise, forgetting via forgetTarget.
-- Controlled knowledge sharing, radio bulletins (burned vehicles, wanted units, area alert), civilian informants, theft.
-- Optional AI reactions: AWARE, watch, investigate.
-- 144 live CBA settings, runtime overrides.
-- 10 Zeus and 8 3DEN modules.
-- Public API and CBA events.
-- Locality-safe: server, headless clients, client-owned AI, ownership transfer.
-- ACE compat: status self-action, handcuffed/surrendering lose cover.
-
-### Removed
-- N/A
-
-### Changed
-- N/A
+- ACE self-interaction "Check cover status" (Zeus Inspect Detection Status keeps the readout).
+- Investigate settings.
