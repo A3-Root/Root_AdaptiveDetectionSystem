@@ -80,6 +80,7 @@ class CfgVehicles {
     ZEUS_MODULE(ROOT_ADS_Zeus_UnitCover,zeusUnitCover,CSTRING(zeus_ROOT_ADS_Zeus_UnitCover));
     ZEUS_MODULE(ROOT_ADS_Zeus_Vehicle,zeusVehicle,CSTRING(zeus_ROOT_ADS_Zeus_Vehicle));
     ZEUS_MODULE(ROOT_ADS_Zeus_GroupProfile,zeusGroupProfile,CSTRING(zeus_ROOT_ADS_Zeus_GroupProfile));
+    ZEUS_MODULE(ROOT_ADS_Zeus_StartSuspicion,zeusStartSuspicion,CSTRING(zeus_ROOT_ADS_Zeus_StartSuspicion));
     ZEUS_MODULE(ROOT_ADS_Zeus_GearReference,zeusGearReference,CSTRING(zeus_ROOT_ADS_Zeus_GearReference));
     ZEUS_MODULE(ROOT_ADS_Zeus_OrderPursuit,zeusOrderPursuit,CSTRING(zeus_ROOT_ADS_Zeus_OrderPursuit));
     ZEUS_MODULE(ROOT_ADS_Zeus_Compromise,zeusCompromise,CSTRING(zeus_ROOT_ADS_Zeus_Compromise));
@@ -166,8 +167,12 @@ class CfgVehicles {
             ATTR_TRI_RAW(ROOT_ADS_S_hiddenCrewAny,"$STR_root_ads_main_hiddenCrewAny","$STR_root_ads_main_hiddenCrewAny_desc");
             ATTR_NUM_RAW(ROOT_ADS_S_reverseMult,"$STR_root_ads_main_reverseMult","$STR_root_ads_main_reverseMult_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_rearFacingMult,"$STR_root_ads_main_rearFacingMult","$STR_root_ads_main_rearFacingMult_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_ramRepeatCount,"$STR_root_ads_main_ramRepeatCount","$STR_root_ads_main_ramRepeatCount_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_ramRepeatWindow,"$STR_root_ads_main_ramRepeatWindow","$STR_root_ads_main_ramRepeatWindow_desc",-1);
             ATTR_TRI_RAW(ROOT_ADS_S_ramCompromise,"$STR_root_ads_main_ramCompromise","$STR_root_ads_main_ramCompromise_desc");
             ATTR_TRI_RAW(ROOT_ADS_S_ramBurn,"$STR_root_ads_main_ramBurn","$STR_root_ads_main_ramBurn_desc");
+            ATTR_NUM_RAW(ROOT_ADS_S_hornSuspicion,"$STR_root_ads_main_hornSuspicion","$STR_root_ads_main_hornSuspicion_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_hornRange,"$STR_root_ads_main_hornRange","$STR_root_ads_main_hornRange_desc",-1);
             class ROOT_ADS_S_convoyMode: Combo {
                 property = "ROOT_ADS_S_convoyMode";
                 displayName = "$STR_root_ads_main_convoyMode";
@@ -257,9 +262,14 @@ class CfgVehicles {
             ATTR_TRI_RAW(ROOT_ADS_S_stopSignalLights,"$STR_root_ads_main_stopSignalLights","$STR_root_ads_main_stopSignalLights_desc");
             ATTR_NUM_RAW(ROOT_ADS_S_alertRadius,"$STR_root_ads_main_alertRadius","$STR_root_ads_main_alertRadius_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_alertSuspicion,"$STR_root_ads_main_alertSuspicion","$STR_root_ads_main_alertSuspicion_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_pursuitCooldown,"$STR_root_ads_main_pursuitCooldown","$STR_root_ads_main_pursuitCooldown_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_inspectCalm,"$STR_root_ads_main_inspectCalm","$STR_root_ads_main_inspectCalm_desc");
             ATTR_NUM_RAW(ROOT_ADS_S_inspectTime,"$STR_root_ads_main_inspectTime","$STR_root_ads_main_inspectTime_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_inspectMult,"$STR_root_ads_main_inspectMult","$STR_root_ads_main_inspectMult_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_inspectClearReduce,"$STR_root_ads_main_inspectClearReduce","$STR_root_ads_main_inspectClearReduce_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_inspectClearSusp,"$STR_root_ads_main_inspectClearSusp","$STR_root_ads_main_inspectClearSusp_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_inspectDismount,"$STR_root_ads_main_inspectDismount","$STR_root_ads_main_inspectDismount_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_inspectRemount,"$STR_root_ads_main_inspectRemount","$STR_root_ads_main_inspectRemount_desc");
             ATTR_NUM_RAW(ROOT_ADS_S_fleeDistance,"$STR_root_ads_main_fleeDistance","$STR_root_ads_main_fleeDistance_desc",-1);
             class ROOT_ADS_S_fleeBulletin: Combo {
                 property = "ROOT_ADS_S_fleeBulletin";
@@ -456,6 +466,18 @@ class CfgVehicles {
         };
         class ModuleDescription: ModuleDescription {
             description = CSTRING(eden_ROOT_ADS_Module_GroupProfile_desc);
+        };
+    };
+
+    class ROOT_ADS_Module_StartSuspicion: Module_F {
+        EDEN_MODULE_BASE(CSTRING(eden_ROOT_ADS_Module_StartSuspicion),edenStartSuspicion,0);
+        class Attributes: AttributesBase {
+            ATTR_NUM(ROOT_ADS_SS_percent,CSTRING(ROOT_ADS_SS_percent),CSTRING(ROOT_ADS_SS_percent_desc),30);
+            ATTR_BOOL(ROOT_ADS_SS_group,CSTRING(ROOT_ADS_SS_group),CSTRING(ROOT_ADS_SS_group_desc),false);
+            class ModuleDescription: ModuleDescription {};
+        };
+        class ModuleDescription: ModuleDescription {
+            description = CSTRING(eden_ROOT_ADS_Module_StartSuspicion_desc);
         };
     };
 

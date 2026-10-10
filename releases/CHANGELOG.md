@@ -1,5 +1,99 @@
 # Changelog
 
+## Inspection Crews (v1.0.0.13)
+
+### Added
+- Clean inspection lowers suspicion by a set amount (default 25%), still capped at "Cleared suspicion".
+- Inspectors setting: how many dismount, in order passengers > other unarmed crew > commander > driver; gunners never leave.
+- Crew remount before engaging: on flight or identification, dismounted driver/commander/turret crew get back in first, then hunt the target. Passengers fight on foot.
+
+### Removed
+- N/A
+
+### Changed
+- "Cleared suspicion" is now the highest value left after a clean inspection.
+
+### Fixed
+- N/A
+
+## Inspections (v1.0.0.12)
+
+### Added
+- Cooldown between pursuits per group (default 60 s).
+- Inspection gestures: the first inspector out signals stop; when cleared, they wave the vehicle on before remounting.
+- Inspections judge the vehicle, not the wait: standing next to them builds nothing; exposed/turned-out occupants, aiming, damage, uncovered occupants, weapon lights and honking still count (new setting, on).
+
+### Removed
+- N/A
+
+### Changed
+- Horn also detected from a driver's fire key (the game does not always report it as a shot).
+
+### Fixed
+- One impact counted as two rams (several reports of the same hit).
+
+## Rams & Horns (v1.0.0.11)
+
+### Added
+- Honking is heard: enemy groups within 60 m get +5% per honk (no line of sight). Settings "Honking adds" / "Honking heard within".
+- Repeated ramming: first ram only raises suspicion; from ram #2 (within 300 s) the ramming settings apply. Settings "Full reaction from ram #" / "Repeated ramming window".
+
+### Removed
+- N/A
+
+### Changed
+- Stop request holds suspicion where it was when the pursuit started (at least the suspicious threshold), with no decay.
+- Pursuits ordered by Zeus/API no longer end because the group is unaware.
+
+### Fixed
+- Zeus "AI Starting Suspicion" module missing (not listed in units[]); units[] now generated.
+- Follow threshold below 35% dropping the pursuers to UNAWARE the moment they started following.
+
+## Pursuit Catch-Up (v1.0.0.10)
+
+### Added
+- N/A
+
+### Removed
+- N/A
+
+### Changed
+- Mounted pursuers drive in SAFE at full speed and aim ahead of a moving target (20 m behind only when close and slow).
+- Time to stop and the pulling-away check start once the pursuers are under way, not while still parked.
+
+### Fixed
+- Target always counted as fleeing while the pursuit vehicle was still pulling out.
+- Light flashes overridden by the crew: light AI paused for every AI crew member during a flash.
+
+## Pursuit Driving (v1.0.0.9)
+
+### Added
+- N/A
+
+### Removed
+- N/A
+
+### Changed
+- Mounted pursuit drives with direct driver orders only (no waypoint), aiming 20 m behind the target along its heading; crew set AWARE while following.
+
+### Fixed
+- Pursuing vehicle staying parked while the target drove: move orders were re-issued every 1-2 s, restarting the route each time. Now throttled (8 s to start, then at most every 3 s).
+
+## Starting Suspicion (v1.0.0.8)
+
+### Added
+- AI starting suspicion: Zeus / 3DEN module and `root_ads_fnc_setStartSuspicion` set a per-unit floor suspicion starts at and never decays below.
+
+### Removed
+- N/A
+
+### Changed
+- N/A
+
+### Fixed
+- Pursuing vehicle staying parked while signalling: horn now fired by the driver directly.
+- Light flashes near-instant: AI no longer switches the lights straight back during a flash.
+
 ## Stop Requests (v1.0.0.6)
 
 ### Added
@@ -16,7 +110,8 @@
 
 ### Fixed
 - Mounted pursuers identifying the target within seconds of starting to follow.
-- Stop signal flashing once per second and honking once.
+- Stop signal flashing once per second and honking once: now 0.5 s flashes and honks 1 s apart.
+- Mounted pursuers staying parked: the commander gets direct move orders, stopped crew is released and PATH/MOVE re-enabled for the pursuit (restored afterwards).
 
 ## Balance & Fixes (v1.0.0.5)
 

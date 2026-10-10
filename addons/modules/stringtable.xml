@@ -175,6 +175,18 @@
         <Key ID="STR_root_ads_modules_ROOT_ADS_R_vest_desc">
             <English>Comma-separated vest classes.</English>
         </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_SS_group">
+            <English>Whole group</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_SS_group_desc">
+            <English>Apply to every unit in the synced units' groups, not only the synced units.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_SS_percent">
+            <English>Starting suspicion (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_ROOT_ADS_SS_percent_desc">
+            <English>Suspicion of any undercover player starts here and never falls below it, even while they are unaware. It still builds from there. 0 = clear.</English>
+        </Key>
         <Key ID="STR_root_ads_modules_ROOT_ADS_T_action">
             <English>Action</English>
         </Key>
@@ -571,6 +583,12 @@
         <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Settings_desc">
             <English>Mission-wide overrides of the main RADS settings. Hover an attribute for what it does. Every value left on 'Keep setting' (or -1) leaves the CBA setting alone. Sync a trigger to apply the values only when it fires.</English>
         </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_StartSuspicion">
+            <English>AI Starting Suspicion</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_StartSuspicion_desc">
+            <English>Sync AI units (or vehicles: their crew). Their group judges undercover players starting from this suspicion. The group uses the highest value among its members.</English>
+        </Key>
         <Key ID="STR_root_ads_modules_eden_ROOT_ADS_Module_Toggle">
             <English>Enable / Disable RADS</English>
         </Key>
@@ -883,6 +901,24 @@
         <Key ID="STR_root_ads_modules_sizeB_desc">
             <English>Second half-axis. 0 = same as A.</English>
         </Key>
+        <Key ID="STR_root_ads_modules_startApplied">
+            <English>RADS starting suspicion applied</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_startGroup">
+            <English>Whole group</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_startGroup_desc">
+            <English>Apply to every unit of this group, not only this unit (or vehicle crew).</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_startPercent">
+            <English>Starting suspicion (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_startPercent_desc">
+            <English>Suspicion of any undercover player starts here and never falls below it, even while unaware. It still builds from there. 0 = clear.</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_startTitle">
+            <English>RADS - AI Starting Suspicion - %1</English>
+        </Key>
         <Key ID="STR_root_ads_modules_suspMult">
             <English>Suspicion multiplier</English>
         </Key>
@@ -1005,6 +1041,9 @@
         </Key>
         <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_Settings">
             <English>Detection Settings</English>
+        </Key>
+        <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_StartSuspicion">
+            <English>AI Starting Suspicion</English>
         </Key>
         <Key ID="STR_root_ads_modules_zeus_ROOT_ADS_Zeus_SyncSettings">
             <English>Suspicion Sync Settings</English>

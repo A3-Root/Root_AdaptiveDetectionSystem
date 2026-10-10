@@ -16,11 +16,8 @@
 params ["_unit", "_weapon"];
 
 if (!local _unit) exitWith {};
-private _veh = vehicle _unit;
 
-if ("horn" in toLower _weapon) exitWith {
-    if (_veh != _unit) then { _veh setVariable [QGVAR(hornTime), CBA_missionTime, true]; };
-};
+if ("horn" in toLower _weapon) exitWith { [_unit, "FiredMan"] call FUNC(hornPressed); };
 
 // Any shot from inside a safe zone truce ends it
 if ((_unit getVariable [QGVAR(truce), []]) isNotEqualTo []) then { [_unit, format ["fired %1", _weapon]] call FUNC(breakTruce); };

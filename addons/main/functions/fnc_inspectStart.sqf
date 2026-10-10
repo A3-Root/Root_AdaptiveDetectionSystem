@@ -31,19 +31,37 @@ private _inspectors = [];
 private _aiVeh = _pursuit get "aiVeh";
 if (_pursuit get "mounted" && {alive _aiVeh}) then {
     // the vehicle halts where it is
-    [_grp, "move", getPosATL _aiVeh] call FUNC(pursuitWaypoint);
+    // cancel the chase move order too, or the commander drives on
+    private _commander = effectiveCommander _aiVeh;
+    if (local _commander) then { _commander doMove (getPosATL _aiVeh); };
     doStop (driver _aiVeh);
 
-    // gunners stay on their weapons, everybody else gets out
-    private _gunners = (fullCrew [_aiVeh, "gunner"]) apply {_x select 0};
+    // Who gets out, in this order: passengers (cargo and firing-from-vehicle seats), other
+    // unarmed turret crew, the commander, the driver. Gunners (armed turrets) never leave their
+    // weapon. Only as many as 'Inspectors' says. Crew seats are remembered for remounting.
+    private _ranked = [];
     {
-        _x params ["_crewman", "", "", "_turretPath", "_isPersonTurret"];
-        if (!_isPersonTurret && {(_aiVeh weaponsTurret _turretPath) isNotEqualTo []}) then { _gunners pushBackUnique _crewman; };
-    } forEach (fullCrew [_aiVeh, "turret"]);
-    _inspectors = (crew _aiVeh) select {group _x == _grp && {!(_x in _gunners)} && {[_x] call FUNC(isAwake)}};
+        _x params ["_crewman", "_role", "_cargoIndex", "_turretPath", "_isPersonTurret"];
+        if (group _crewman == _grp && {[_crewman] call FUNC(isAwake)}) then {
+            private _rank = switch (toLower _role) do {
+                case "cargo": { 0 };
+                case "turret": { [[1, -1] select ((_aiVeh weaponsTurret _turretPath) isNotEqualTo []), 0] select _isPersonTurret };
+                case "commander": { 2 };
+                case "driver": { 3 };
+                default { -1 };
+            };
+            if (_rank >= 0) then { _ranked pushBack [_rank, _crewman, toLower _role, _turretPath]; };
+        };
+    } forEach (fullCrew _aiVeh);
+    _ranked sort true;
+    private _picked = _ranked select [0, (round MSET(inspectDismount)) max 1];
+    _inspectors = _picked apply {_x select 1};
+    // crew (not passengers) remount first if it comes to a fight
+    _pursuit set ["crewSeats", (_picked select {(_x select 0) >= 1}) apply {[_x select 1, _x select 2, _x select 3]}];
     _inspectors allowGetIn false;
     _inspectors orderGetIn false;
     { doGetOut _x; } forEach _inspectors;
+    if (RADS_DEBUG) then { ["PURSUIT", format ["%1 dismounts %2 of %3 candidates: %4 (gunners stay)", groupId _grp, count _inspectors, count _ranked, _picked apply {format ["%1 (%2)", name (_x select 1), _x select 2]}], _grp, _unit] call FUNC(debugLog); };
 } else {
     _inspectors = (units _grp) select {[_x] call FUNC(isAwake) && {isNull objectParent _x}};
 };

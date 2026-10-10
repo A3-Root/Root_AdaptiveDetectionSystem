@@ -174,6 +174,8 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Off-road approach | `offroadMult` | 1.2 | 1 - 5 | Suspicion speed driving off-road within 150 m of a group. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Lights off at night | `lightsOffMult` | 1.4 | 1 - 5 | Suspicion speed driving at night with headlights off. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Honking | `hornMult` | 1.5 | 1 - 5 | Suspicion speed for 10 s after honking near them. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
+| Honking adds (%) | `hornSuspicion` | 5 | 0 - 50 | Every honk (at most one every 2 s) adds this much suspicion of everyone undercover in your vehicle to enemy groups within earshot. They hear it: no line of sight needed. 0 = off. |
+| Honking heard within (m) | `hornRange` | 60 | 0 - 500 | How far away enemy groups hear your horn. |
 | Aiming at the AI | `aimMult` | 2.5 | 1 - 10 | Suspicion speed while your weapon or turret points at a soldier. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Aiming cone (deg) | `aimAngle` | 8 | 1 - 45 | How close to a soldier your weapon must point to count as aiming at them (half-angle). |
 | Weapon light / laser at night | `lightMult` | 2 | 1 - 5 | Suspicion speed with a weapon light or laser on at night. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
@@ -300,6 +302,7 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Follow threshold (%) | `followThreshold` | 75 | 1 - 99 | Suspicion at which a group starts following or chasing you instead of just watching. |
 | Pursuers per target | `pursuitMaxGroups` | 2 | 1 - 10 | Most groups that pursue the same unit at once. Keeps the whole map from converging on you. |
 | Start distance (m) | `pursuitMaxStart` | 600 | 50 - 3000 | Only groups within this distance start a pursuit. |
+| Cooldown between pursuits (s) | `pursuitCooldown` | 60 | 0 - 1800 | After a pursuit ends (given up, cleared or called off) that group starts no new one for this long. A passed inspection additionally clears you for 'Cleared for'. |
 | Give up after (s) | `pursuitMaxTime` | 180 | 30 - 1800 | A pursuit that has not led to a stop is abandoned after this long. |
 | Give up beyond (m) | `pursuitMaxDist` | 1000 | 100 - 10000 | A pursuit is abandoned once the group is this far from where it started. |
 | Aim ahead (s) | `pursuitLead` | 2 | 0 - 10 | Pursuers head for where the vehicle will be in this many seconds. |
@@ -311,19 +314,23 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Hold suspicion during a stop request | `stopFreeze` | on |  | A vehicle patrol that starts following you stops judging you: suspicion is held at the follow threshold while they follow and signal you to pull over. It builds normally again once you refuse (the time to stop runs out), pull away from them or open fire / ram anyone. Stopping lets them inspect you instead. Off = suspicion keeps building while they follow (they usually identify you before you can react). |
 | Signal to stop within (m) | `stopSignalRange` | 150 | 20 - 500 | A pursuing vehicle starts honking and flashing its lights once it is this close. The time to stop starts then. Example: 150 = the signal starts while they are still a few car lengths behind. |
 | Inspect when stopped within (m) | `followDistance` | 40 | 10 - 200 | Stopping while the pursuers are this close starts the inspection. Stopped farther away, they drive up first. |
-| Signal every (s) | `stopSignalInterval` | 4 | 2 - 20 | How often the pursuers repeat the signal: two honks and three flashes of the headlights each time. Lower = more insistent. Example: 4 with a 30 s time to stop = about 7 signals. |
+| Signal every (s) | `stopSignalInterval` | 4 | 4 - 20 | How often the pursuers repeat the signal: two honks 1 s apart and three flashes of the headlights (0.5 s on, 0.5 s off) each time; one signal takes 3 s. Lower = more insistent. Example: 4 with a 30 s time to stop = about 7 signals. |
 | Stop signal: horn | `stopSignalHorn` | on |  | Pursuing vehicles honk to make you stop. |
 | Stop signal: flashing lights | `stopSignalLights` | on |  | Pursuing vehicles flash their headlights to make you stop. |
-| Time to stop (s) | `stopTimeout` | 30 | 5 - 300 | How long the pursuers keep signalling. Not stopping by then counts as refusing: they radio an alert and suspicion builds normally again. |
-| Pulling away counts as fleeing (m) | `stopFleeDistance` | 150 | 50 - 2000 | Getting this much farther from the pursuers than the closest they came counts as fleeing the stop: they radio an alert and suspicion builds normally again. Example: 150 = they closed to 40 m, you are now 190 m ahead. |
+| Time to stop (s) | `stopTimeout` | 30 | 5 - 300 | How long the pursuers keep signalling, counted once they are under way and within signal range. Not stopping by then counts as refusing: they radio an alert and suspicion builds normally again. |
+| Pulling away counts as fleeing (m) | `stopFleeDistance` | 150 | 50 - 2000 | Getting this much farther from the pursuers than the closest they came (once they are under way) counts as fleeing the stop: they radio an alert and suspicion builds normally again. Example: 150 = they closed to 40 m, you are now 190 m ahead. |
 | Refusing to stop adds (%) | `refuseSuspBonus` | 20 | 0 - 99 | Suspicion added to the pursuers when you refuse to stop. |
 | Alert when you get away | `alertOnEscape` | on |  | When a pursuit is given up (you were too fast or too far), the pursuers alert the area too. |
 | Alert radius (m) | `alertRadius` | 1500 | 0 - 10000 | Groups and outposts within this distance of the pursuers hear their alerts. |
 | Alert suspicion (%) | `alertSuspicion` | 60 | 0 - 99 | Groups hearing an alert start SEARCHING with at least this suspicion. |
 | Inspect within (m) | `inspectRange` | 30 | 5 - 100 | A foot patrol starts its inspection when your vehicle stops within this distance. |
 | Inspection length (s) | `inspectTime` | 30 | 5 - 300 | How long the inspection lasts. Survive it without being identified and you are cleared. |
-| Inspection multiplier | `inspectMult` | 1.5 | 0.1 - 5 | Suspicion speed while being inspected (on top of face-to-face). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
-| Cleared suspicion (%) | `inspectClearSusp` | 15 | 0 - 99 | Suspicion after passing an inspection. Nearby friendly groups drop to it too. |
+| Inspection judges the vehicle, not the wait | `inspectCalm` | on |  | During an inspection, standing next to them builds no suspicion: that is the point of a stop. Only what they find counts: a turned-out or exposed occupant, a weapon or turret pointed at them, visible damage, an uncovered occupant, a weapon light or honking. Off = suspicion builds face to face as usual. |
+| Inspection multiplier | `inspectMult` | 1.5 | 0.1 - 5 | Suspicion speed while being inspected, once something gives you away (on top of face-to-face). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
+| Clean inspection lowers suspicion by (%) | `inspectClearReduce` | 25 | 0 - 100 | Passing an inspection cleanly lowers that group's suspicion by this much (and never leaves it above 'Cleared suspicion'). Nearby friendly groups get the same value through the sync. Example: 25 with 60% suspicion -> 35%, then capped at 'Cleared suspicion'. |
+| Cleared suspicion (%) | `inspectClearSusp` | 15 | 0 - 99 | Highest suspicion left after passing an inspection. 99 = only the reduction above applies. |
+| Inspectors | `inspectDismount` | 2 | 1 - 10 | How many of a vehicle patrol get out to inspect, in this order: passengers, other crew without a weapon, the commander, the driver. Gunners never leave their weapon. |
+| Crew remount before engaging | `inspectRemount` | on |  | If you flee or get identified during an inspection, dismounted driver / commander / turret crew run back to their own seats first, then the vehicle goes after you. Passengers fight on foot. Off = everyone stays where they are and fights. |
 | Cleared for (s) | `inspectCooldown` | 300 | 0 - 3600 | After passing an inspection that group will not pursue you again for this long. |
 | Fleeing distance (m) | `fleeDistance` | 25 | 5 - 200 | Driving more than this far from where you stopped, during the inspection, counts as fleeing. |
 | Fleeing speed (km/h) | `fleeSpeed` | 15 | 3 - 100 | Driving faster than this during the inspection counts as fleeing. |
@@ -344,8 +351,10 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Theft witness radius (m) | `theftRadius` | 50 | 0 - 500 | Owners within this distance always notice the theft. |
 | Detect ramming | `ramDetect` | on |  | Driving into or over enemy soldiers alerts their group at once. |
 | Ramming from (km/h) | `ramSpeed` | 5 | 1 - 60 | Minimum speed for contact to count as ramming. |
-| Ramming suspicion (%) | `ramSuspicion` | 75 | 0 - 99 | Suspicion given to the rammed group (at least SUSPICIOUS). |
-| Ramming = identified | `ramCompromise` | on |  | Ramming or running over a soldier, or ramming their vehicle, gets everyone undercover in your vehicle identified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion). |
+| Ramming suspicion (%) | `ramSuspicion` | 75 | 0 - 99 | Suspicion the rammed group has at least after being rammed (at least SUSPICIOUS). A single ram only does this; ramming again does what 'Ramming = identified' says. |
+| Full reaction from ram # | `ramRepeatCount` | 2 | 1 - 10 | A single bump can be an accident: the first rams only raise suspicion (Ramming suspicion). From this ram on (by the same vehicle, against the same group, within the window) 'Ramming = identified' applies. Example: 2 = the second ram gets you identified. 1 = the first one already does. |
+| Repeated ramming window (s) | `ramRepeatWindow` | 300 | 10 - 1800 | Rams count as repeated when the next comes within this long of the last one. |
+| Ramming = identified | `ramCompromise` | on |  | Ramming again (see 'Full reaction from ram #') - a soldier, or their vehicle - gets everyone undercover in your vehicle identified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion). |
 | Ramming makes the vehicle known | `ramBurn` | on |  | The ramming vehicle is recognised on sight by that side (within 'Known vehicle range'), so swapping crews does not save it. |
 | Fresh vehicle after being identified | `swapForgive` | on |  | An identified unit that switches to another vehicle unseen is only suspected again, not identified. The old vehicle stays known. |
 | Unseen before switching (s) | `swapMinUnseen` | 15 | 0 - 300 | The group must not have seen you for this long (and must not see you now) when you switch. |

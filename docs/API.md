@@ -18,6 +18,7 @@ Every function can be called from any machine. State-changing calls forward them
 | `root_ads_fnc_clearBulletins` | `[unitOrVehicle, sides = [], alsoVehicle = true]` | |
 | `root_ads_fnc_setUnitMode` | `[unit, "normal"/"exempt"/"force", multiplier = 1, revertAfter = 0]` | |
 | `root_ads_fnc_setGroupProfile` | `[groupOrUnit, multiplier = 1, immune = false, shareRadius = -1, bulletinChance = -1, role = "patrol", followThreshold = -1, roamLimit = -1]` | Role `"patrol"` (may pursue), `"outpost"` (stays, alerts and syncs), `"static"`. Roam limit in m, 0 = unlimited, -1 = settings. |
+| `root_ads_fnc_setStartSuspicion` | `[unitVehicleOrGroup, percent, wholeGroup = false]` | Starting suspicion of these AI: suspicion of covered units starts here and never decays below it. 0 = clear. Group uses its highest member value. Server (forwarded). |
 | `root_ads_fnc_setGearReference` | `[side, [uniforms, vests, headgear, rifles, launchers, backpacks, facewear]]` | Each list an array or a comma-separated string. `[]` clears. |
 | `root_ads_fnc_getGearReference` | `[side]` → seven comma-separated strings | |
 | `root_ads_fnc_collectSideGear` | `[side, apply = false]` → seven comma-separated strings | Everything that side's AI wear now; `apply` sets it as the reference. |

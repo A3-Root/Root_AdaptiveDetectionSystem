@@ -20,9 +20,24 @@ params ["_grp", "_unit"];
 if (isNull _grp || {!local _grp} || {isNull _unit} || {isPlayer (leader _grp)}) exitWith {};
 
 private _veh = vehicle _unit;
-if (RADS_DEBUG) then { ["RAM", format ["group rammed by covered vehicle %1 (identify=%2, burn=%3, suspicion=%4)", typeOf _veh, MSET(ramCompromise), MSET(ramBurn), MSET(ramSuspicion)], _grp, _unit] call FUNC(debugLog); };
 
-if (MSET(ramCompromise)) exitWith {
+// A single bump can be an accident: only ramming again (within the window) gets the full reaction
+private _rams = _grp getVariable [QGVAR(rams), createHashMap];
+private _key = hashValue _veh;
+(_rams getOrDefault [_key, [0, -1e10]]) params ["_count", "_last"];
+// one impact is reported several times (each soldier hit, vehicle contact): count it once
+if (time - _last < 3) exitWith {
+    if (RADS_DEBUG) then { ["RAM", format ["same impact by %1 reported again (%2 s after the last), still ram #%3", typeOf _veh, (time - _last) toFixed 1, _count], _grp, _unit] call FUNC(debugLog); };
+};
+if (time - _last > MSET(ramRepeatWindow)) then { _count = 0; };
+_count = _count + 1;
+_rams set [_key, [_count, time]];
+_grp setVariable [QGVAR(rams), _rams];
+private _repeated = _count >= MSET(ramRepeatCount);
+
+if (RADS_DEBUG) then { ["RAM", format ["group rammed by covered vehicle %1: ram #%2 within %3 s (full reaction from #%4: %5; identify=%6, burn=%7, suspicion=%8)", typeOf _veh, _count, round MSET(ramRepeatWindow), MSET(ramRepeatCount), _repeated, MSET(ramCompromise), MSET(ramBurn), MSET(ramSuspicion)], _grp, _unit] call FUNC(debugLog); };
+
+if (_repeated && {MSET(ramCompromise)}) exitWith {
     [_grp, _unit, "rammed", MSET(bulletinOnHostile)] call FUNC(compromise);
     // the whole vehicle is given away, whatever 'Identify the whole crew' says
     if (_veh != _unit) then {

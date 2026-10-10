@@ -41,8 +41,9 @@ private _elapsed = time - (_pursuit get "start");
 if (_state == ST_COMPROMISED) exitWith { [_grp, "target identified", true] call FUNC(pursuitEnd); };
 if !(_unit getVariable [QGVAR(cover), false]) exitWith { [_grp, "target lost its cover (vanilla detection takes over)"] call FUNC(pursuitEnd); };
 
-if (_phase != "INSPECT") then {
-    if (_state == ST_UNAWARE) exitWith { [_grp, "suspicion faded"] call FUNC(pursuitEnd); };
+if !(_phase in ["INSPECT", "CLEARED"]) then {
+    // a pursuit ordered by Zeus / API runs until it times out or is called off
+    if (_state == ST_UNAWARE && {!(_pursuit getOrDefault ["forced", false])}) exitWith { [_grp, "suspicion faded"] call FUNC(pursuitEnd); };
     if (_elapsed > MSET(pursuitMaxTime) || {((leader _grp) distance (_pursuit get "startPos")) > MSET(pursuitMaxDist)}) exitWith {
         if (MSET(alertOnEscape)) then { [_grp, _unit, "got away from a pursuit"] call FUNC(pursuitAlert); };
         [_grp, format ["gave up after %1 s", round _elapsed]] call FUNC(pursuitEnd);
@@ -50,13 +51,14 @@ if (_phase != "INSPECT") then {
 };
 if (isNil {_grp getVariable QGVAR(pursuit)}) exitWith {};
 
-// Stop request: suspicion held (shares and syncs included) until a hostile act, refusal or flight
+// Stop request: suspicion held (no build, no decay; shares and syncs included) until a hostile
+// act, refusal or flight
 private _freeze = _pursuit get "freeze";
 if (_freeze >= 0 && {_entry isNotEqualTo []}) then {
     if ((crew _veh) findIf {(_x getVariable [QGVAR(heatUntil), -1]) > CBA_missionTime} > -1) then {
         [_grp, "hostile act (shots fired from the vehicle)"] call FUNC(pursuitUnfreeze);
     } else {
-        if ((_entry select D_SUSP) > _freeze) then {
+        if ((_entry select D_SUSP) != _freeze) then {
             _entry set [D_SUSP, _freeze];
             [_grp, true] call FUNC(publishData);
         };
@@ -69,7 +71,7 @@ _lead set [2, 0];
 
 // Roam limit: never farther than this from home. Waiting at the edge, they give up and radio
 // once the target stays beyond it.
-if (_phase != "INSPECT") then {
+if !(_phase in ["INSPECT", "CLEARED"]) then {
     private _leash = [_grp, _pursuit get "mounted"] call FUNC(pursuitLeash);
     if (_leash > 0) then {
         private _home = _pursuit get "startPos";
@@ -110,15 +112,30 @@ switch (_phase) do {
             _pursuit set ["phase", "CHASE"];
             if (RADS_DEBUG) then { ["PURSUIT", format ["%1 lost its vehicle, continues on foot", groupId _grp], _grp, _unit] call FUNC(debugLog); };
         };
-        [_grp, "move", _lead] call FUNC(pursuitWaypoint);
-        if (!isEngineOn _aiVeh) then {
-            if (local _aiVeh) then { _aiVeh engineOn true; } else { [QGVAR(engineOn), [_aiVeh], _aiVeh] call CBA_fnc_targetEvent; };
+        // Far away or moving: aim where it will be (drivers brake as they near their move point,
+        // aiming at or behind a moving car keeps them slow). Close and slow: 20 m behind it along its
+        // own heading, not into it. Beyond the roam limit: its edge.
+        private _drivePos = switch (true) do {
+            case ((_pursuit get "outside") > 0): { +_lead };
+            case (_distance > 60 || _speed > 15): { (getPosATL _veh) vectorAdd ((velocity _veh) vectorMultiply ((_distance / 15) max 2 min 8)) };
+            default { _veh modelToWorld [0, -20, 0] };
         };
+        _drivePos set [2, 0];
+        // re-ordering is throttled there: every new order restarts the driver's route planning
+        [_grp, _drivePos] call FUNC(pursuitDrive);
+
+        // Only judged once they are really following (moving): a parked vehicle pulling out behind a
+        // car that was passing by must not count as the car fleeing or running out the time to stop.
+        if (!(_pursuit getOrDefault ["engaged", false]) && {abs speed _aiVeh > 10}) then {
+            _pursuit set ["engaged", true];
+            if (RADS_DEBUG) then { ["PURSUIT", format ["%1 is under way after %2 (%3 m): flee check and time to stop start now", groupId _grp, name _unit, round _distance], _grp, _unit] call FUNC(debugLog); };
+        };
+        private _engaged = _pursuit getOrDefault ["engaged", false];
 
         // pulling away from the closest they came = fleeing the stop
-        _pursuit set ["minDist", (_pursuit get "minDist") min _distance];
+        if (_engaged) then { _pursuit set ["minDist", (_pursuit get "minDist") min _distance]; };
         private _refuse = "";
-        if (_distance - (_pursuit get "minDist") > MSET(stopFleeDistance)) then {
+        if (_engaged && {_distance - (_pursuit get "minDist") > MSET(stopFleeDistance)}) then {
             _refuse = format ["pulled away (%1 m, closest was %2 m)", round _distance, round (_pursuit get "minDist")];
         };
 
@@ -129,9 +146,11 @@ switch (_phase) do {
                 [QGVAR(message), [format ["RADS: %1 signals %2 to stop", groupId _grp, name _unit]]] call CBA_fnc_globalEvent;
             };
             if (!(_pursuit get "refused")) then { [_grp, true] call FUNC(pursuitSignal); };
+            if (_engaged && {(_pursuit getOrDefault ["clockStart", -1]) < 0}) then { _pursuit set ["clockStart", time]; };
 
             if (_distance <= MSET(followDistance) && _speed < 3) then { _pursuit set ["stopped", (_pursuit get "stopped") + 1]; } else { _pursuit set ["stopped", 0]; };
-            if (_refuse == "" && {(time - (_pursuit get "signalStart")) > MSET(stopTimeout)}) then {
+            private _clock = _pursuit getOrDefault ["clockStart", -1];
+            if (_refuse == "" && _clock >= 0 && {(time - _clock) > MSET(stopTimeout)}) then {
                 _refuse = format ["did not stop within %1 s", round MSET(stopTimeout)];
             };
         } else {
@@ -159,7 +178,14 @@ switch (_phase) do {
         private _anchor = _pursuit get "inspectPos";
         if ((_veh distance2D _anchor) > MSET(fleeDistance) || {_speed > MSET(fleeSpeed)}) exitWith { [_grp] call FUNC(pursuitFled); };
 
-        // keep the inspectors around the vehicle and looking in
+        // keep the inspectors around the vehicle and looking in; the first one out raises a hand: stop
+        if (!(_pursuit getOrDefault ["haltShown", false])) then {
+            private _first = (_pursuit get "inspectors") findIf {[_x] call FUNC(isAwake) && {isNull objectParent _x}};
+            if (_first > -1) then {
+                _pursuit set ["haltShown", true];
+                ((_pursuit get "inspectors") select _first) playActionNow "gestureFreeze";
+            };
+        };
         if (time >= (_pursuit get "nextMove")) then {
             _pursuit set ["nextMove", time + 5];
             private _inspectors = (_pursuit get "inspectors") select {[_x] call FUNC(isAwake) && {isNull objectParent _x}};

@@ -78,11 +78,29 @@ private _pursuit = createHashMapFromArray [
     ["nextSignal", 0],
     ["signals", 0],
     ["minDist", 1e10],
+    ["engaged", false],
+    ["forced", _forced],
+    ["clockStart", -1],
     ["freeze", -1],
     ["unfrozen", ""]
 ];
 
 if (_mounted) then {
+    // crew parked at a checkpoint may have been told to stay put: free them for the pursuit
+    private _freed = [];
+    {
+        private _crewman = _x;
+        {
+            if !(_crewman checkAIFeature _x) then {
+                _crewman enableAI _x;
+                _freed pushBack [_crewman, _x];
+            };
+        } forEach ["PATH", "MOVE"];
+    } forEach ((crew _aiVeh) select {group _x == _grp});
+    _pursuit set ["freedAI", _freed];
+    (units _grp) doFollow _leader;
+    if (RADS_DEBUG) then { ["PURSUIT", format ["%1 mounts up in %2: driver=%3 commander=%4 engine=%5 re-enabled=%6", groupId _grp, typeOf _aiVeh, name driver _aiVeh, name effectiveCommander _aiVeh, isEngineOn _aiVeh, _freed apply {format ["%1:%2", name (_x select 0), _x select 1]}], _grp, _unit] call FUNC(debugLog); };
+
     // the engine may be off at a checkpoint
     if (!isEngineOn _aiVeh) then {
         if (local _aiVeh) then { _aiVeh engineOn true; } else { [QGVAR(engineOn), [_aiVeh], _aiVeh] call CBA_fnc_targetEvent; };
@@ -92,12 +110,13 @@ if (_mounted) then {
     if (MSET(stopFreeze)) then {
         private _entry = ([_grp] call FUNC(getData)) getOrDefault [hashValue _unit, []];
         if (_entry isNotEqualTo [] && {(_entry select D_STATE) != ST_COMPROMISED}) then {
-            private _threshold = _grp getVariable [QGVAR(followThreshold), -1];
-            if (_threshold < 0) then { _threshold = MSET(followThreshold); };
-            private _hold = (_entry select D_SUSP) min _threshold;
-            if ((_entry select D_SUSP) > _hold) then {
-                if (RADS_DEBUG) then { [_entry, format ["t=%1 STOP REQUEST suspicion %2 -> %3 (held at the follow threshold)", CBA_missionTime toFixed 1, (_entry select D_SUSP) toFixed 1, _hold toFixed 1]] call FUNC(debugHistory); };
+            // Held where it is when they set off, but never below the suspicious threshold: a low
+            // follow threshold (or a pursuit ordered by Zeus) must not let them calm down mid-stop.
+            private _hold = ((_entry select D_SUSP) max MSET(suspiciousThreshold)) min (MSET(identifyThreshold) - 1);
+            if ((_entry select D_SUSP) != _hold) then {
+                if (RADS_DEBUG) then { [_entry, format ["t=%1 STOP REQUEST suspicion %2 -> %3 (held while they follow)", CBA_missionTime toFixed 1, (_entry select D_SUSP) toFixed 1, _hold toFixed 1]] call FUNC(debugHistory); };
                 _entry set [D_SUSP, _hold];
+                if ((_entry select D_STATE) == ST_UNAWARE) then { [_grp, _entry, ST_SUSPICIOUS, "stop request (pursuit started)"] call FUNC(setState); };
                 [_grp, true] call FUNC(publishData);
             };
             _pursuit set ["freeze", _hold];
@@ -113,8 +132,17 @@ if (MSET(lambsDisableDuringPursuit) && {isClass (configFile >> "CfgPatches" >> "
 
 _grp setVariable [QGVAR(pursuit), _pursuit];
 _grp setVariable [QGVAR(pursuitTarget), _unit, true];
-_pursuit set ["wp", [_grp, "add", getPosATL (vehicle _unit)] call FUNC(pursuitWaypoint)];
-if (behaviour _leader in ["SAFE", "CARELESS"]) then { _grp setBehaviour "AWARE"; };
+// Foot groups get a waypoint. Vehicles only get direct move orders for the driver (pursuitDrive):
+// a waypoint on top of those gives the crew two orders to fight over.
+if (_mounted) then {
+    _pursuit set ["wp", []];
+    // AWARE / COMBAT crews drive slowly and cautiously; SAFE with full speed keeps up on the roads.
+    // A hostile act ends the pursuit and puts them in COMBAT.
+    _grp setBehaviour "SAFE";
+} else {
+    _pursuit set ["wp", [_grp, "add", getPosATL (vehicle _unit)] call FUNC(pursuitWaypoint)];
+    if (behaviour _leader in ["SAFE", "CARELESS"]) then { _grp setBehaviour "AWARE"; };
+};
 _grp setSpeedMode "FULL";
 
 _pursuit set ["pfh", [FUNC(pursuitTick), 1, _grp] call CBA_fnc_addPerFrameHandler];

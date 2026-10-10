@@ -41,6 +41,7 @@ ZEUS = [
     ("ROOT_ADS_Zeus_UnitCover", "zeusUnitCover", "Unit Cover Profile"),
     ("ROOT_ADS_Zeus_Vehicle", "zeusVehicle", "Vehicle Disguise"),
     ("ROOT_ADS_Zeus_GroupProfile", "zeusGroupProfile", "AI Group Profile"),
+    ("ROOT_ADS_Zeus_StartSuspicion", "zeusStartSuspicion", "AI Starting Suspicion"),
     ("ROOT_ADS_Zeus_GearReference", "zeusGearReference", "Enemy Gear Reference"),
     ("ROOT_ADS_Zeus_OrderPursuit", "zeusOrderPursuit", "Order Pursuit / Call Off"),
     ("ROOT_ADS_Zeus_Compromise", "zeusCompromise", "Compromise / Restore Cover"),
@@ -57,7 +58,7 @@ EDEN_SETTINGS = [
     "armoredDetect", "armoredHullMult", "armoredDrivingOnly", "vehOpticsEnabled", "vehOpticsMult",
     "gearCompareMode", "gearRefSource",
     "metaDetect", "metaMaxSpeed", "hiddenCrewAny", "reverseMult", "rearFacingMult",
-    "ramCompromise", "ramBurn",
+    "ramRepeatCount", "ramRepeatWindow", "ramCompromise", "ramBurn", "hornSuspicion", "hornRange",
     "convoyMode", "convoySpillSusp",
     "shareMode", "shareRadius",
     "bulletinEnabled", "bulletinChance", "bulletinRange", "burnDuration", "wantedDuration",
@@ -70,7 +71,7 @@ EDEN_PURSUIT = [
     "leashEnabled", "leashFoot", "leashVehicle", "leashGiveUp",
     "stopFreeze", "stopSignalRange", "stopSignalInterval", "stopFleeDistance",
     "followDistance", "stopTimeout", "stopSignalHorn", "stopSignalLights", "alertRadius", "alertSuspicion",
-    "inspectTime", "inspectMult", "inspectClearSusp", "fleeDistance", "fleeBulletin", "fleeBurn",
+    "pursuitCooldown", "inspectCalm", "inspectTime", "inspectMult", "inspectClearReduce", "inspectClearSusp", "inspectDismount", "inspectRemount", "fleeDistance", "fleeBulletin", "fleeBurn",
     "lambsDisableDuringPursuit", "lambsHuntOnCompromise",
     "truceEnabled", "truceMaxStay", "truceWarn", "truceCareless", "truceBreakScope", "truceBreakOnAim", "truceCooldown",
 ]
@@ -210,6 +211,10 @@ EDEN = [
         a_num("ROOT_ADS_G_followThreshold", "Follow threshold (%)", "Suspicion at which these groups start pursuing. -1 = setting.", -1),
         a_num("ROOT_ADS_G_leash", "Roam limit (m)", "How far these groups may go from home while pursuing. 0 = unlimited, -1 = settings (foot / mounted).", -1),
     ], "Observer profile for the groups of the synced AI units."),
+    eden("ROOT_ADS_Module_StartSuspicion", "edenStartSuspicion", "AI Starting Suspicion", 0, [
+        a_num("ROOT_ADS_SS_percent", "Starting suspicion (%)", "Suspicion of any undercover player starts here and never falls below it, even while they are unaware. It still builds from there. 0 = clear.", 30),
+        a_bool("ROOT_ADS_SS_group", "Whole group", "Apply to every unit in the synced units' groups, not only the synced units.", False),
+    ], "Sync AI units (or vehicles: their crew). Their group judges undercover players starting from this suspicion. The group uses the highest value among its members."),
     eden("ROOT_ADS_Module_GearReference", "edenGearReference", "Enemy Gear Reference", 0, [
         a_str("ROOT_ADS_R_side", "Observer side", "The side whose expected kit this is: east, west or independent.", "east"),
         a_bool("ROOT_ADS_R_collect", "Collect from that side's AI", "Build the lists from what that side's AI wear 10 s after the start. The lists below are added to it.", True),
@@ -364,6 +369,13 @@ ZS = {
     "optics": "Optics range (AI crew)",
     "optics_desc": "When enemy AI man this vehicle: range multiplier of its gunner / commander optics. -1 = setting.",
     "groupApplied": "RADS group profile applied",
+    # starting suspicion
+    "startTitle": "RADS - AI Starting Suspicion - %1",
+    "startPercent": "Starting suspicion (%)",
+    "startPercent_desc": "Suspicion of any undercover player starts here and never falls below it, even while unaware. It still builds from there. 0 = clear.",
+    "startGroup": "Whole group",
+    "startGroup_desc": "Apply to every unit of this group, not only this unit (or vehicle crew).",
+    "startApplied": "RADS starting suspicion applied",
     # gear reference
     "gearTitle": "RADS - Enemy Gear Reference",
     "gearSide": "Observer side",
@@ -555,4 +567,12 @@ if __name__ == "__main__":
     write("addons/modules/CfgVehicles.hpp", cfg)
     write("addons/modules/stringtable.xml", build_xml())
     units = [c for c, _, _ in ZEUS] + [m["cls"] for m in EDEN]
-    print("units[]:", ", ".join(f'"{u}"' for u in units))
+    # CfgPatches units[] must list every module, or Zeus does not offer it
+    import re
+    path = os.path.join(ROOT, "addons/modules/config.cpp")
+    text = open(path, encoding="utf-8").read()
+    block = "units[] = {\n" + ",\n".join(f'            "{u}"' for u in units) + "\n        };"
+    text, n = re.subn(r"units\[\] = \{.*?\};", lambda _m: block, text, count=1, flags=re.S)
+    assert n == 1, "units[] not found in config.cpp"
+    write("addons/modules/config.cpp", text)
+    print(len(units), "modules")

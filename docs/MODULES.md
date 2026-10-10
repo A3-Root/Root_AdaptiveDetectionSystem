@@ -74,6 +74,16 @@ Zone markers are drawn when the *Show zone markers* setting is on.
 
 - **Zeus**: place on any unit of the group. **3DEN**: synced units' groups.
 
+## AI Starting Suspicion
+| Field | Meaning |
+|---|---|
+| Starting suspicion (%) | Suspicion of any undercover player starts here and never falls below it, even while the AI are unaware. It still builds from there and the normal thresholds apply. 0 = clear. |
+| Whole group | Apply to every unit of the group, not only this unit (or vehicle crew). |
+
+A group uses the highest value among its awake members.
+
+- **Zeus**: place on an AI unit or vehicle. **3DEN**: synced AI units or vehicles.
+
 ## Enemy Gear Reference
 What a side's AI expect to see. With *How gear is judged* set to matching, each visible item a player wears is compared with it. The very same item makes them less suspicious, another camo of the same item is neutral, and an item they never wear makes them more suspicious. Weapons, launchers and backpacks only count from exposed seats.
 

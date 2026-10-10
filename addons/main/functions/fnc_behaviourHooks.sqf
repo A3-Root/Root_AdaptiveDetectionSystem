@@ -23,7 +23,8 @@ if (_active) then {
     private _veh = vehicle _unit;
     private _leader = leader _grp;
 
-    if (MSET(aiAware) && {behaviour _leader in ["SAFE", "CARELESS"]} && {isNil {_grp getVariable QGVAR(truceSaved)}}) then {
+    // a pursuit sets its own behaviour (mounted crews drive in SAFE)
+    if (MSET(aiAware) && {behaviour _leader in ["SAFE", "CARELESS"]} && {isNil {_grp getVariable QGVAR(truceSaved)}} && {isNil {_grp getVariable QGVAR(pursuit)}}) then {
         if (isNil {_grp getVariable QGVAR(savedBehaviour)}) then { _grp setVariable [QGVAR(savedBehaviour), behaviour _leader]; };
         _grp setBehaviour "AWARE";
     };

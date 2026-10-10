@@ -919,6 +919,18 @@
         <Key ID="STR_root_ads_main_hornMult_desc">
             <English>Suspicion speed for 10 s after honking near them. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
         </Key>
+        <Key ID="STR_root_ads_main_hornRange">
+            <English>Honking heard within (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornRange_desc">
+            <English>How far away enemy groups hear your horn.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornSuspicion">
+            <English>Honking adds (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornSuspicion_desc">
+            <English>Every honk (at most one every 2 s) adds this much suspicion of everyone undercover in your vehicle\nto enemy groups within earshot. They hear it: no line of sight needed. 0 = off.</English>
+        </Key>
         <Key ID="STR_root_ads_main_hostileVehMult">
             <English>Enemy side's vehicle</English>
         </Key>
@@ -973,17 +985,35 @@
         <Key ID="STR_root_ads_main_informantsEnabled_desc">
             <English>Civilians who see a soldier get into a vehicle or a hostile act may report it.</English>
         </Key>
+        <Key ID="STR_root_ads_main_inspectCalm">
+            <English>Inspection judges the vehicle, not the wait</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectCalm_desc">
+            <English>During an inspection, standing next to them builds no suspicion: that is the point of a stop.\nOnly what they find counts: a turned-out or exposed occupant, a weapon or turret pointed at them,\nvisible damage, an uncovered occupant, a weapon light or honking. Off = suspicion builds face to face as usual.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectClearReduce">
+            <English>Clean inspection lowers suspicion by (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectClearReduce_desc">
+            <English>Passing an inspection cleanly lowers that group's suspicion by this much (and never leaves it above\n'Cleared suspicion'). Nearby friendly groups get the same value through the sync.\nExample: 25 with 60% suspicion -&gt; 35%, then capped at 'Cleared suspicion'.</English>
+        </Key>
         <Key ID="STR_root_ads_main_inspectClearSusp">
             <English>Cleared suspicion (%)</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectClearSusp_desc">
-            <English>Suspicion after passing an inspection. Nearby friendly groups drop to it too.</English>
+            <English>Highest suspicion left after passing an inspection. 99 = only the reduction above applies.</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectCooldown">
             <English>Cleared for (s)</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectCooldown_desc">
             <English>After passing an inspection that group will not pursue you again for this long.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectDismount">
+            <English>Inspectors</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectDismount_desc">
+            <English>How many of a vehicle patrol get out to inspect, in this order: passengers, other crew without\na weapon, the commander, the driver. Gunners never leave their weapon.</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectHint">
             <English>%1 is inspecting your vehicle. Stay put - driving off now means you are identified.</English>
@@ -995,13 +1025,19 @@
             <English>Inspection multiplier</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectMult_desc">
-            <English>Suspicion speed while being inspected (on top of face-to-face). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+            <English>Suspicion speed while being inspected, once something gives you away (on top of face-to-face). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectRange">
             <English>Inspect within (m)</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectRange_desc">
             <English>A foot patrol starts its inspection when your vehicle stops within this distance.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectRemount">
+            <English>Crew remount before engaging</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectRemount_desc">
+            <English>If you flee or get identified during an inspection, dismounted driver / commander / turret crew\nrun back to their own seats first, then the vehicle goes after you. Passengers fight on foot.\nOff = everyone stays where they are and fights.</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectTime">
             <English>Inspection length (s)</English>
@@ -1285,6 +1321,12 @@
         <Key ID="STR_root_ads_main_plateRecognition_desc">
             <English>A reported vehicle's number plate is reported too: any vehicle with that plate is identified as soon as\nthe plate is read, whatever its side.</English>
         </Key>
+        <Key ID="STR_root_ads_main_pursuitCooldown">
+            <English>Cooldown between pursuits (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_pursuitCooldown_desc">
+            <English>After a pursuit ends (given up, cleared or called off) that group starts no new one for this long.\nA passed inspection additionally clears you for 'Cleared for'.</English>
+        </Key>
         <Key ID="STR_root_ads_main_pursuitEnabled">
             <English>AI pursue suspects</English>
         </Key>
@@ -1376,13 +1418,25 @@
             <English>Ramming = identified</English>
         </Key>
         <Key ID="STR_root_ads_main_ramCompromise_desc">
-            <English>Ramming or running over a soldier, or ramming their vehicle, gets everyone undercover in your vehicle\nidentified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion).</English>
+            <English>Ramming again (see 'Full reaction from ram #') - a soldier, or their vehicle - gets everyone undercover in your\nvehicle identified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion).</English>
         </Key>
         <Key ID="STR_root_ads_main_ramDetect">
             <English>Detect ramming</English>
         </Key>
         <Key ID="STR_root_ads_main_ramDetect_desc">
             <English>Driving into or over enemy soldiers alerts their group at once.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramRepeatCount">
+            <English>Full reaction from ram #</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramRepeatCount_desc">
+            <English>A single bump can be an accident: the first rams only raise suspicion (Ramming suspicion).\nFrom this ram on (by the same vehicle, against the same group, within the window) 'Ramming = identified' applies.\nExample: 2 = the second ram gets you identified. 1 = the first one already does.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramRepeatWindow">
+            <English>Repeated ramming window (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_ramRepeatWindow_desc">
+            <English>Rams count as repeated when the next comes within this long of the last one.</English>
         </Key>
         <Key ID="STR_root_ads_main_ramSpeed">
             <English>Ramming from (km/h)</English>
@@ -1394,7 +1448,7 @@
             <English>Ramming suspicion (%)</English>
         </Key>
         <Key ID="STR_root_ads_main_ramSuspicion_desc">
-            <English>Suspicion given to the rammed group (at least SUSPICIOUS).</English>
+            <English>Suspicion the rammed group has at least after being rammed (at least SUSPICIOUS).\nA single ram only does this; ramming again does what 'Ramming = identified' says.</English>
         </Key>
         <Key ID="STR_root_ads_main_rearFacingAngle">
             <English>Rear-facing cone (deg)</English>
@@ -1649,7 +1703,7 @@
             <English>Pulling away counts as fleeing (m)</English>
         </Key>
         <Key ID="STR_root_ads_main_stopFleeDistance_desc">
-            <English>Getting this much farther from the pursuers than the closest they came counts as fleeing the stop:\nthey radio an alert and suspicion builds normally again.\nExample: 150 = they closed to 40 m, you are now 190 m ahead.</English>
+            <English>Getting this much farther from the pursuers than the closest they came (once they are under way)\ncounts as fleeing the stop: they radio an alert and suspicion builds normally again.\nExample: 150 = they closed to 40 m, you are now 190 m ahead.</English>
         </Key>
         <Key ID="STR_root_ads_main_stopFreeze">
             <English>Hold suspicion during a stop request</English>
@@ -1667,7 +1721,7 @@
             <English>Signal every (s)</English>
         </Key>
         <Key ID="STR_root_ads_main_stopSignalInterval_desc">
-            <English>How often the pursuers repeat the signal: two honks and three flashes of the headlights each time.\nLower = more insistent. Example: 4 with a 30 s time to stop = about 7 signals.</English>
+            <English>How often the pursuers repeat the signal: two honks 1 s apart and three flashes of the headlights\n(0.5 s on, 0.5 s off) each time; one signal takes 3 s.\nLower = more insistent. Example: 4 with a 30 s time to stop = about 7 signals.</English>
         </Key>
         <Key ID="STR_root_ads_main_stopSignalLights">
             <English>Stop signal: flashing lights</English>
@@ -1685,7 +1739,7 @@
             <English>Time to stop (s)</English>
         </Key>
         <Key ID="STR_root_ads_main_stopTimeout_desc">
-            <English>How long the pursuers keep signalling. Not stopping by then counts as refusing: they radio an alert\nand suspicion builds normally again.</English>
+            <English>How long the pursuers keep signalling, counted once they are under way and within signal range.\nNot stopping by then counts as refusing: they radio an alert and suspicion builds normally again.</English>
         </Key>
         <Key ID="STR_root_ads_main_suspiciousThreshold">
             <English>Suspicious at (%)</English>

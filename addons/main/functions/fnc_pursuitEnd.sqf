@@ -26,8 +26,13 @@ if (_pfh >= 0) then { [_pfh] call CBA_fnc_removePerFrameHandler; };
 [_grp, false] call FUNC(pursuitSignal);
 [_grp, "remove"] call FUNC(pursuitWaypoint);
 
-// back in the vehicle (fighting dismounts stay out)
+// back in the vehicle (fighting dismounts stay out, except the crew: see below)
 private _inspectors = (_pursuit get "inspectors") select {alive _x};
+private _unit = _pursuit get "target";
+private _leash = [_grp, _pursuit get "mounted"] call FUNC(pursuitLeash);
+private _aiVeh = _pursuit getOrDefault ["aiVeh", objNull];
+private _crewSeats = (_pursuit getOrDefault ["crewSeats", []]) select {alive (_x select 0) && {vehicle (_x select 0) != _aiVeh}};
+private _remount = _combat && {MSET(inspectRemount)} && {_pursuit get "mounted"} && {alive _aiVeh} && {canMove _aiVeh} && {_crewSeats isNotEqualTo []};
 if (_inspectors isNotEqualTo []) then {
     { _x doWatch objNull; _x lookAt objNull; } forEach _inspectors;
     if (!_combat && {_pursuit get "mounted"}) then {
@@ -38,6 +43,8 @@ if (_inspectors isNotEqualTo []) then {
     };
 };
 (units _grp) doFollow (leader _grp);
+// whatever the mission designer had switched off goes back off
+{ _x params ["_crewman", "_feature"]; if (alive _crewman) then { _crewman disableAI _feature; }; } forEach (_pursuit getOrDefault ["freedAI", []]);
 
 if (_combat) then {
     _grp setBehaviour "COMBAT";
@@ -50,13 +57,14 @@ if ("lambs" in _pursuit) then { _grp setVariable ["lambs_danger_disableGroupAI",
 
 _grp setVariable [QGVAR(pursuit), nil];
 _grp setVariable [QGVAR(pursuitTarget), objNull, true];
-_grp setVariable [QGVAR(nextPursuit), time + 20];
+_grp setVariable [QGVAR(nextPursuit), time + MSET(pursuitCooldown)];
 _grp setVariable [QGVAR(homeUntil), time + 120];
 
-private _unit = _pursuit get "target";
-if (_combat && {MSET(lambsHuntOnCompromise)} && {!isNil "lambs_wp_fnc_taskRush"} && {alive _unit}) then {
+// crew out inspecting get back to their seats first; the hunt starts once they are in
+if (_remount) then { [_grp, _aiVeh, _crewSeats, _unit, _leash] call FUNC(pursuitRemount); };
+
+if (_combat && {!_remount} && {MSET(lambsHuntOnCompromise)} && {!isNil "lambs_wp_fnc_taskRush"} && {alive _unit}) then {
     // LAMBS search radius stays inside the roam limit
-    private _leash = [_grp, _pursuit get "mounted"] call FUNC(pursuitLeash);
     if (_pursuit get "mounted") then {
         [_grp, [1000, _leash] select (_leash > 0)] spawn lambs_wp_fnc_taskHunt;
     } else {

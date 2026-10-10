@@ -126,6 +126,28 @@ if (_visible && _hull == "armored" && {MSET(armoredDrivingOnly)}) then {
     };
 };
 
+// Being inspected: standing next to them is the point of a stop, so that alone builds nothing.
+// What still gives them away: an exposed or turned-out occupant, a weapon or turret pointed at
+// them, visible damage, an uncovered occupant, a weapon light, honking.
+private _inspectCalm = false;
+private _inspection = _grp getVariable QGVAR(pursuit);
+if (_visible && {MSET(inspectCalm)} && {!isNil "_inspection"} && {(_inspection get "phase") == "INSPECT"} && {(_inspection get "target") == _unit}) then {
+    private _acts = [];
+    if (([_unit, _veh] call FUNC(seatFactor)) select 1) then { _acts pushBack "exposed"; };
+    if ((_parts param [8, 1]) > 1) then { _acts pushBack "aiming"; };
+    if (([_veh] call FUNC(visibleDamage)) >= MSET(damageVisibleAt)) then { _acts pushBack "damaged"; };
+    if (((crew _veh) findIf {alive _x && {!(_x getVariable [QGVAR(cover), false])} && {[_side, _x] call FUNC(isHostile)}}) > -1) then { _acts pushBack "uncoveredOccupant"; };
+    private _weapon = currentWeapon _unit;
+    if (_weapon != "" && {(_unit isFlashlightOn _weapon) || {_unit isIRLaserOn _weapon}}) then { _acts pushBack "weaponLight"; };
+    if (CBA_missionTime - (_veh getVariable [QGVAR(hornTime), -100]) < 10) then { _acts pushBack "horn"; };
+    if (_acts isEqualTo []) then {
+        _visible = false;
+        _inspectCalm = true;
+    } else {
+        if (_dbg) then { _factors pushBack format ["inspectionGivenAway[%1]", _acts joinString ","]; };
+    };
+};
+
 if (_visible) then {
     ([_unit, _veh] call FUNC(seatFactor)) params ["_seatMult", "_exposedSeat"];
     // gear only counts as far as an observer can make it out
@@ -302,7 +324,8 @@ if (_visible) then {
         [_line, _detail >= 2 || {_detail == 1 && {_gain >= MSET(debugJump)}}] call _fnc_record;
     };
 } else {
-    _susp = _susp - MSET(decayRate) * _zoneDecay * _dt;
+    // an inspection that finds nothing neither builds nor calms them: the clearance does that
+    if (!_inspectCalm) then { _susp = _susp - MSET(decayRate) * _zoneDecay * _dt; };
     if (_armoredCalm && {abs speed _veh < 3} && {(_observer distance _veh) < (MSET(identifyRange) * 3)}) then {
         _entry set [D_STATIONARY, (_entry select D_STATIONARY) + _dt];
     } else {
@@ -311,6 +334,7 @@ if (_visible) then {
     if (_dbg) then {
         private _why = switch (true) do {
             case (_safe): { " (safe zone)" };
+            case (_inspectCalm): { format [" (inspection: vehicle and occupants in order, held | %1)", call _fnc_observerText] };
             case (_armoredCalm): { format [" (armored, driven calmly: nothing to judge | %1)", call _fnc_observerText] };
             default { "" };
         };
@@ -319,8 +343,14 @@ if (_visible) then {
 };
 
 // a calm armored vehicle stays in view (no new "pass" when it gives itself away)
-_entry set [D_VISIBLE, _visible || _armoredCalm];
+_entry set [D_VISIBLE, _visible || _armoredCalm || _inspectCalm];
 _susp = (_susp max 0) min 100;
+// never below the starting suspicion set on these AI
+private _start = [_grp] call FUNC(startSuspicion);
+if (_susp < _start) then {
+    _susp = _start;
+    if (_dbg && {MSET(debugDetail) >= 2}) then { [format ["t=%1 held at starting suspicion %2", CBA_missionTime toFixed 1, _start toFixed 1], true] call _fnc_record; };
+};
 _entry set [D_SUSP, _susp];
 
 if (_susp >= MSET(identifyThreshold)) exitWith {

@@ -9,6 +9,7 @@
 [QGVAR(share), FUNC(onShare)] call CBA_fnc_addEventHandler;
 [QGVAR(bulletin), FUNC(onBulletin)] call CBA_fnc_addEventHandler;
 [QGVAR(rammed), FUNC(onRammed)] call CBA_fnc_addEventHandler;
+[QGVAR(honked), FUNC(onHonked)] call CBA_fnc_addEventHandler;
 [QGVAR(truceBroken), FUNC(onTruceBroken)] call CBA_fnc_addEventHandler;
 [QGVAR(syncSusp), FUNC(onSyncSuspicion)] call CBA_fnc_addEventHandler;
 [QGVAR(pursuitAlert), FUNC(onPursuitAlert)] call CBA_fnc_addEventHandler;
@@ -22,7 +23,7 @@
 if (isServer) then {
     [QGVAR(api), {
         params ["_fnc", "_args"];
-        if !(_fnc in ["addZone", "removeZone", "setOverride", "clearOverrides", "burnVehicle", "markWanted", "clearBulletins", "setEnabled", "setVehicleMode", "setUnitMode", "setGroupProfile", "setGearReference", "setZoneTruce"]) exitWith {};
+        if !(_fnc in ["addZone", "removeZone", "setOverride", "clearOverrides", "burnVehicle", "markWanted", "clearBulletins", "setEnabled", "setVehicleMode", "setUnitMode", "setGroupProfile", "setStartSuspicion", "setGearReference", "setZoneTruce"]) exitWith {};
         _args call (missionNamespace getVariable [format ["root_ads_fnc_%1", _fnc], {}]);
     }] call CBA_fnc_addEventHandler;
 };
@@ -60,6 +61,13 @@ if (hasInterface) then {
     }] call CBA_fnc_addEventHandler;
 
     call FUNC(initPlayer);
+    // the horn is not always reported as a shot: catch the fire key of a driver with a horn too
+    addUserActionEventHandler ["DefaultAction", "Activate", {
+        private _veh = vehicle player;
+        if (_veh != player && {driver _veh == player} && {((_veh weaponsTurret [-1]) findIf {"horn" in toLower _x}) > -1}) then {
+            [player, "fire key"] call FUNC(hornPressed);
+        };
+    }];
     [FUNC(ramCheck), 0.2] call CBA_fnc_addPerFrameHandler;
     addMissionEventHandler ["Draw3D", { if (GVAR(debugOverlay) && {DEBUG_OK}) then { call FUNC(debugDraw) }; }];
 

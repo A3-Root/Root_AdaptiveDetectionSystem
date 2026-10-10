@@ -389,6 +389,10 @@ slider("speedingMult", "Speeding multiplier", tip("Suspicion speed while speedin
 slider("offroadMult", "Off-road approach", tip("Suspicion speed driving off-road within 150 m of a group. " + MULT), 1, 5, 1.2, 2)
 slider("lightsOffMult", "Lights off at night", tip("Suspicion speed driving at night with headlights off. " + MULT), 1, 5, 1.4, 2)
 slider("hornMult", "Honking", tip("Suspicion speed for 10 s after honking near them. " + MULT), 1, 5, 1.5, 2)
+slider("hornSuspicion", "Honking adds (%)", tip(
+    "Every honk (at most one every 2 s) adds this much suspicion of everyone undercover in your vehicle",
+    "to enemy groups within earshot. They hear it: no line of sight needed. 0 = off."), 0, 50, 5)
+slider("hornRange", "Honking heard within (m)", tip("How far away enemy groups hear your horn."), 0, 500, 60)
 slider("aimMult", "Aiming at the AI", tip("Suspicion speed while your weapon or turret points at a soldier. " + MULT), 1, 10, 2.5, 2)
 slider("aimAngle", "Aiming cone (deg)", tip(
     "How close to a soldier your weapon must point to count as aiming at them (half-angle)."), 1, 45, 8)
@@ -602,6 +606,9 @@ slider("followThreshold", "Follow threshold (%)", tip(
 slider("pursuitMaxGroups", "Pursuers per target", tip(
     "Most groups that pursue the same unit at once. Keeps the whole map from converging on you."), 1, 10, 2)
 slider("pursuitMaxStart", "Start distance (m)", tip("Only groups within this distance start a pursuit."), 50, 3000, 600)
+slider("pursuitCooldown", "Cooldown between pursuits (s)", tip(
+    "After a pursuit ends (given up, cleared or called off) that group starts no new one for this long.",
+    "A passed inspection additionally clears you for 'Cleared for'."), 0, 1800, 60)
 slider("pursuitMaxTime", "Give up after (s)", tip("A pursuit that has not led to a stop is abandoned after this long."), 30, 1800, 180)
 slider("pursuitMaxDist", "Give up beyond (m)", tip(
     "A pursuit is abandoned once the group is this far from where it started."), 100, 10000, 1000)
@@ -630,16 +637,17 @@ slider("stopSignalRange", "Signal to stop within (m)", tip(
 slider("followDistance", "Inspect when stopped within (m)", tip(
     "Stopping while the pursuers are this close starts the inspection. Stopped farther away, they drive up first."), 10, 200, 40)
 slider("stopSignalInterval", "Signal every (s)", tip(
-    "How often the pursuers repeat the signal: two honks and three flashes of the headlights each time.",
-    "Lower = more insistent. Example: 4 with a 30 s time to stop = about 7 signals."), 2, 20, 4)
+    "How often the pursuers repeat the signal: two honks 1 s apart and three flashes of the headlights",
+    "(0.5 s on, 0.5 s off) each time; one signal takes 3 s.",
+    "Lower = more insistent. Example: 4 with a 30 s time to stop = about 7 signals."), 4, 20, 4)
 check("stopSignalHorn", "Stop signal: horn", tip("Pursuing vehicles honk to make you stop."), True)
 check("stopSignalLights", "Stop signal: flashing lights", tip("Pursuing vehicles flash their headlights to make you stop."), True)
 slider("stopTimeout", "Time to stop (s)", tip(
-    "How long the pursuers keep signalling. Not stopping by then counts as refusing: they radio an alert",
-    "and suspicion builds normally again."), 5, 300, 30)
+    "How long the pursuers keep signalling, counted once they are under way and within signal range.",
+    "Not stopping by then counts as refusing: they radio an alert and suspicion builds normally again."), 5, 300, 30)
 slider("stopFleeDistance", "Pulling away counts as fleeing (m)", tip(
-    "Getting this much farther from the pursuers than the closest they came counts as fleeing the stop:",
-    "they radio an alert and suspicion builds normally again.",
+    "Getting this much farther from the pursuers than the closest they came (once they are under way)",
+    "counts as fleeing the stop: they radio an alert and suspicion builds normally again.",
     "Example: 150 = they closed to 40 m, you are now 190 m ahead."), 50, 2000, 150)
 slider("refuseSuspBonus", "Refusing to stop adds (%)", tip("Suspicion added to the pursuers when you refuse to stop."), 0, 99, 20)
 check("alertOnEscape", "Alert when you get away", tip(
@@ -651,10 +659,25 @@ slider("inspectRange", "Inspect within (m)", tip(
     "A foot patrol starts its inspection when your vehicle stops within this distance."), 5, 100, 30)
 slider("inspectTime", "Inspection length (s)", tip(
     "How long the inspection lasts. Survive it without being identified and you are cleared."), 5, 300, 30)
+check("inspectCalm", "Inspection judges the vehicle, not the wait", tip(
+    "During an inspection, standing next to them builds no suspicion: that is the point of a stop.",
+    "Only what they find counts: a turned-out or exposed occupant, a weapon or turret pointed at them,",
+    "visible damage, an uncovered occupant, a weapon light or honking. Off = suspicion builds face to face as usual."), True)
 slider("inspectMult", "Inspection multiplier", tip(
-    "Suspicion speed while being inspected (on top of face-to-face). " + MULT), 0.1, 5, 1.5, 2)
+    "Suspicion speed while being inspected, once something gives you away (on top of face-to-face). " + MULT), 0.1, 5, 1.5, 2)
+slider("inspectClearReduce", "Clean inspection lowers suspicion by (%)", tip(
+    "Passing an inspection cleanly lowers that group's suspicion by this much (and never leaves it above",
+    "'Cleared suspicion'). Nearby friendly groups get the same value through the sync.",
+    "Example: 25 with 60% suspicion -> 35%, then capped at 'Cleared suspicion'."), 0, 100, 25)
 slider("inspectClearSusp", "Cleared suspicion (%)", tip(
-    "Suspicion after passing an inspection. Nearby friendly groups drop to it too."), 0, 99, 15)
+    "Highest suspicion left after passing an inspection. 99 = only the reduction above applies."), 0, 99, 15)
+slider("inspectDismount", "Inspectors", tip(
+    "How many of a vehicle patrol get out to inspect, in this order: passengers, other crew without",
+    "a weapon, the commander, the driver. Gunners never leave their weapon."), 1, 10, 2)
+check("inspectRemount", "Crew remount before engaging", tip(
+    "If you flee or get identified during an inspection, dismounted driver / commander / turret crew",
+    "run back to their own seats first, then the vehicle goes after you. Passengers fight on foot.",
+    "Off = everyone stays where they are and fights."), True)
 slider("inspectCooldown", "Cleared for (s)", tip(
     "After passing an inspection that group will not pursue you again for this long."), 0, 3600, 300)
 slider("fleeDistance", "Fleeing distance (m)", tip(
@@ -685,10 +708,18 @@ check("theftEnabled", "Stolen vehicles are known", tip(
 slider("theftRadius", "Theft witness radius (m)", tip("Owners within this distance always notice the theft."), 0, 500, 50)
 check("ramDetect", "Detect ramming", tip("Driving into or over enemy soldiers alerts their group at once."), True)
 slider("ramSpeed", "Ramming from (km/h)", tip("Minimum speed for contact to count as ramming."), 1, 60, 5)
-slider("ramSuspicion", "Ramming suspicion (%)", tip("Suspicion given to the rammed group (at least SUSPICIOUS)."), 0, 99, 75)
+slider("ramSuspicion", "Ramming suspicion (%)", tip(
+    "Suspicion the rammed group has at least after being rammed (at least SUSPICIOUS).",
+    "A single ram only does this; ramming again does what 'Ramming = identified' says."), 0, 99, 75)
+slider("ramRepeatCount", "Full reaction from ram #", tip(
+    "A single bump can be an accident: the first rams only raise suspicion (Ramming suspicion).",
+    "From this ram on (by the same vehicle, against the same group, within the window) 'Ramming = identified' applies.",
+    "Example: 2 = the second ram gets you identified. 1 = the first one already does."), 1, 10, 2)
+slider("ramRepeatWindow", "Repeated ramming window (s)", tip(
+    "Rams count as repeated when the next comes within this long of the last one."), 10, 1800, 300)
 check("ramCompromise", "Ramming = identified", tip(
-    "Ramming or running over a soldier, or ramming their vehicle, gets everyone undercover in your vehicle",
-    "identified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion)."), True)
+    "Ramming again (see 'Full reaction from ram #') - a soldier, or their vehicle - gets everyone undercover in your",
+    "vehicle identified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion)."), True)
 check("ramBurn", "Ramming makes the vehicle known", tip(
     "The ramming vehicle is recognised on sight by that side (within 'Known vehicle range'), so swapping",
     "crews does not save it."), True)

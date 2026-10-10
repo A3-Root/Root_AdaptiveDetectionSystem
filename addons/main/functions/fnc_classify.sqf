@@ -65,6 +65,13 @@ if (!_swapped && {_engaged || _witnessed}) exitWith {
     _entry
 };
 
+// starting suspicion of these AI (setStartSuspicion / modules)
+private _start = [_grp] call FUNC(startSuspicion);
+if (_start > (_entry select D_SUSP)) then {
+    _entry set [D_SUSP, _start];
+    if (RADS_DEBUG) then { [_entry, format ["t=%1 ENTRY starting suspicion %2 (set on these AI)", CBA_missionTime toFixed 1, _start toFixed 1]] call FUNC(debugHistory); };
+};
+
 private _oldState = _entry select D_STATE;
 if (!_swapped && _knownByGroup && _knowledge > 0) then {
     private _seed = MSET(seedFactor) * (_knowledge / 4) * 100;
