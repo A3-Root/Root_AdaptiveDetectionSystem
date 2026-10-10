@@ -1,5 +1,10 @@
 # Changelog
 
+## Back In The Truck (v1.0.0.20)
+
+### Fixed
+- Script error when crew remount after a fled inspection (allowGetIn needs an array); it also cut short the end of the pursuit (AI features, end log).
+
 ## Lean On The Horn (v1.0.0.19)
 
 ### Added

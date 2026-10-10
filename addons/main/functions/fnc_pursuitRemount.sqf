@@ -30,7 +30,7 @@ _seats = _seats select {[_x select 0] call FUNC(isAwake)};
         case "commander": { _crewman assignAsCommander _aiVeh; };
         default { _crewman assignAsTurret [_aiVeh, _turretPath]; };
     };
-    _crewman allowGetIn true;
+    [_crewman] allowGetIn true;
     [_crewman] orderGetIn true;
 } forEach _seats;
 
