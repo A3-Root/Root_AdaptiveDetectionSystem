@@ -274,6 +274,15 @@ if (_visible) then {
     _susp = _susp + _exposure * _mult * _zoneBuild * MSET(buildRate) * _dt;
     _entry set [D_LASTEXP, time];
 
+    // Stop request: the patrol following and signalling holds its judgement until refused
+    if (!isNil "_pursuit" && {(_pursuit get "target") == _unit} && {(_pursuit getOrDefault ["freeze", -1]) >= 0}) then {
+        private _hold = _pursuit get "freeze";
+        if (_susp > (_before max _hold)) then {
+            _susp = _before max _hold;
+            if (_dbg) then { _factors pushBack format ["stopRequest(held at %1)", _hold toFixed 1]; };
+        };
+    };
+
     // A visibly shot-up or burning vehicle is suspicious the moment it is seen
     private _damageAt = MSET(damageVisibleAt);
     if (_damageAt < 1 && _visibleDamage >= _damageAt && _exposure >= 0.1) then {

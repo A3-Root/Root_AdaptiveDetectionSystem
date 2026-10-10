@@ -3,8 +3,9 @@
  * Author: Root
  * Pursuit state machine, once a second on the machine that owns the group.
  *  CHASE   (on foot) run at the target; it stopping close by starts an inspection.
- *  FOLLOW  (mounted) drive after it, flash and honk once close; stopping starts an inspection,
- *          ignoring the signal raises a "refused to stop" alert.
+ *  FOLLOW  (mounted) engine on, drive after it, honk and flash every few seconds once close.
+ *          Suspicion is held meanwhile (stop request). Stopping starts an inspection; not stopping
+ *          in time, pulling away or a hostile act ends the hold ("refused to stop" alert).
  *  INSPECT dismounted look at the occupants; driving off = fled (identified + bulletin),
  *          surviving the inspection time = cleared.
  *
@@ -48,6 +49,19 @@ if (_phase != "INSPECT") then {
     };
 };
 if (isNil {_grp getVariable QGVAR(pursuit)}) exitWith {};
+
+// Stop request: suspicion held (shares and syncs included) until a hostile act, refusal or flight
+private _freeze = _pursuit get "freeze";
+if (_freeze >= 0 && {_entry isNotEqualTo []}) then {
+    if ((crew _veh) findIf {(_x getVariable [QGVAR(heatUntil), -1]) > CBA_missionTime} > -1) then {
+        [_grp, "hostile act (shots fired from the vehicle)"] call FUNC(pursuitUnfreeze);
+    } else {
+        if ((_entry select D_SUSP) > _freeze) then {
+            _entry set [D_SUSP, _freeze];
+            [_grp, true] call FUNC(publishData);
+        };
+    };
+};
 
 // aim a little ahead of where the vehicle is going
 private _lead = (getPosATL _veh) vectorAdd ((velocity _veh) vectorMultiply MSET(pursuitLead));
@@ -97,33 +111,48 @@ switch (_phase) do {
             if (RADS_DEBUG) then { ["PURSUIT", format ["%1 lost its vehicle, continues on foot", groupId _grp], _grp, _unit] call FUNC(debugLog); };
         };
         [_grp, "move", _lead] call FUNC(pursuitWaypoint);
+        if (!isEngineOn _aiVeh) then {
+            if (local _aiVeh) then { _aiVeh engineOn true; } else { [QGVAR(engineOn), [_aiVeh], _aiVeh] call CBA_fnc_targetEvent; };
+        };
 
-        if (_distance <= MSET(followDistance)) then {
+        // pulling away from the closest they came = fleeing the stop
+        _pursuit set ["minDist", (_pursuit get "minDist") min _distance];
+        private _refuse = "";
+        if (_distance - (_pursuit get "minDist") > MSET(stopFleeDistance)) then {
+            _refuse = format ["pulled away (%1 m, closest was %2 m)", round _distance, round (_pursuit get "minDist")];
+        };
+
+        if (_distance <= MSET(stopSignalRange)) then {
             if ((_pursuit get "signalStart") < 0) then {
                 _pursuit set ["signalStart", time];
-                if (RADS_DEBUG) then { ["PURSUIT", format ["%1 is behind %2 (%3 m) and signals it to stop", groupId _grp, name _unit, round _distance], _grp, _unit] call FUNC(debugLog); };
+                if (RADS_DEBUG) then { ["PURSUIT", format ["%1 is behind %2 (%3 m) and signals it to stop for %4 s (suspicion held at %5)", groupId _grp, name _unit, round _distance, round MSET(stopTimeout), [(_pursuit get "freeze") toFixed 1, "no"] select ((_pursuit get "freeze") < 0)], _grp, _unit] call FUNC(debugLog); };
                 [QGVAR(message), [format ["RADS: %1 signals %2 to stop", groupId _grp, name _unit]]] call CBA_fnc_globalEvent;
             };
-            [_grp, true] call FUNC(pursuitSignal);
+            if (!(_pursuit get "refused")) then { [_grp, true] call FUNC(pursuitSignal); };
 
-            if (_speed < 3) then { _pursuit set ["stopped", (_pursuit get "stopped") + 1]; } else { _pursuit set ["stopped", 0]; };
-            if ((_pursuit get "stopped") >= 3) exitWith {
-                [_grp, false] call FUNC(pursuitSignal);
-                [_grp] call FUNC(inspectStart);
-            };
-
-            if (!(_pursuit get "refused") && {(time - (_pursuit get "signalStart")) > MSET(stopTimeout)}) then {
-                _pursuit set ["refused", true];
-                if (_entry isNotEqualTo []) then {
-                    _entry set [D_SUSP, (((_entry select D_SUSP) + MSET(refuseSuspBonus)) min (MSET(identifyThreshold) - 1))];
-                    [_grp, true] call FUNC(publishData);
-                };
-                if (RADS_DEBUG) then { ["PURSUIT", format ["%1 REFUSED TO STOP for %2 after %3 s -> alert, suspicion %4", name _unit, groupId _grp, round MSET(stopTimeout), (_entry param [D_SUSP, 0]) toFixed 0], _grp, _unit] call FUNC(debugLog); };
-                [_grp, _unit, "refused to stop"] call FUNC(pursuitAlert);
+            if (_distance <= MSET(followDistance) && _speed < 3) then { _pursuit set ["stopped", (_pursuit get "stopped") + 1]; } else { _pursuit set ["stopped", 0]; };
+            if (_refuse == "" && {(time - (_pursuit get "signalStart")) > MSET(stopTimeout)}) then {
+                _refuse = format ["did not stop within %1 s", round MSET(stopTimeout)];
             };
         } else {
             [_grp, false] call FUNC(pursuitSignal);
             _pursuit set ["stopped", 0];
+        };
+        if ((_pursuit get "stopped") >= 3) exitWith {
+            [_grp, false] call FUNC(pursuitSignal);
+            [_grp] call FUNC(inspectStart);
+        };
+
+        if (_refuse != "" && {!(_pursuit get "refused")}) then {
+            _pursuit set ["refused", true];
+            [_grp, false] call FUNC(pursuitSignal);
+            [_grp, "refused to stop: " + _refuse] call FUNC(pursuitUnfreeze);
+            if (_entry isNotEqualTo []) then {
+                _entry set [D_SUSP, (((_entry select D_SUSP) + MSET(refuseSuspBonus)) min (MSET(identifyThreshold) - 1))];
+                [_grp, true] call FUNC(publishData);
+            };
+            if (RADS_DEBUG) then { ["PURSUIT", format ["%1 REFUSED TO STOP for %2: %3 -> alert, suspicion %4 and building", name _unit, groupId _grp, _refuse, (_entry param [D_SUSP, 0]) toFixed 0], _grp, _unit] call FUNC(debugLog); };
+            [_grp, _unit, "refused to stop"] call FUNC(pursuitAlert);
         };
     };
     case "INSPECT": {

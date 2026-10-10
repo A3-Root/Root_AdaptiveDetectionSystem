@@ -1,5 +1,23 @@
 # Changelog
 
+## Stop Requests (v1.0.0.6)
+
+### Added
+- Stop request: a vehicle patrol that starts following holds suspicion at the follow threshold, starts its engine, honks and flashes every few seconds for the time to stop. Refusing, pulling away, shooting or ramming ends the hold.
+- Settings: hold suspicion during a stop request, signal range, signal interval, pulling-away distance. Zeus/3DEN pursuit settings include them; getPursuit returns the held value.
+
+### Removed
+- ACE self-interaction "Check cover status" and its setting. Zeus Inspect keeps the readout.
+
+### Changed
+- Defaults updated to the tested server preset.
+- All settings are server-only (admins); only debug options stay per player, and only for players the server allows ("Who may use debug": admins / admins and Zeus / everyone).
+- "Signal to stop within" is now the separate inspect distance; signalling starts at the new signal range (150 m).
+
+### Fixed
+- Mounted pursuers identifying the target within seconds of starting to follow.
+- Stop signal flashing once per second and honking once.
+
 ## Balance & Fixes (v1.0.0.5)
 
 ### Added

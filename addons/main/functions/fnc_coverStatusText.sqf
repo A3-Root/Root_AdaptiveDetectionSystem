@@ -1,7 +1,7 @@
 #include "..\script_component.hpp"
 /*
  * Author: Root
- * Human-readable cover status for a unit (ACE self-interaction, Zeus inspect). Suspicion comes
+ * Human-readable cover status for a unit (Zeus inspect). Suspicion comes
  * from the groups' public mirrors, so it can lag unless debug publishing is on.
  *
  * Arguments:

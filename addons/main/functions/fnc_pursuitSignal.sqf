@@ -1,8 +1,9 @@
 #include "..\script_component.hpp"
 /*
  * Author: Root
- * Stop signal of a pursuing vehicle: headlights flashing every tick and the horn every few
- * seconds (each optional). Off switches the lights back off.
+ * Stop signal of a pursuing vehicle: every few seconds (stopSignalInterval) a burst of two honks
+ * and three flashes of the headlights (each optional), run where the vehicle is local.
+ * Off just stops further bursts; a running burst restores the lights itself.
  *
  * Arguments:
  * 0: Group (local) <GROUP>
@@ -20,21 +21,15 @@ private _pursuit = _grp getVariable [QGVAR(pursuit), createHashMap];
 private _aiVeh = _pursuit getOrDefault ["aiVeh", objNull];
 if (isNull _aiVeh || {!alive _aiVeh}) exitWith {};
 
-if (!_on) exitWith {
-    if (_pursuit getOrDefault ["lights", false]) then {
-        _pursuit set ["lights", false];
-        if (local _aiVeh) then { _aiVeh setPilotLight false; };
-    };
-};
+if (!_on) exitWith { _pursuit set ["nextSignal", 0]; };
+if (time < (_pursuit getOrDefault ["nextSignal", 0])) exitWith {};
 
-if (MSET(stopSignalLights) && {local _aiVeh}) then {
-    private _lights = !(_pursuit getOrDefault ["lights", false]);
-    _pursuit set ["lights", _lights];
-    _aiVeh setPilotLight _lights;
-};
+_pursuit set ["nextSignal", time + MSET(stopSignalInterval)];
+_pursuit set ["signals", (_pursuit getOrDefault ["signals", 0]) + 1];
+private _args = [_aiVeh, MSET(stopSignalHorn), MSET(stopSignalLights)];
+if (local _aiVeh) then { _args call FUNC(signalBurst); } else { [QGVAR(signalBurst), _args, _aiVeh] call CBA_fnc_targetEvent; };
 
-if (MSET(stopSignalHorn) && {time >= (_pursuit getOrDefault ["nextHorn", 0])}) then {
-    _pursuit set ["nextHorn", time + 3];
-    private _horn = (_aiVeh weaponsTurret [-1]) param [(_aiVeh weaponsTurret [-1]) findIf {"horn" in toLower _x}, ""];
-    if (_horn != "") then { [_aiVeh, _horn, [-1]] call BIS_fnc_fire; };
+if (RADS_DEBUG && {MSET(debugDetail) >= 1}) then {
+    private _unit = _pursuit get "target";
+    ["PURSUIT", format ["%1 stop signal #%2 to %3 (horn=%4 lights=%5, %6 s since the first)", groupId _grp, _pursuit get "signals", name _unit, MSET(stopSignalHorn), MSET(stopSignalLights), round (time - (_pursuit get "signalStart"))], _grp, _unit] call FUNC(debugLog);
 };

@@ -84,7 +84,9 @@
 // Gear slots compared against the enemy reference kit
 #define GEAR_SLOTS ["uniform", "vest", "headgear", "primary", "launcher", "backpack", "facewear"]
 
-#define RADS_DEBUG (MSET(debugLog))
+// debug only where the server allows it (fnc_debugAllowed), refreshed every 2 s on players
+#define DEBUG_OK (missionNamespace getVariable [QUOTE(MVAR(debugOK)), false])
+#define RADS_DEBUG (DEBUG_OK && {MSET(debugLog)})
 #define RLOG(msg) if (RADS_DEBUG) then { diag_log text format ["[RADS] %1", msg] }
 #define RLOG_1(msg,a1) if (RADS_DEBUG) then { diag_log text format ["[RADS] " + msg, a1] }
 #define RLOG_2(msg,a1,a2) if (RADS_DEBUG) then { diag_log text format ["[RADS] " + msg, a1, a2] }

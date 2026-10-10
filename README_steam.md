@@ -6,7 +6,7 @@ In vanilla Arma, enemy AI open fire the moment a player climbs into a civilian c
 
 Fully integrated with CBA, ZEN, Zeus, and Eden, with optional ACE3 support. Load the mod on the server and every client. Works in singleplayer, multiplayer, on dedicated servers, and with headless clients.
 
-[b]Current version:[/b] 1.0.0.5
+[b]Current version:[/b] 1.0.0.6
 
 [hr]
 [h2]Requirements[/h2]

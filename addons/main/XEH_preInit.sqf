@@ -6,6 +6,7 @@ ADDON = false;
 
 // Extra cover conditions registered by compat addons: {params ["_unit"]; bool}
 GVAR(coverConditions) = [];
+GVAR(debugOK) = isServer || {!hasInterface};
 GVAR(queue) = [];
 GVAR(cycleStart) = -1;
 GVAR(covered) = [];

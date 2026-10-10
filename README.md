@@ -1,6 +1,6 @@
 # Root_AdaptiveDetectionSystem
 
-![version](https://img.shields.io/badge/version-1.0.0.5-blue)
+![version](https://img.shields.io/badge/version-1.0.0.6-blue)
 [![build](https://github.com/A3-Root/Root_AdaptiveDetectionSystem/actions/workflows/auto-release.yml/badge.svg?branch=master)](https://github.com/A3-Root/Root_AdaptiveDetectionSystem/actions/workflows/auto-release.yml)
 
 Root's Adaptive Detection System (RADS) is an Arma 3 mod that makes enemy AI detect and recognise players hidden in civilian or enemy vehicles gradually, instead of instantly. The result is a more dynamic and forgiving stealth experience.
@@ -24,7 +24,7 @@ It is driven by the engine's own knowledge commands: `targetKnowledge`, `knowsAb
 - Arma 3 **2.18+** (`ignoreTarget`)
 - [CBA_A3](https://steamcommunity.com/workshop/filedetails/?id=450814997)
 - [Zeus Enhanced (ZEN)](https://steamcommunity.com/workshop/filedetails/?id=1779063631)
-- [ACE3](https://steamcommunity.com/workshop/filedetails/?id=463939057): optional. Adds a self-interaction status check, makes handcuffed/surrendering units lose cover, and stops unconscious AI from observing.
+- [ACE3](https://steamcommunity.com/workshop/filedetails/?id=463939057): optional. Makes handcuffed/surrendering units lose cover, and stops unconscious AI from observing.
 
 Works in SP, local-hosted MP, dedicated servers and dedicated servers with headless clients.
 

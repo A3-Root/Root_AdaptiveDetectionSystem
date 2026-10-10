@@ -28,8 +28,8 @@
 // ---------------------------------------------------------------- 01 Basics
 [QGVAR(enabled), "CHECKBOX", [LSTRING(enabled), LSTRING(enabled_desc)], SUB_BASICS, true, true] call CBA_fnc_addSetting;
 [QGVAR(coverWest), "CHECKBOX", [LSTRING(coverWest), LSTRING(coverWest_desc)], SUB_BASICS, true, true] call CBA_fnc_addSetting;
-[QGVAR(coverEast), "CHECKBOX", [LSTRING(coverEast), LSTRING(coverEast_desc)], SUB_BASICS, false, true] call CBA_fnc_addSetting;
-[QGVAR(coverGuer), "CHECKBOX", [LSTRING(coverGuer), LSTRING(coverGuer_desc)], SUB_BASICS, false, true] call CBA_fnc_addSetting;
+[QGVAR(coverEast), "CHECKBOX", [LSTRING(coverEast), LSTRING(coverEast_desc)], SUB_BASICS, true, true] call CBA_fnc_addSetting;
+[QGVAR(coverGuer), "CHECKBOX", [LSTRING(coverGuer), LSTRING(coverGuer_desc)], SUB_BASICS, true, true] call CBA_fnc_addSetting;
 [QGVAR(coverAIPassengers), "CHECKBOX", [LSTRING(coverAIPassengers), LSTRING(coverAIPassengers_desc)], SUB_BASICS, true, true] call CBA_fnc_addSetting;
 [QGVAR(tickInterval), "SLIDER", [LSTRING(tickInterval), LSTRING(tickInterval_desc)], SUB_BASICS, [0.25, 5, 1, 2], true] call CBA_fnc_addSetting;
 [QGVAR(groupsPerFrame), "SLIDER", [LSTRING(groupsPerFrame), LSTRING(groupsPerFrame_desc)], SUB_BASICS, [1, 50, 6, 0], true] call CBA_fnc_addSetting;
@@ -39,10 +39,10 @@
 // ---------------------------------------------------------------- 02 Who and What Gets Cover
 [QGVAR(allowCivVeh), "CHECKBOX", [LSTRING(allowCivVeh), LSTRING(allowCivVeh_desc)], SUB_ELIGIBILITY, true, true] call CBA_fnc_addSetting;
 [QGVAR(allowFriendlyVeh), "CHECKBOX", [LSTRING(allowFriendlyVeh), LSTRING(allowFriendlyVeh_desc)], SUB_ELIGIBILITY, true, true] call CBA_fnc_addSetting;
-[QGVAR(allowHostileVeh), "LIST", [LSTRING(allowHostileVeh), LSTRING(allowHostileVeh_desc)], SUB_ELIGIBILITY, [[0, 1, 2], [[LSTRING(allowHostileVeh_opt0), LSTRING(allowHostileVeh_opt0_desc)], [LSTRING(allowHostileVeh_opt1), LSTRING(allowHostileVeh_opt1_desc)], [LSTRING(allowHostileVeh_opt2), LSTRING(allowHostileVeh_opt2_desc)]], 1], true] call CBA_fnc_addSetting;
+[QGVAR(allowHostileVeh), "LIST", [LSTRING(allowHostileVeh), LSTRING(allowHostileVeh_desc)], SUB_ELIGIBILITY, [[0, 1, 2], [[LSTRING(allowHostileVeh_opt0), LSTRING(allowHostileVeh_opt0_desc)], [LSTRING(allowHostileVeh_opt1), LSTRING(allowHostileVeh_opt1_desc)], [LSTRING(allowHostileVeh_opt2), LSTRING(allowHostileVeh_opt2_desc)]], 2], true] call CBA_fnc_addSetting;
 [QGVAR(allowAir), "CHECKBOX", [LSTRING(allowAir), LSTRING(allowAir_desc)], SUB_ELIGIBILITY, true, true] call CBA_fnc_addSetting;
 [QGVAR(allowBoats), "CHECKBOX", [LSTRING(allowBoats), LSTRING(allowBoats_desc)], SUB_ELIGIBILITY, true, true] call CBA_fnc_addSetting;
-[QGVAR(openVehicleMode), "LIST", [LSTRING(openVehicleMode), LSTRING(openVehicleMode_desc)], SUB_ELIGIBILITY, [[0, 1], [[LSTRING(openVehicleMode_opt0), LSTRING(openVehicleMode_opt0_desc)], [LSTRING(openVehicleMode_opt1), LSTRING(openVehicleMode_opt1_desc)]], 0], true] call CBA_fnc_addSetting;
+[QGVAR(openVehicleMode), "LIST", [LSTRING(openVehicleMode), LSTRING(openVehicleMode_desc)], SUB_ELIGIBILITY, [[0, 1], [[LSTRING(openVehicleMode_opt0), LSTRING(openVehicleMode_opt0_desc)], [LSTRING(openVehicleMode_opt1), LSTRING(openVehicleMode_opt1_desc)]], 1], true] call CBA_fnc_addSetting;
 [QGVAR(openVehicleClasses), "EDITBOX", [LSTRING(openVehicleClasses), LSTRING(openVehicleClasses_desc)], SUB_ELIGIBILITY, "Quadbike_01_base_F,Kart_01_Base_F,Motorcycle,Bicycle,Rubber_duck_base_F,LSV_01_light_base_F,LSV_02_unarmed_base_F", true] call CBA_fnc_addSetting;
 [QGVAR(vehWhitelist), "EDITBOX", [LSTRING(vehWhitelist), LSTRING(vehWhitelist_desc)], SUB_ELIGIBILITY, "", true] call CBA_fnc_addSetting;
 [QGVAR(vehBlacklist), "EDITBOX", [LSTRING(vehBlacklist), LSTRING(vehBlacklist_desc)], SUB_ELIGIBILITY, "", true] call CBA_fnc_addSetting;
@@ -53,7 +53,7 @@
 [QGVAR(witnessKA), "SLIDER", [LSTRING(witnessKA), LSTRING(witnessKA_desc)], SUB_ENTRY, [0, 4, 1.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(witnessWindow), "SLIDER", [LSTRING(witnessWindow), LSTRING(witnessWindow_desc)], SUB_ENTRY, [0, 60, 6, 0], true] call CBA_fnc_addSetting;
 [QGVAR(combatWindow), "SLIDER", [LSTRING(combatWindow), LSTRING(combatWindow_desc)], SUB_ENTRY, [0, 180, 20, 0], true] call CBA_fnc_addSetting;
-[QGVAR(seedFactor), "SLIDER", [LSTRING(seedFactor), LSTRING(seedFactor_desc)], SUB_ENTRY, [0, 1, 0.6, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(seedFactor), "SLIDER", [LSTRING(seedFactor), LSTRING(seedFactor_desc)], SUB_ENTRY, [0, 1, 0.497727, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(searchingBuildMult), "SLIDER", [LSTRING(searchingBuildMult), LSTRING(searchingBuildMult_desc)], SUB_ENTRY, [1, 5, 1.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(coverGraceTime), "SLIDER", [LSTRING(coverGraceTime), LSTRING(coverGraceTime_desc)], SUB_ENTRY, [0, 5, 2, 1], true] call CBA_fnc_addSetting;
 
@@ -65,8 +65,8 @@
 [QGVAR(identifyRange), "SLIDER", [LSTRING(identifyRange), LSTRING(identifyRange_desc)], SUB_BUILD, [5, 500, 40, 0], true] call CBA_fnc_addSetting;
 [QGVAR(distanceCurve), "SLIDER", [LSTRING(distanceCurve), LSTRING(distanceCurve_desc)], SUB_BUILD, [0.25, 4, 1.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(instantRange), "SLIDER", [LSTRING(instantRange), LSTRING(instantRange_desc)], SUB_BUILD, [0, 100, 6, 1], true] call CBA_fnc_addSetting;
-[QGVAR(instantMult), "SLIDER", [LSTRING(instantMult), LSTRING(instantMult_desc)], SUB_BUILD, [1, 10, 4, 1], true] call CBA_fnc_addSetting;
-[QGVAR(minCloseExposure), "SLIDER", [LSTRING(minCloseExposure), LSTRING(minCloseExposure_desc)], SUB_BUILD, [0, 1, 0.4, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(instantMult), "SLIDER", [LSTRING(instantMult), LSTRING(instantMult_desc)], SUB_BUILD, [1, 10, 2, 1], true] call CBA_fnc_addSetting;
+[QGVAR(minCloseExposure), "SLIDER", [LSTRING(minCloseExposure), LSTRING(minCloseExposure_desc)], SUB_BUILD, [0, 1, 0.25, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(hullBlocks), "CHECKBOX", [LSTRING(hullBlocks), LSTRING(hullBlocks_desc)], SUB_BUILD, true, true] call CBA_fnc_addSetting;
 [QGVAR(stationaryTime), "SLIDER", [LSTRING(stationaryTime), LSTRING(stationaryTime_desc)], SUB_BUILD, [5, 300, 30, 0], true] call CBA_fnc_addSetting;
 [QGVAR(stationaryMult), "SLIDER", [LSTRING(stationaryMult), LSTRING(stationaryMult_desc)], SUB_BUILD, [1, 5, 2.5, 2], true] call CBA_fnc_addSetting;
@@ -77,40 +77,40 @@
 
 // ---------------------------------------------------------------- 05 What the AI Can See
 [QGVAR(fovAngle), "SLIDER", [LSTRING(fovAngle), LSTRING(fovAngle_desc)], SUB_OBSERVERS, [30, 360, 140, 0], true] call CBA_fnc_addSetting;
-[QGVAR(peripheralMult), "SLIDER", [LSTRING(peripheralMult), LSTRING(peripheralMult_desc)], SUB_OBSERVERS, [0, 1, 0.15, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(peripheralMult), "SLIDER", [LSTRING(peripheralMult), LSTRING(peripheralMult_desc)], SUB_OBSERVERS, [0, 1, 0.10247, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(behSafe), "SLIDER", [LSTRING(behSafe), LSTRING(behSafe_desc)], SUB_OBSERVERS, [0, 3, 0.7, 2], true] call CBA_fnc_addSetting;
 [QGVAR(behAware), "SLIDER", [LSTRING(behAware), LSTRING(behAware_desc)], SUB_OBSERVERS, [0, 3, 1, 2], true] call CBA_fnc_addSetting;
-[QGVAR(behCombat), "SLIDER", [LSTRING(behCombat), LSTRING(behCombat_desc)], SUB_OBSERVERS, [0, 3, 0.5, 2], true] call CBA_fnc_addSetting;
-[QGVAR(behStealth), "SLIDER", [LSTRING(behStealth), LSTRING(behStealth_desc)], SUB_OBSERVERS, [0, 3, 1.2, 2], true] call CBA_fnc_addSetting;
+[QGVAR(behCombat), "SLIDER", [LSTRING(behCombat), LSTRING(behCombat_desc)], SUB_OBSERVERS, [0, 3, 1.125, 2], true] call CBA_fnc_addSetting;
+[QGVAR(behStealth), "SLIDER", [LSTRING(behStealth), LSTRING(behStealth_desc)], SUB_OBSERVERS, [0, 3, 1.25, 2], true] call CBA_fnc_addSetting;
 [QGVAR(skillInfluence), "SLIDER", [LSTRING(skillInfluence), LSTRING(skillInfluence_desc)], SUB_OBSERVERS, [0, 1, 0.5, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(engagedElsewhereMult), "SLIDER", [LSTRING(engagedElsewhereMult), LSTRING(engagedElsewhereMult_desc)], SUB_OBSERVERS, [0, 2, 0.6, 2], true] call CBA_fnc_addSetting;
 [QGVAR(vehOpticsEnabled), "CHECKBOX", [LSTRING(vehOpticsEnabled), LSTRING(vehOpticsEnabled_desc)], SUB_OBSERVERS, true, true] call CBA_fnc_addSetting;
 [QGVAR(vehOpticsMult), "SLIDER", [LSTRING(vehOpticsMult), LSTRING(vehOpticsMult_desc)], SUB_OBSERVERS, [0.25, 5, 1.5, 2], true] call CBA_fnc_addSetting;
-[QGVAR(vehDriverOpticsMult), "SLIDER", [LSTRING(vehDriverOpticsMult), LSTRING(vehDriverOpticsMult_desc)], SUB_OBSERVERS, [0.25, 5, 1, 2], true] call CBA_fnc_addSetting;
+[QGVAR(vehDriverOpticsMult), "SLIDER", [LSTRING(vehDriverOpticsMult), LSTRING(vehDriverOpticsMult_desc)], SUB_OBSERVERS, [0.25, 5, 0.580277, 2], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 06 Light and Weather
-[QGVAR(nightMult), "SLIDER", [LSTRING(nightMult), LSTRING(nightMult_desc)], SUB_ENVIRONMENT, [0, 1, 0.45, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(nightMult), "SLIDER", [LSTRING(nightMult), LSTRING(nightMult_desc)], SUB_ENVIRONMENT, [0, 1, 0.353623, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(nvgNightMult), "SLIDER", [LSTRING(nvgNightMult), LSTRING(nvgNightMult_desc)], SUB_ENVIRONMENT, [0, 1, 0.85, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(fogInfluence), "SLIDER", [LSTRING(fogInfluence), LSTRING(fogInfluence_desc)], SUB_ENVIRONMENT, [0, 1, 0.6, 0, true], true] call CBA_fnc_addSetting;
-[QGVAR(rainInfluence), "SLIDER", [LSTRING(rainInfluence), LSTRING(rainInfluence_desc)], SUB_ENVIRONMENT, [0, 1, 0.3, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(rainInfluence), "SLIDER", [LSTRING(rainInfluence), LSTRING(rainInfluence_desc)], SUB_ENVIRONMENT, [0, 1, 0.44832, 0, true], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 07 Seats and Vehicle Type
 [QGVAR(seatDriver), "SLIDER", [LSTRING(seatDriver), LSTRING(seatDriver_desc)], SUB_SEATS, [0, 3, 1, 2], true] call CBA_fnc_addSetting;
 [QGVAR(seatCargo), "SLIDER", [LSTRING(seatCargo), LSTRING(seatCargo_desc)], SUB_SEATS, [0, 3, 0.7, 2], true] call CBA_fnc_addSetting;
 [QGVAR(seatTurret), "SLIDER", [LSTRING(seatTurret), LSTRING(seatTurret_desc)], SUB_SEATS, [0, 3, 1.1, 2], true] call CBA_fnc_addSetting;
-[QGVAR(seatTurnedOut), "SLIDER", [LSTRING(seatTurnedOut), LSTRING(seatTurnedOut_desc)], SUB_SEATS, [0, 5, 2, 2], true] call CBA_fnc_addSetting;
+[QGVAR(seatTurnedOut), "SLIDER", [LSTRING(seatTurnedOut), LSTRING(seatTurnedOut_desc)], SUB_SEATS, [0, 5, 2.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(seatFFV), "SLIDER", [LSTRING(seatFFV), LSTRING(seatFFV_desc)], SUB_SEATS, [0, 5, 2.5, 2], true] call CBA_fnc_addSetting;
-[QGVAR(openVehicleMult), "SLIDER", [LSTRING(openVehicleMult), LSTRING(openVehicleMult_desc)], SUB_SEATS, [1, 10, 2.5, 2], true] call CBA_fnc_addSetting;
-[QGVAR(fastSpeed), "SLIDER", [LSTRING(fastSpeed), LSTRING(fastSpeed_desc)], SUB_SEATS, [10, 200, 50, 0], true] call CBA_fnc_addSetting;
-[QGVAR(fastMult), "SLIDER", [LSTRING(fastMult), LSTRING(fastMult_desc)], SUB_SEATS, [0, 1, 0.4, 0, true], true] call CBA_fnc_addSetting;
-[QGVAR(altitudeFalloff), "SLIDER", [LSTRING(altitudeFalloff), LSTRING(altitudeFalloff_desc)], SUB_SEATS, [10, 1000, 60, 0], true] call CBA_fnc_addSetting;
+[QGVAR(openVehicleMult), "SLIDER", [LSTRING(openVehicleMult), LSTRING(openVehicleMult_desc)], SUB_SEATS, [1, 10, 2.99684, 2], true] call CBA_fnc_addSetting;
+[QGVAR(fastSpeed), "SLIDER", [LSTRING(fastSpeed), LSTRING(fastSpeed_desc)], SUB_SEATS, [10, 200, 70.1479, 0], true] call CBA_fnc_addSetting;
+[QGVAR(fastMult), "SLIDER", [LSTRING(fastMult), LSTRING(fastMult_desc)], SUB_SEATS, [0, 1, 0.0983531, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(altitudeFalloff), "SLIDER", [LSTRING(altitudeFalloff), LSTRING(altitudeFalloff_desc)], SUB_SEATS, [10, 1000, 200, 0], true] call CBA_fnc_addSetting;
 [QGVAR(damageInfluence), "SLIDER", [LSTRING(damageInfluence), LSTRING(damageInfluence_desc)], SUB_SEATS, [0, 5, 2, 2], true] call CBA_fnc_addSetting;
-[QGVAR(damageVisibleAt), "SLIDER", [LSTRING(damageVisibleAt), LSTRING(damageVisibleAt_desc)], SUB_SEATS, [0, 1, 0.15, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(damageVisibleAt), "SLIDER", [LSTRING(damageVisibleAt), LSTRING(damageVisibleAt_desc)], SUB_SEATS, [0, 1, 0.254808, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(damageFloorScale), "SLIDER", [LSTRING(damageFloorScale), LSTRING(damageFloorScale_desc)], SUB_SEATS, [0, 1, 0.6, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(mixedCrewMult), "SLIDER", [LSTRING(mixedCrewMult), LSTRING(mixedCrewMult_desc)], SUB_SEATS, [1, 5, 1.5, 2], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 08 Vehicle Faction
-[QGVAR(sameFactionVehMult), "SLIDER", [LSTRING(sameFactionVehMult), LSTRING(sameFactionVehMult_desc)], SUB_FACTION, [0, 3, 0.6, 2], true] call CBA_fnc_addSetting;
+[QGVAR(sameFactionVehMult), "SLIDER", [LSTRING(sameFactionVehMult), LSTRING(sameFactionVehMult_desc)], SUB_FACTION, [0, 3, 0.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(friendlyVehMult), "SLIDER", [LSTRING(friendlyVehMult), LSTRING(friendlyVehMult_desc)], SUB_FACTION, [0, 3, 0.8, 2], true] call CBA_fnc_addSetting;
 [QGVAR(civVehMult), "SLIDER", [LSTRING(civVehMult), LSTRING(civVehMult_desc)], SUB_FACTION, [0, 3, 1, 2], true] call CBA_fnc_addSetting;
 [QGVAR(alliedVehMult), "SLIDER", [LSTRING(alliedVehMult), LSTRING(alliedVehMult_desc)], SUB_FACTION, [0, 5, 1.2, 2], true] call CBA_fnc_addSetting;
@@ -121,39 +121,39 @@
 [QGVAR(armoredDetect), "CHECKBOX", [LSTRING(armoredDetect), LSTRING(armoredDetect_desc)], SUB_ARMORED, true, true] call CBA_fnc_addSetting;
 [QGVAR(armoredClasses), "EDITBOX", [LSTRING(armoredClasses), LSTRING(armoredClasses_desc)], SUB_ARMORED, "Tank,Wheeled_APC_F", true] call CBA_fnc_addSetting;
 [QGVAR(armoredAutoDetect), "CHECKBOX", [LSTRING(armoredAutoDetect), LSTRING(armoredAutoDetect_desc)], SUB_ARMORED, true, true] call CBA_fnc_addSetting;
-[QGVAR(armoredHullMult), "SLIDER", [LSTRING(armoredHullMult), LSTRING(armoredHullMult_desc)], SUB_ARMORED, [0, 1, 0.25, 0, true], true] call CBA_fnc_addSetting;
-[QGVAR(armoredCloseMult), "SLIDER", [LSTRING(armoredCloseMult), LSTRING(armoredCloseMult_desc)], SUB_ARMORED, [0, 1, 0.5, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(armoredHullMult), "SLIDER", [LSTRING(armoredHullMult), LSTRING(armoredHullMult_desc)], SUB_ARMORED, [0, 1, 0.0489455, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(armoredCloseMult), "SLIDER", [LSTRING(armoredCloseMult), LSTRING(armoredCloseMult_desc)], SUB_ARMORED, [0, 1, 0.14776, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(armoredDrivingOnly), "CHECKBOX", [LSTRING(armoredDrivingOnly), LSTRING(armoredDrivingOnly_desc)], SUB_ARMORED, true, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 10 Gear
 [QGVAR(gearEnabled), "CHECKBOX", [LSTRING(gearEnabled), LSTRING(gearEnabled_desc)], SUB_GEAR, true, true] call CBA_fnc_addSetting;
 [QGVAR(gearCompareMode), "LIST", [LSTRING(gearCompareMode), LSTRING(gearCompareMode_desc)], SUB_GEAR, [[0, 1, 2, 3], [[LSTRING(gearCompareMode_opt0), LSTRING(gearCompareMode_opt0_desc)], [LSTRING(gearCompareMode_opt1), LSTRING(gearCompareMode_opt1_desc)], [LSTRING(gearCompareMode_opt2), LSTRING(gearCompareMode_opt2_desc)], [LSTRING(gearCompareMode_opt3), LSTRING(gearCompareMode_opt3_desc)]], 2], true] call CBA_fnc_addSetting;
 [QGVAR(uniformCivMult), "SLIDER", [LSTRING(uniformCivMult), LSTRING(uniformCivMult_desc)], SUB_GEAR, [0, 3, 0.6, 2], true] call CBA_fnc_addSetting;
-[QGVAR(uniformObserverMult), "SLIDER", [LSTRING(uniformObserverMult), LSTRING(uniformObserverMult_desc)], SUB_GEAR, [0, 3, 0.5, 2], true] call CBA_fnc_addSetting;
+[QGVAR(uniformObserverMult), "SLIDER", [LSTRING(uniformObserverMult), LSTRING(uniformObserverMult_desc)], SUB_GEAR, [0, 3, 0.295059, 2], true] call CBA_fnc_addSetting;
 [QGVAR(uniformHostileMult), "SLIDER", [LSTRING(uniformHostileMult), LSTRING(uniformHostileMult_desc)], SUB_GEAR, [0, 5, 1.6, 2], true] call CBA_fnc_addSetting;
-[QGVAR(helmetMult), "SLIDER", [LSTRING(helmetMult), LSTRING(helmetMult_desc)], SUB_GEAR, [0, 3, 1.25, 2], true] call CBA_fnc_addSetting;
-[QGVAR(vestMult), "SLIDER", [LSTRING(vestMult), LSTRING(vestMult_desc)], SUB_GEAR, [0, 3, 1.2, 2], true] call CBA_fnc_addSetting;
+[QGVAR(helmetMult), "SLIDER", [LSTRING(helmetMult), LSTRING(helmetMult_desc)], SUB_GEAR, [0, 3, 0.99911, 2], true] call CBA_fnc_addSetting;
+[QGVAR(vestMult), "SLIDER", [LSTRING(vestMult), LSTRING(vestMult_desc)], SUB_GEAR, [0, 3, 0.99911, 2], true] call CBA_fnc_addSetting;
 [QGVAR(nvgDayMult), "SLIDER", [LSTRING(nvgDayMult), LSTRING(nvgDayMult_desc)], SUB_GEAR, [0, 3, 1.3, 2], true] call CBA_fnc_addSetting;
 [QGVAR(weaponVisibleMult), "SLIDER", [LSTRING(weaponVisibleMult), LSTRING(weaponVisibleMult_desc)], SUB_GEAR, [0, 5, 1.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(gearVisibleRange), "SLIDER", [LSTRING(gearVisibleRange), LSTRING(gearVisibleRange_desc)], SUB_GEAR, [5, 500, 50, 0], true] call CBA_fnc_addSetting;
 [QGVAR(gearNeutral), "EDITBOX", [LSTRING(gearNeutral), LSTRING(gearNeutral_desc)], SUB_GEAR, "", true] call CBA_fnc_addSetting;
 [QGVAR(gearRefSource), "LIST", [LSTRING(gearRefSource), LSTRING(gearRefSource_desc)], SUB_GEAR, [[0, 1, 2], [[LSTRING(gearRefSource_opt0), LSTRING(gearRefSource_opt0_desc)], [LSTRING(gearRefSource_opt1), LSTRING(gearRefSource_opt1_desc)], [LSTRING(gearRefSource_opt2), LSTRING(gearRefSource_opt2_desc)]], 2], true] call CBA_fnc_addSetting;
-[QGVAR(gearRefAutoCollect), "CHECKBOX", [LSTRING(gearRefAutoCollect), LSTRING(gearRefAutoCollect_desc)], SUB_GEAR, false, true] call CBA_fnc_addSetting;
-[QGVAR(gearMatchMult), "SLIDER", [LSTRING(gearMatchMult), LSTRING(gearMatchMult_desc)], SUB_GEAR, [0.1, 2, 0.85, 2], true] call CBA_fnc_addSetting;
-[QGVAR(gearSimilarMult), "SLIDER", [LSTRING(gearSimilarMult), LSTRING(gearSimilarMult_desc)], SUB_GEAR, [0.1, 3, 1, 2], true] call CBA_fnc_addSetting;
+[QGVAR(gearRefAutoCollect), "CHECKBOX", [LSTRING(gearRefAutoCollect), LSTRING(gearRefAutoCollect_desc)], SUB_GEAR, true, true] call CBA_fnc_addSetting;
+[QGVAR(gearMatchMult), "SLIDER", [LSTRING(gearMatchMult), LSTRING(gearMatchMult_desc)], SUB_GEAR, [0.1, 2, 0.498087, 2], true] call CBA_fnc_addSetting;
+[QGVAR(gearSimilarMult), "SLIDER", [LSTRING(gearSimilarMult), LSTRING(gearSimilarMult_desc)], SUB_GEAR, [0.1, 3, 0.75, 2], true] call CBA_fnc_addSetting;
 [QGVAR(gearMismatchMult), "SLIDER", [LSTRING(gearMismatchMult), LSTRING(gearMismatchMult_desc)], SUB_GEAR, [0.5, 5, 1.15, 2], true] call CBA_fnc_addSetting;
 [QGVAR(gearMissingMult), "SLIDER", [LSTRING(gearMissingMult), LSTRING(gearMissingMult_desc)], SUB_GEAR, [0.5, 5, 1.05, 2], true] call CBA_fnc_addSetting;
 [QGVAR(gearSlotWeights), "EDITBOX", [LSTRING(gearSlotWeights), LSTRING(gearSlotWeights_desc)], SUB_GEAR, "uniform:1.5,vest:1,headgear:1,primary:1.2,launcher:1,backpack:0.5,facewear:0.5", true] call CBA_fnc_addSetting;
 [QGVAR(gearMatchMin), "SLIDER", [LSTRING(gearMatchMin), LSTRING(gearMatchMin_desc)], SUB_GEAR, [0.1, 1, 0.4, 2], true] call CBA_fnc_addSetting;
 [QGVAR(gearMatchMax), "SLIDER", [LSTRING(gearMatchMax), LSTRING(gearMatchMax_desc)], SUB_GEAR, [1, 10, 3, 2], true] call CBA_fnc_addSetting;
 [QGVAR(gearVoidsCover), "CHECKBOX", [LSTRING(gearVoidsCover), LSTRING(gearVoidsCover_desc)], SUB_GEAR, false, true] call CBA_fnc_addSetting;
-[QGVAR(gearVoidUniform), "CHECKBOX", [LSTRING(gearVoidUniform), LSTRING(gearVoidUniform_desc)], SUB_GEAR, true, true] call CBA_fnc_addSetting;
-[QGVAR(gearVoidHelmet), "CHECKBOX", [LSTRING(gearVoidHelmet), LSTRING(gearVoidHelmet_desc)], SUB_GEAR, true, true] call CBA_fnc_addSetting;
-[QGVAR(gearVoidVest), "CHECKBOX", [LSTRING(gearVoidVest), LSTRING(gearVoidVest_desc)], SUB_GEAR, true, true] call CBA_fnc_addSetting;
-[QGVAR(gearVoidWeapon), "CHECKBOX", [LSTRING(gearVoidWeapon), LSTRING(gearVoidWeapon_desc)], SUB_GEAR, true, true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidUniform), "CHECKBOX", [LSTRING(gearVoidUniform), LSTRING(gearVoidUniform_desc)], SUB_GEAR, false, true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidHelmet), "CHECKBOX", [LSTRING(gearVoidHelmet), LSTRING(gearVoidHelmet_desc)], SUB_GEAR, false, true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidVest), "CHECKBOX", [LSTRING(gearVoidVest), LSTRING(gearVoidVest_desc)], SUB_GEAR, false, true] call CBA_fnc_addSetting;
+[QGVAR(gearVoidWeapon), "CHECKBOX", [LSTRING(gearVoidWeapon), LSTRING(gearVoidWeapon_desc)], SUB_GEAR, false, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 11 Driving Behaviour
-[QGVAR(speedingSpeed), "SLIDER", [LSTRING(speedingSpeed), LSTRING(speedingSpeed_desc)], SUB_DRIVING, [10, 200, 70, 0], true] call CBA_fnc_addSetting;
+[QGVAR(speedingSpeed), "SLIDER", [LSTRING(speedingSpeed), LSTRING(speedingSpeed_desc)], SUB_DRIVING, [10, 200, 99.8745, 0], true] call CBA_fnc_addSetting;
 [QGVAR(speedingMult), "SLIDER", [LSTRING(speedingMult), LSTRING(speedingMult_desc)], SUB_DRIVING, [1, 5, 1.3, 2], true] call CBA_fnc_addSetting;
 [QGVAR(offroadMult), "SLIDER", [LSTRING(offroadMult), LSTRING(offroadMult_desc)], SUB_DRIVING, [1, 5, 1.2, 2], true] call CBA_fnc_addSetting;
 [QGVAR(lightsOffMult), "SLIDER", [LSTRING(lightsOffMult), LSTRING(lightsOffMult_desc)], SUB_DRIVING, [1, 5, 1.4, 2], true] call CBA_fnc_addSetting;
@@ -162,9 +162,9 @@
 [QGVAR(aimAngle), "SLIDER", [LSTRING(aimAngle), LSTRING(aimAngle_desc)], SUB_DRIVING, [1, 45, 8, 0], true] call CBA_fnc_addSetting;
 [QGVAR(lightMult), "SLIDER", [LSTRING(lightMult), LSTRING(lightMult_desc)], SUB_DRIVING, [1, 5, 2, 2], true] call CBA_fnc_addSetting;
 [QGVAR(metaDetect), "CHECKBOX", [LSTRING(metaDetect), LSTRING(metaDetect_desc)], SUB_DRIVING, true, true] call CBA_fnc_addSetting;
-[QGVAR(metaRange), "SLIDER", [LSTRING(metaRange), LSTRING(metaRange_desc)], SUB_DRIVING, [10, 500, 100, 0], true] call CBA_fnc_addSetting;
+[QGVAR(metaRange), "SLIDER", [LSTRING(metaRange), LSTRING(metaRange_desc)], SUB_DRIVING, [10, 500, 40.0359, 0], true] call CBA_fnc_addSetting;
 [QGVAR(metaMaxSpeed), "SLIDER", [LSTRING(metaMaxSpeed), LSTRING(metaMaxSpeed_desc)], SUB_DRIVING, [3, 60, 15, 0], true] call CBA_fnc_addSetting;
-[QGVAR(hiddenCrewAny), "CHECKBOX", [LSTRING(hiddenCrewAny), LSTRING(hiddenCrewAny_desc)], SUB_DRIVING, false, true] call CBA_fnc_addSetting;
+[QGVAR(hiddenCrewAny), "CHECKBOX", [LSTRING(hiddenCrewAny), LSTRING(hiddenCrewAny_desc)], SUB_DRIVING, true, true] call CBA_fnc_addSetting;
 [QGVAR(hiddenCrewMult), "SLIDER", [LSTRING(hiddenCrewMult), LSTRING(hiddenCrewMult_desc)], SUB_DRIVING, [0, 2, 0.6, 2], true] call CBA_fnc_addSetting;
 [QGVAR(reverseSpeed), "SLIDER", [LSTRING(reverseSpeed), LSTRING(reverseSpeed_desc)], SUB_DRIVING, [1, 30, 3, 0], true] call CBA_fnc_addSetting;
 [QGVAR(reverseMult), "SLIDER", [LSTRING(reverseMult), LSTRING(reverseMult_desc)], SUB_DRIVING, [1, 10, 2.5, 2], true] call CBA_fnc_addSetting;
@@ -178,22 +178,22 @@
 [QGVAR(firedRadius), "SLIDER", [LSTRING(firedRadius), LSTRING(firedRadius_desc)], SUB_HOSTILE, [0, 2000, 300, 0], true] call CBA_fnc_addSetting;
 [QGVAR(firedRadiusSuppressed), "SLIDER", [LSTRING(firedRadiusSuppressed), LSTRING(firedRadiusSuppressed_desc)], SUB_HOSTILE, [0, 500, 40, 0], true] call CBA_fnc_addSetting;
 [QGVAR(firedLOS), "CHECKBOX", [LSTRING(firedLOS), LSTRING(firedLOS_desc)], SUB_HOSTILE, true, true] call CBA_fnc_addSetting;
-[QGVAR(heatDuration), "SLIDER", [LSTRING(heatDuration), LSTRING(heatDuration_desc)], SUB_HOSTILE, [0, 1800, 120, 0], true] call CBA_fnc_addSetting;
+[QGVAR(heatDuration), "SLIDER", [LSTRING(heatDuration), LSTRING(heatDuration_desc)], SUB_HOSTILE, [0, 1800, 30, 0], true] call CBA_fnc_addSetting;
 [QGVAR(damageBlows), "CHECKBOX", [LSTRING(damageBlows), LSTRING(damageBlows_desc)], SUB_HOSTILE, true, true] call CBA_fnc_addSetting;
 [QGVAR(damageNeedsLOS), "CHECKBOX", [LSTRING(damageNeedsLOS), LSTRING(damageNeedsLOS_desc)], SUB_HOSTILE, true, true] call CBA_fnc_addSetting;
 [QGVAR(damageSuspicion), "SLIDER", [LSTRING(damageSuspicion), LSTRING(damageSuspicion_desc)], SUB_HOSTILE, [0, 99, 70, 0], true] call CBA_fnc_addSetting;
-[QGVAR(vehicleAttackedBlows), "CHECKBOX", [LSTRING(vehicleAttackedBlows), LSTRING(vehicleAttackedBlows_desc)], SUB_HOSTILE, false, true] call CBA_fnc_addSetting;
-[QGVAR(compromiseCrew), "CHECKBOX", [LSTRING(compromiseCrew), LSTRING(compromiseCrew_desc)], SUB_HOSTILE, true, true] call CBA_fnc_addSetting;
-[QGVAR(revealKA), "SLIDER", [LSTRING(revealKA), LSTRING(revealKA_desc)], SUB_HOSTILE, [0.5, 4, 4, 2], true] call CBA_fnc_addSetting;
+[QGVAR(vehicleAttackedBlows), "CHECKBOX", [LSTRING(vehicleAttackedBlows), LSTRING(vehicleAttackedBlows_desc)], SUB_HOSTILE, true, true] call CBA_fnc_addSetting;
+[QGVAR(compromiseCrew), "CHECKBOX", [LSTRING(compromiseCrew), LSTRING(compromiseCrew_desc)], SUB_HOSTILE, false, true] call CBA_fnc_addSetting;
+[QGVAR(revealKA), "SLIDER", [LSTRING(revealKA), LSTRING(revealKA_desc)], SUB_HOSTILE, [0.5, 4, 3, 2], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 13 Safe Zones and Truce
 [QGVAR(truceEnabled), "CHECKBOX", [LSTRING(truceEnabled), LSTRING(truceEnabled_desc)], SUB_TRUCE, true, true] call CBA_fnc_addSetting;
 [QGVAR(truceMaxStay), "SLIDER", [LSTRING(truceMaxStay), LSTRING(truceMaxStay_desc)], SUB_TRUCE, [0, 7200, 0, 0], true] call CBA_fnc_addSetting;
-[QGVAR(truceWarn), "SLIDER", [LSTRING(truceWarn), LSTRING(truceWarn_desc)], SUB_TRUCE, [0, 600, 60, 0], true] call CBA_fnc_addSetting;
+[QGVAR(truceWarn), "SLIDER", [LSTRING(truceWarn), LSTRING(truceWarn_desc)], SUB_TRUCE, [0, 600, 0, 0], true] call CBA_fnc_addSetting;
 [QGVAR(truceCareless), "CHECKBOX", [LSTRING(truceCareless), LSTRING(truceCareless_desc)], SUB_TRUCE, true, true] call CBA_fnc_addSetting;
 [QGVAR(truceBreakScope), "LIST", [LSTRING(truceBreakScope), LSTRING(truceBreakScope_desc)], SUB_TRUCE, [[0, 1, 2], [[LSTRING(truceBreakScope_opt0), LSTRING(truceBreakScope_opt0_desc)], [LSTRING(truceBreakScope_opt1), LSTRING(truceBreakScope_opt1_desc)], [LSTRING(truceBreakScope_opt2), LSTRING(truceBreakScope_opt2_desc)]], 1], true] call CBA_fnc_addSetting;
-[QGVAR(truceBreakOnAim), "CHECKBOX", [LSTRING(truceBreakOnAim), LSTRING(truceBreakOnAim_desc)], SUB_TRUCE, false, true] call CBA_fnc_addSetting;
-[QGVAR(truceAimTime), "SLIDER", [LSTRING(truceAimTime), LSTRING(truceAimTime_desc)], SUB_TRUCE, [1, 30, 3, 0], true] call CBA_fnc_addSetting;
+[QGVAR(truceBreakOnAim), "CHECKBOX", [LSTRING(truceBreakOnAim), LSTRING(truceBreakOnAim_desc)], SUB_TRUCE, true, true] call CBA_fnc_addSetting;
+[QGVAR(truceAimTime), "SLIDER", [LSTRING(truceAimTime), LSTRING(truceAimTime_desc)], SUB_TRUCE, [1, 30, 9.82227, 0], true] call CBA_fnc_addSetting;
 [QGVAR(truceCooldown), "SLIDER", [LSTRING(truceCooldown), LSTRING(truceCooldown_desc)], SUB_TRUCE, [0, 3600, 300, 0], true] call CBA_fnc_addSetting;
 [QGVAR(truceExitGrace), "SLIDER", [LSTRING(truceExitGrace), LSTRING(truceExitGrace_desc)], SUB_TRUCE, [0, 120, 10, 0], true] call CBA_fnc_addSetting;
 [QGVAR(truceBreakRadius), "SLIDER", [LSTRING(truceBreakRadius), LSTRING(truceBreakRadius_desc)], SUB_TRUCE, [0, 2000, 200, 0], true] call CBA_fnc_addSetting;
@@ -203,17 +203,17 @@
 [QGVAR(forgetAfter), "SLIDER", [LSTRING(forgetAfter), LSTRING(forgetAfter_desc)], SUB_MEMORY, [10, 1800, 180, 0], true] call CBA_fnc_addSetting;
 [QGVAR(recoverThreshold), "SLIDER", [LSTRING(recoverThreshold), LSTRING(recoverThreshold_desc)], SUB_MEMORY, [0, 50, 10, 0], true] call CBA_fnc_addSetting;
 [QGVAR(memoryTime), "SLIDER", [LSTRING(memoryTime), LSTRING(memoryTime_desc)], SUB_MEMORY, [0, 3600, 600, 0], true] call CBA_fnc_addSetting;
-[QGVAR(exitRevealThreshold), "SLIDER", [LSTRING(exitRevealThreshold), LSTRING(exitRevealThreshold_desc)], SUB_MEMORY, [0, 100, 50, 0], true] call CBA_fnc_addSetting;
+[QGVAR(exitRevealThreshold), "SLIDER", [LSTRING(exitRevealThreshold), LSTRING(exitRevealThreshold_desc)], SUB_MEMORY, [0, 100, 74.8879, 0], true] call CBA_fnc_addSetting;
 [QGVAR(targetAge), "LIST", [LSTRING(targetAge), LSTRING(targetAge_desc)], SUB_MEMORY, [["", "ACTUAL", "5 MIN", "10 MIN", "15 MIN", "30 MIN", "60 MIN", "UNKNOWN"], [[LSTRING(targetAge_opt0)], [LSTRING(targetAge_opt1)], [LSTRING(targetAge_opt2)], [LSTRING(targetAge_opt3)], [LSTRING(targetAge_opt4)], [LSTRING(targetAge_opt5)], [LSTRING(targetAge_opt6)], [LSTRING(targetAge_opt7)]], 0], true] call CBA_fnc_addSetting;
 [QGVAR(targetAgeDelay), "SLIDER", [LSTRING(targetAgeDelay), LSTRING(targetAgeDelay_desc)], SUB_MEMORY, [5, 600, 60, 0], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 15 Sharing and Suspicion Sync
 [QGVAR(shareMode), "LIST", [LSTRING(shareMode), LSTRING(shareMode_desc)], SUB_SHARE, [[0, 1, 2], [[LSTRING(shareMode_opt0), LSTRING(shareMode_opt0_desc)], [LSTRING(shareMode_opt1), LSTRING(shareMode_opt1_desc)], [LSTRING(shareMode_opt2), LSTRING(shareMode_opt2_desc)]], 1], true] call CBA_fnc_addSetting;
 [QGVAR(shareRadius), "SLIDER", [LSTRING(shareRadius), LSTRING(shareRadius_desc)], SUB_SHARE, [0, 3000, 300, 0], true] call CBA_fnc_addSetting;
-[QGVAR(shareDelay), "SLIDER", [LSTRING(shareDelay), LSTRING(shareDelay_desc)], SUB_SHARE, [0, 120, 5, 0], true] call CBA_fnc_addSetting;
-[QGVAR(shareKA), "SLIDER", [LSTRING(shareKA), LSTRING(shareKA_desc)], SUB_SHARE, [0.1, 4, 1.5, 2], true] call CBA_fnc_addSetting;
-[QGVAR(shareSuspicion), "SLIDER", [LSTRING(shareSuspicion), LSTRING(shareSuspicion_desc)], SUB_SHARE, [0, 99, 60, 0], true] call CBA_fnc_addSetting;
-[QGVAR(shareNeedsRadio), "CHECKBOX", [LSTRING(shareNeedsRadio), LSTRING(shareNeedsRadio_desc)], SUB_SHARE, false, true] call CBA_fnc_addSetting;
+[QGVAR(shareDelay), "SLIDER", [LSTRING(shareDelay), LSTRING(shareDelay_desc)], SUB_SHARE, [0, 120, 10.3202, 0], true] call CBA_fnc_addSetting;
+[QGVAR(shareKA), "SLIDER", [LSTRING(shareKA), LSTRING(shareKA_desc)], SUB_SHARE, [0.1, 4, 2, 2], true] call CBA_fnc_addSetting;
+[QGVAR(shareSuspicion), "SLIDER", [LSTRING(shareSuspicion), LSTRING(shareSuspicion_desc)], SUB_SHARE, [0, 99, 49.6826, 0], true] call CBA_fnc_addSetting;
+[QGVAR(shareNeedsRadio), "CHECKBOX", [LSTRING(shareNeedsRadio), LSTRING(shareNeedsRadio_desc)], SUB_SHARE, true, true] call CBA_fnc_addSetting;
 [QGVAR(shareInstantRadius), "SLIDER", [LSTRING(shareInstantRadius), LSTRING(shareInstantRadius_desc)], SUB_SHARE, [0, 1000, 150, 0], true] call CBA_fnc_addSetting;
 [QGVAR(shareEscalate), "CHECKBOX", [LSTRING(shareEscalate), LSTRING(shareEscalate_desc)], SUB_SHARE, true, true] call CBA_fnc_addSetting;
 [QGVAR(burnOnIdentify), "CHECKBOX", [LSTRING(burnOnIdentify), LSTRING(burnOnIdentify_desc)], SUB_SHARE, true, true] call CBA_fnc_addSetting;
@@ -224,10 +224,10 @@
 [QGVAR(syncInterval), "SLIDER", [LSTRING(syncInterval), LSTRING(syncInterval_desc)], SUB_SHARE, [1, 60, 3, 0], true] call CBA_fnc_addSetting;
 [QGVAR(syncFactor), "SLIDER", [LSTRING(syncFactor), LSTRING(syncFactor_desc)], SUB_SHARE, [0, 1, 1, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(syncMin), "SLIDER", [LSTRING(syncMin), LSTRING(syncMin_desc)], SUB_SHARE, [0, 99, 10, 0], true] call CBA_fnc_addSetting;
-[QGVAR(syncNeedsRadio), "CHECKBOX", [LSTRING(syncNeedsRadio), LSTRING(syncNeedsRadio_desc)], SUB_SHARE, false, true] call CBA_fnc_addSetting;
+[QGVAR(syncNeedsRadio), "CHECKBOX", [LSTRING(syncNeedsRadio), LSTRING(syncNeedsRadio_desc)], SUB_SHARE, true, true] call CBA_fnc_addSetting;
 [QGVAR(syncCanIdentify), "CHECKBOX", [LSTRING(syncCanIdentify), LSTRING(syncCanIdentify_desc)], SUB_SHARE, false, true] call CBA_fnc_addSetting;
 [QGVAR(syncRespectSig), "CHECKBOX", [LSTRING(syncRespectSig), LSTRING(syncRespectSig_desc)], SUB_SHARE, true, true] call CBA_fnc_addSetting;
-[QGVAR(appearanceChangeKeep), "SLIDER", [LSTRING(appearanceChangeKeep), LSTRING(appearanceChangeKeep_desc)], SUB_SHARE, [0, 1, 0.5, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(appearanceChangeKeep), "SLIDER", [LSTRING(appearanceChangeKeep), LSTRING(appearanceChangeKeep_desc)], SUB_SHARE, [0, 1, 0.353623, 0, true], true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 16 Radio Bulletins
 [QGVAR(bulletinEnabled), "CHECKBOX", [LSTRING(bulletinEnabled), LSTRING(bulletinEnabled_desc)], SUB_RADIO, true, true] call CBA_fnc_addSetting;
@@ -250,7 +250,7 @@
 
 // ---------------------------------------------------------------- 17 Convoys
 [QGVAR(convoyEnabled), "CHECKBOX", [LSTRING(convoyEnabled), LSTRING(convoyEnabled_desc)], SUB_CONVOY, true, true] call CBA_fnc_addSetting;
-[QGVAR(convoyGap), "SLIDER", [LSTRING(convoyGap), LSTRING(convoyGap_desc)], SUB_CONVOY, [10, 300, 60, 0], true] call CBA_fnc_addSetting;
+[QGVAR(convoyGap), "SLIDER", [LSTRING(convoyGap), LSTRING(convoyGap_desc)], SUB_CONVOY, [10, 300, 100, 0], true] call CBA_fnc_addSetting;
 [QGVAR(convoyFormTime), "SLIDER", [LSTRING(convoyFormTime), LSTRING(convoyFormTime_desc)], SUB_CONVOY, [0, 120, 10, 0], true] call CBA_fnc_addSetting;
 [QGVAR(convoyBuildPerVeh), "SLIDER", [LSTRING(convoyBuildPerVeh), LSTRING(convoyBuildPerVeh_desc)], SUB_CONVOY, [0, 1, 0.15, 2], true] call CBA_fnc_addSetting;
 [QGVAR(convoyBuildMax), "SLIDER", [LSTRING(convoyBuildMax), LSTRING(convoyBuildMax_desc)], SUB_CONVOY, [1, 5, 1.75, 2], true] call CBA_fnc_addSetting;
@@ -264,17 +264,21 @@
 [QGVAR(pursuitMaxGroups), "SLIDER", [LSTRING(pursuitMaxGroups), LSTRING(pursuitMaxGroups_desc)], SUB_PURSUIT, [1, 10, 2, 0], true] call CBA_fnc_addSetting;
 [QGVAR(pursuitMaxStart), "SLIDER", [LSTRING(pursuitMaxStart), LSTRING(pursuitMaxStart_desc)], SUB_PURSUIT, [50, 3000, 600, 0], true] call CBA_fnc_addSetting;
 [QGVAR(pursuitMaxTime), "SLIDER", [LSTRING(pursuitMaxTime), LSTRING(pursuitMaxTime_desc)], SUB_PURSUIT, [30, 1800, 180, 0], true] call CBA_fnc_addSetting;
-[QGVAR(pursuitMaxDist), "SLIDER", [LSTRING(pursuitMaxDist), LSTRING(pursuitMaxDist_desc)], SUB_PURSUIT, [100, 10000, 1500, 0], true] call CBA_fnc_addSetting;
+[QGVAR(pursuitMaxDist), "SLIDER", [LSTRING(pursuitMaxDist), LSTRING(pursuitMaxDist_desc)], SUB_PURSUIT, [100, 10000, 1000, 0], true] call CBA_fnc_addSetting;
 [QGVAR(pursuitLead), "SLIDER", [LSTRING(pursuitLead), LSTRING(pursuitLead_desc)], SUB_PURSUIT, [0, 10, 2, 1], true] call CBA_fnc_addSetting;
 [QGVAR(leashEnabled), "CHECKBOX", [LSTRING(leashEnabled), LSTRING(leashEnabled_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
 [QGVAR(leashFoot), "SLIDER", [LSTRING(leashFoot), LSTRING(leashFoot_desc)], SUB_PURSUIT, [25, 3000, 200, 0], true] call CBA_fnc_addSetting;
 [QGVAR(leashVehicle), "SLIDER", [LSTRING(leashVehicle), LSTRING(leashVehicle_desc)], SUB_PURSUIT, [50, 10000, 600, 0], true] call CBA_fnc_addSetting;
 [QGVAR(leashGiveUp), "SLIDER", [LSTRING(leashGiveUp), LSTRING(leashGiveUp_desc)], SUB_PURSUIT, [1, 300, 15, 0], true] call CBA_fnc_addSetting;
 [QGVAR(footGiveUpDist), "SLIDER", [LSTRING(footGiveUpDist), LSTRING(footGiveUpDist_desc)], SUB_PURSUIT, [50, 2000, 300, 0], true] call CBA_fnc_addSetting;
+[QGVAR(stopFreeze), "CHECKBOX", [LSTRING(stopFreeze), LSTRING(stopFreeze_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
+[QGVAR(stopSignalRange), "SLIDER", [LSTRING(stopSignalRange), LSTRING(stopSignalRange_desc)], SUB_PURSUIT, [20, 500, 150, 0], true] call CBA_fnc_addSetting;
 [QGVAR(followDistance), "SLIDER", [LSTRING(followDistance), LSTRING(followDistance_desc)], SUB_PURSUIT, [10, 200, 40, 0], true] call CBA_fnc_addSetting;
+[QGVAR(stopSignalInterval), "SLIDER", [LSTRING(stopSignalInterval), LSTRING(stopSignalInterval_desc)], SUB_PURSUIT, [2, 20, 4, 0], true] call CBA_fnc_addSetting;
 [QGVAR(stopSignalHorn), "CHECKBOX", [LSTRING(stopSignalHorn), LSTRING(stopSignalHorn_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
 [QGVAR(stopSignalLights), "CHECKBOX", [LSTRING(stopSignalLights), LSTRING(stopSignalLights_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
 [QGVAR(stopTimeout), "SLIDER", [LSTRING(stopTimeout), LSTRING(stopTimeout_desc)], SUB_PURSUIT, [5, 300, 30, 0], true] call CBA_fnc_addSetting;
+[QGVAR(stopFleeDistance), "SLIDER", [LSTRING(stopFleeDistance), LSTRING(stopFleeDistance_desc)], SUB_PURSUIT, [50, 2000, 150, 0], true] call CBA_fnc_addSetting;
 [QGVAR(refuseSuspBonus), "SLIDER", [LSTRING(refuseSuspBonus), LSTRING(refuseSuspBonus_desc)], SUB_PURSUIT, [0, 99, 20, 0], true] call CBA_fnc_addSetting;
 [QGVAR(alertOnEscape), "CHECKBOX", [LSTRING(alertOnEscape), LSTRING(alertOnEscape_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
 [QGVAR(alertRadius), "SLIDER", [LSTRING(alertRadius), LSTRING(alertRadius_desc)], SUB_PURSUIT, [0, 10000, 1500, 0], true] call CBA_fnc_addSetting;
@@ -292,7 +296,7 @@
 [QGVAR(lambsHuntOnCompromise), "CHECKBOX", [LSTRING(lambsHuntOnCompromise), LSTRING(lambsHuntOnCompromise_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 19 Informants, Theft, Ramming, Plates
-[QGVAR(informantsEnabled), "CHECKBOX", [LSTRING(informantsEnabled), LSTRING(informantsEnabled_desc)], SUB_MISC, false, true] call CBA_fnc_addSetting;
+[QGVAR(informantsEnabled), "CHECKBOX", [LSTRING(informantsEnabled), LSTRING(informantsEnabled_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
 [QGVAR(informantChance), "SLIDER", [LSTRING(informantChance), LSTRING(informantChance_desc)], SUB_MISC, [0, 1, 0.15, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(informantDelay), "SLIDER", [LSTRING(informantDelay), LSTRING(informantDelay_desc)], SUB_MISC, [0, 600, 45, 0], true] call CBA_fnc_addSetting;
 [QGVAR(informantRange), "SLIDER", [LSTRING(informantRange), LSTRING(informantRange_desc)], SUB_MISC, [10, 1000, 200, 0], true] call CBA_fnc_addSetting;
@@ -300,11 +304,11 @@
 [QGVAR(theftRadius), "SLIDER", [LSTRING(theftRadius), LSTRING(theftRadius_desc)], SUB_MISC, [0, 500, 50, 0], true] call CBA_fnc_addSetting;
 [QGVAR(ramDetect), "CHECKBOX", [LSTRING(ramDetect), LSTRING(ramDetect_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
 [QGVAR(ramSpeed), "SLIDER", [LSTRING(ramSpeed), LSTRING(ramSpeed_desc)], SUB_MISC, [1, 60, 5, 0], true] call CBA_fnc_addSetting;
-[QGVAR(ramSuspicion), "SLIDER", [LSTRING(ramSuspicion), LSTRING(ramSuspicion_desc)], SUB_MISC, [0, 99, 50, 0], true] call CBA_fnc_addSetting;
+[QGVAR(ramSuspicion), "SLIDER", [LSTRING(ramSuspicion), LSTRING(ramSuspicion_desc)], SUB_MISC, [0, 99, 75, 0], true] call CBA_fnc_addSetting;
 [QGVAR(ramCompromise), "CHECKBOX", [LSTRING(ramCompromise), LSTRING(ramCompromise_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
 [QGVAR(ramBurn), "CHECKBOX", [LSTRING(ramBurn), LSTRING(ramBurn_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
 [QGVAR(swapForgive), "CHECKBOX", [LSTRING(swapForgive), LSTRING(swapForgive_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
-[QGVAR(swapMinUnseen), "SLIDER", [LSTRING(swapMinUnseen), LSTRING(swapMinUnseen_desc)], SUB_MISC, [0, 300, 2, 0], true] call CBA_fnc_addSetting;
+[QGVAR(swapMinUnseen), "SLIDER", [LSTRING(swapMinUnseen), LSTRING(swapMinUnseen_desc)], SUB_MISC, [0, 300, 15, 0], true] call CBA_fnc_addSetting;
 [QGVAR(swapBaseSuspicion), "SLIDER", [LSTRING(swapBaseSuspicion), LSTRING(swapBaseSuspicion_desc)], SUB_MISC, [0, 99, 30, 0], true] call CBA_fnc_addSetting;
 [QGVAR(swapPenalty), "SLIDER", [LSTRING(swapPenalty), LSTRING(swapPenalty_desc)], SUB_MISC, [0, 100, 30, 0], true] call CBA_fnc_addSetting;
 [QGVAR(swapMemory), "SLIDER", [LSTRING(swapMemory), LSTRING(swapMemory_desc)], SUB_MISC, [60, 7200, 900, 0], true] call CBA_fnc_addSetting;
@@ -313,29 +317,30 @@
 [QGVAR(plateCombat), "CHECKBOX", [LSTRING(plateCombat), LSTRING(plateCombat_desc)], SUB_MISC, true, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 20 AI Reactions
-[QGVAR(aiAware), "CHECKBOX", [LSTRING(aiAware), LSTRING(aiAware_desc)], SUB_AI, false, true] call CBA_fnc_addSetting;
+[QGVAR(aiAware), "CHECKBOX", [LSTRING(aiAware), LSTRING(aiAware_desc)], SUB_AI, true, true] call CBA_fnc_addSetting;
 [QGVAR(aiGlance), "CHECKBOX", [LSTRING(aiGlance), LSTRING(aiGlance_desc)], SUB_AI, true, true] call CBA_fnc_addSetting;
 [QGVAR(aiLook), "CHECKBOX", [LSTRING(aiLook), LSTRING(aiLook_desc)], SUB_AI, true, true] call CBA_fnc_addSetting;
-[QGVAR(aiWatch), "CHECKBOX", [LSTRING(aiWatch), LSTRING(aiWatch_desc)], SUB_AI, false, true] call CBA_fnc_addSetting;
-[QGVAR(aiCombatOnIdentify), "CHECKBOX", [LSTRING(aiCombatOnIdentify), LSTRING(aiCombatOnIdentify_desc)], SUB_AI, false, true] call CBA_fnc_addSetting;
+[QGVAR(aiWatch), "CHECKBOX", [LSTRING(aiWatch), LSTRING(aiWatch_desc)], SUB_AI, true, true] call CBA_fnc_addSetting;
+[QGVAR(aiCombatOnIdentify), "CHECKBOX", [LSTRING(aiCombatOnIdentify), LSTRING(aiCombatOnIdentify_desc)], SUB_AI, true, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 21 Notifications
-[QGVAR(notifyCover), "CHECKBOX", [LSTRING(notifyCover), LSTRING(notifyCover_desc)], SUB_NOTIFY, true, false] call CBA_fnc_addSetting;
-[QGVAR(notifyWatched), "CHECKBOX", [LSTRING(notifyWatched), LSTRING(notifyWatched_desc)], SUB_NOTIFY, true, false] call CBA_fnc_addSetting;
-[QGVAR(notifyCompromised), "CHECKBOX", [LSTRING(notifyCompromised), LSTRING(notifyCompromised_desc)], SUB_NOTIFY, true, false] call CBA_fnc_addSetting;
-[QGVAR(notifyTruce), "CHECKBOX", [LSTRING(notifyTruce), LSTRING(notifyTruce_desc)], SUB_NOTIFY, true, false] call CBA_fnc_addSetting;
-[QGVAR(notifyInspect), "CHECKBOX", [LSTRING(notifyInspect), LSTRING(notifyInspect_desc)], SUB_NOTIFY, true, false] call CBA_fnc_addSetting;
-[QGVAR(notifyZeus), "CHECKBOX", [LSTRING(notifyZeus), LSTRING(notifyZeus_desc)], SUB_NOTIFY, true, false] call CBA_fnc_addSetting;
-[QGVAR(allowWatchedHints), "CHECKBOX", [LSTRING(allowWatchedHints), LSTRING(allowWatchedHints_desc)], SUB_NOTIFY, true, true] call CBA_fnc_addSetting;
+[QGVAR(notifyCover), "CHECKBOX", [LSTRING(notifyCover), LSTRING(notifyCover_desc)], SUB_NOTIFY, false, true] call CBA_fnc_addSetting;
+[QGVAR(notifyWatched), "CHECKBOX", [LSTRING(notifyWatched), LSTRING(notifyWatched_desc)], SUB_NOTIFY, false, true] call CBA_fnc_addSetting;
+[QGVAR(notifyCompromised), "CHECKBOX", [LSTRING(notifyCompromised), LSTRING(notifyCompromised_desc)], SUB_NOTIFY, false, true] call CBA_fnc_addSetting;
+[QGVAR(notifyTruce), "CHECKBOX", [LSTRING(notifyTruce), LSTRING(notifyTruce_desc)], SUB_NOTIFY, false, true] call CBA_fnc_addSetting;
+[QGVAR(notifyInspect), "CHECKBOX", [LSTRING(notifyInspect), LSTRING(notifyInspect_desc)], SUB_NOTIFY, false, true] call CBA_fnc_addSetting;
+[QGVAR(notifyZeus), "CHECKBOX", [LSTRING(notifyZeus), LSTRING(notifyZeus_desc)], SUB_NOTIFY, true, true] call CBA_fnc_addSetting;
+[QGVAR(allowWatchedHints), "CHECKBOX", [LSTRING(allowWatchedHints), LSTRING(allowWatchedHints_desc)], SUB_NOTIFY, false, true] call CBA_fnc_addSetting;
 
 // ---------------------------------------------------------------- 22 Debug
-[QGVAR(debugLog), "CHECKBOX", [LSTRING(debugLog), LSTRING(debugLog_desc)], SUB_DEBUG, false, true] call CBA_fnc_addSetting;
-[QGVAR(debugDetail), "LIST", [LSTRING(debugDetail), LSTRING(debugDetail_desc)], SUB_DEBUG, [[0, 1, 2], [[LSTRING(debugDetail_opt0)], [LSTRING(debugDetail_opt1), LSTRING(debugDetail_opt1_desc)], [LSTRING(debugDetail_opt2), LSTRING(debugDetail_opt2_desc)]], 1], true] call CBA_fnc_addSetting;
-[QGVAR(debugJump), "SLIDER", [LSTRING(debugJump), LSTRING(debugJump_desc)], SUB_DEBUG, [1, 100, 8, 0], true] call CBA_fnc_addSetting;
-[QGVAR(debugHistory), "SLIDER", [LSTRING(debugHistory), LSTRING(debugHistory_desc)], SUB_DEBUG, [1, 60, 15, 0], true] call CBA_fnc_addSetting;
-[QGVAR(debugPublish), "CHECKBOX", [LSTRING(debugPublish), LSTRING(debugPublish_desc)], SUB_DEBUG, false, true] call CBA_fnc_addSetting;
-[QGVAR(debugOverlay), "CHECKBOX", [LSTRING(debugOverlay), LSTRING(debugOverlay_desc)], SUB_DEBUG, false, false] call CBA_fnc_addSetting;
-[QGVAR(showZoneMarkers), "CHECKBOX", [LSTRING(showZoneMarkers), LSTRING(showZoneMarkers_desc)], SUB_DEBUG, false, true] call CBA_fnc_addSetting;
+[QGVAR(debugClients), "LIST", [LSTRING(debugClients), LSTRING(debugClients_desc)], SUB_DEBUG, [[0, 1, 2], [[LSTRING(debugClients_opt0), LSTRING(debugClients_opt0_desc)], [LSTRING(debugClients_opt1), LSTRING(debugClients_opt1_desc)], [LSTRING(debugClients_opt2), LSTRING(debugClients_opt2_desc)]], 1], true] call CBA_fnc_addSetting;
+[QGVAR(debugLog), "CHECKBOX", [LSTRING(debugLog), LSTRING(debugLog_desc)], SUB_DEBUG, true, false] call CBA_fnc_addSetting;
+[QGVAR(debugDetail), "LIST", [LSTRING(debugDetail), LSTRING(debugDetail_desc)], SUB_DEBUG, [[0, 1, 2], [[LSTRING(debugDetail_opt0)], [LSTRING(debugDetail_opt1), LSTRING(debugDetail_opt1_desc)], [LSTRING(debugDetail_opt2), LSTRING(debugDetail_opt2_desc)]], 2], false] call CBA_fnc_addSetting;
+[QGVAR(debugJump), "SLIDER", [LSTRING(debugJump), LSTRING(debugJump_desc)], SUB_DEBUG, [1, 100, 8, 0], false] call CBA_fnc_addSetting;
+[QGVAR(debugHistory), "SLIDER", [LSTRING(debugHistory), LSTRING(debugHistory_desc)], SUB_DEBUG, [1, 60, 15, 0], false] call CBA_fnc_addSetting;
+[QGVAR(debugPublish), "CHECKBOX", [LSTRING(debugPublish), LSTRING(debugPublish_desc)], SUB_DEBUG, true, false] call CBA_fnc_addSetting;
+[QGVAR(debugOverlay), "CHECKBOX", [LSTRING(debugOverlay), LSTRING(debugOverlay_desc)], SUB_DEBUG, true, false] call CBA_fnc_addSetting;
+[QGVAR(showZoneMarkers), "CHECKBOX", [LSTRING(showZoneMarkers), LSTRING(showZoneMarkers_desc)], SUB_DEBUG, true, true] call CBA_fnc_addSetting;
 
 // Control data per setting for the Zeus settings dialogs: [type, ...]
 // SLIDER: min, max, decimals, percent. LIST: values, label keys.
@@ -551,10 +556,14 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["leashVehicle", ["SLIDER", 50, 10000, 0, false]],
     ["leashGiveUp", ["SLIDER", 1, 300, 0, false]],
     ["footGiveUpDist", ["SLIDER", 50, 2000, 0, false]],
+    ["stopFreeze", ["CHECKBOX"]],
+    ["stopSignalRange", ["SLIDER", 20, 500, 0, false]],
     ["followDistance", ["SLIDER", 10, 200, 0, false]],
+    ["stopSignalInterval", ["SLIDER", 2, 20, 0, false]],
     ["stopSignalHorn", ["CHECKBOX"]],
     ["stopSignalLights", ["CHECKBOX"]],
     ["stopTimeout", ["SLIDER", 5, 300, 0, false]],
+    ["stopFleeDistance", ["SLIDER", 50, 2000, 0, false]],
     ["refuseSuspBonus", ["SLIDER", 0, 99, 0, false]],
     ["alertOnEscape", ["CHECKBOX"]],
     ["alertRadius", ["SLIDER", 0, 10000, 0, false]],
@@ -601,6 +610,7 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["notifyInspect", ["CHECKBOX"]],
     ["notifyZeus", ["CHECKBOX"]],
     ["allowWatchedHints", ["CHECKBOX"]],
+    ["debugClients", ["LIST", [0, 1, 2], [LSTRING(debugClients_opt0), LSTRING(debugClients_opt1), LSTRING(debugClients_opt2)]]],
     ["debugLog", ["CHECKBOX"]],
     ["debugDetail", ["LIST", [0, 1, 2], [LSTRING(debugDetail_opt0), LSTRING(debugDetail_opt1), LSTRING(debugDetail_opt2)]]],
     ["debugJump", ["SLIDER", 1, 100, 0, false]],

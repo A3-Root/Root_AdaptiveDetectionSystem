@@ -22,6 +22,7 @@ if (isNil "_pursuit") exitWith {};
 private _unit = _pursuit get "target";
 private _veh = vehicle _unit;
 _pursuit set ["phase", "INSPECT"];
+[_grp, "stopped for the inspection (judged face to face now)"] call FUNC(pursuitUnfreeze);
 _pursuit set ["phaseStart", time];
 _pursuit set ["inspectPos", getPosATL _veh];
 _pursuit set ["nextMove", 0];

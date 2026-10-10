@@ -1,8 +1,7 @@
 #include "..\script_component.hpp"
 /*
  * Author: Root
- * Closest awake member of a group to a position or object. Every member counts, not only the
- * leader, so a group whose leader is far away still reacts through its nearby members.
+ * Closest awake member of a group to a position or object. So a group whose leader is far away still reacts through its nearby members.
  *
  * Arguments:
  * 0: Group <GROUP>

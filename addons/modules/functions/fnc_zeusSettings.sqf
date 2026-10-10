@@ -58,5 +58,6 @@ deleteVehicle _logic;
     "aiWatch",
     "aiGlance",
     "aiLook",
-    "debugPublish"
+    "debugPublish",
+    "debugClients"
 ]] call FUNC(settingsDialog);

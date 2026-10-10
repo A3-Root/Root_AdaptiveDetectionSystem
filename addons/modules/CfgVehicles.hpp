@@ -207,6 +207,19 @@ class CfgVehicles {
             ATTR_TRI_RAW(ROOT_ADS_S_aiWatch,"$STR_root_ads_main_aiWatch","$STR_root_ads_main_aiWatch_desc");
             ATTR_TRI_RAW(ROOT_ADS_S_aiGlance,"$STR_root_ads_main_aiGlance","$STR_root_ads_main_aiGlance_desc");
             ATTR_TRI_RAW(ROOT_ADS_S_aiLook,"$STR_root_ads_main_aiLook","$STR_root_ads_main_aiLook_desc");
+            class ROOT_ADS_S_debugClients: Combo {
+                property = "ROOT_ADS_S_debugClients";
+                displayName = "$STR_root_ads_main_debugClients";
+                tooltip = "$STR_root_ads_main_debugClients_desc";
+                typeName = "NUMBER";
+                defaultValue = -1;
+                class Values {
+                    class Keep { name = CSTRING(keepSetting); value = -1; };
+                    class V0 { name = "$STR_root_ads_main_debugClients_opt0"; value = 0; };
+                    class V1 { name = "$STR_root_ads_main_debugClients_opt1"; value = 1; };
+                    class V2 { name = "$STR_root_ads_main_debugClients_opt2"; value = 2; };
+                };
+            };
             class ModuleDescription: ModuleDescription {};
         };
         class ModuleDescription: ModuleDescription {
@@ -234,6 +247,10 @@ class CfgVehicles {
             ATTR_NUM_RAW(ROOT_ADS_S_leashFoot,"$STR_root_ads_main_leashFoot","$STR_root_ads_main_leashFoot_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_leashVehicle,"$STR_root_ads_main_leashVehicle","$STR_root_ads_main_leashVehicle_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_leashGiveUp,"$STR_root_ads_main_leashGiveUp","$STR_root_ads_main_leashGiveUp_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_stopFreeze,"$STR_root_ads_main_stopFreeze","$STR_root_ads_main_stopFreeze_desc");
+            ATTR_NUM_RAW(ROOT_ADS_S_stopSignalRange,"$STR_root_ads_main_stopSignalRange","$STR_root_ads_main_stopSignalRange_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_stopSignalInterval,"$STR_root_ads_main_stopSignalInterval","$STR_root_ads_main_stopSignalInterval_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_stopFleeDistance,"$STR_root_ads_main_stopFleeDistance","$STR_root_ads_main_stopFleeDistance_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_followDistance,"$STR_root_ads_main_followDistance","$STR_root_ads_main_followDistance_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_stopTimeout,"$STR_root_ads_main_stopTimeout","$STR_root_ads_main_stopTimeout_desc",-1);
             ATTR_TRI_RAW(ROOT_ADS_S_stopSignalHorn,"$STR_root_ads_main_stopSignalHorn","$STR_root_ads_main_stopSignalHorn_desc");

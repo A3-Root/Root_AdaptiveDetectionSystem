@@ -6,7 +6,7 @@ class CfgPatches {
         units[] = {};
         weapons[] = {};
         requiredVersion = REQUIRED_VERSION;
-        requiredAddons[] = {"root_ads_main", "ace_common", "ace_interact_menu"};
+        requiredAddons[] = {"root_ads_main", "ace_common"};
         skipWhenMissingDependencies = 1;
         author = "Root";
         url = "https://github.com/A3-Root/Root_AdaptiveDetectionSystem";
@@ -17,11 +17,5 @@ class CfgPatches {
 class Extended_PreInit_EventHandlers {
     class ADDON {
         init = QUOTE(call COMPILE_SCRIPT(XEH_preInit));
-    };
-};
-
-class Extended_PostInit_EventHandlers {
-    class ADDON {
-        init = QUOTE(call COMPILE_SCRIPT(XEH_postInit));
     };
 };

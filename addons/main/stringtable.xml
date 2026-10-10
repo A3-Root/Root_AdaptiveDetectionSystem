@@ -119,7 +119,7 @@
             <English>Allow suspicion feedback</English>
         </Key>
         <Key ID="STR_root_ads_main_allowWatchedHints_desc">
-            <English>Server permission for the watched / identified hints and the ACE status readout.\nOff = players get no hints about how suspicious the AI are.</English>
+            <English>Server permission for the watched / identified hints.\nOff = players get no hints about how suspicious the AI are.</English>
         </Key>
         <Key ID="STR_root_ads_main_altitudeFalloff">
             <English>Aircraft altitude falloff (m)</English>
@@ -358,9 +358,6 @@
         <Key ID="STR_root_ads_main_cat_truce">
             <English>13 Safe Zones and Truce</English>
         </Key>
-        <Key ID="STR_root_ads_main_checkCover">
-            <English>Check cover status</English>
-        </Key>
         <Key ID="STR_root_ads_main_civVehMult">
             <English>Civilian vehicle</English>
         </Key>
@@ -507,6 +504,30 @@
         </Key>
         <Key ID="STR_root_ads_main_damageVisibleAt_desc">
             <English>A vehicle with at least this much visible damage makes the group SUSPICIOUS the moment they see it.\n100% = off.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugClients">
+            <English>Who may use debug</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugClients_desc">
+            <English>Server permission for the per-player debug options below (log, overlay, live publishing).\nThe server and headless clients always may. Players outside this list have them switched off\nwhatever they set, so nobody can watch AI suspicion on their own.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugClients_opt0">
+            <English>Logged-in admins</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugClients_opt0_desc">
+            <English>Only the logged-in admin (and the host in a hosted game / singleplayer).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugClients_opt1">
+            <English>Admins and Zeus</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugClients_opt1_desc">
+            <English>Logged-in admins and players with a Zeus (curator) slot.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugClients_opt2">
+            <English>Everyone</English>
+        </Key>
+        <Key ID="STR_root_ads_main_debugClients_opt2_desc">
+            <English>Every player may use them. Testing only.</English>
         </Key>
         <Key ID="STR_root_ads_main_debugDetail">
             <English>Debug log detail</English>
@@ -671,10 +692,10 @@
             <English>How much fog hides you. 0 = fog does nothing. 1 = thick fog hides you completely.</English>
         </Key>
         <Key ID="STR_root_ads_main_followDistance">
-            <English>Signal to stop within (m)</English>
+            <English>Inspect when stopped within (m)</English>
         </Key>
         <Key ID="STR_root_ads_main_followDistance_desc">
-            <English>A pursuing vehicle signals you to stop once it is this close.</English>
+            <English>Stopping while the pursuers are this close starts the inspection. Stopped farther away, they drive up first.</English>
         </Key>
         <Key ID="STR_root_ads_main_followEnabled">
             <English>Pursue from the follow threshold</English>
@@ -1052,7 +1073,7 @@
             <English>Observers checked per group</English>
         </Key>
         <Key ID="STR_root_ads_main_maxObservers_desc">
-            <English>How many soldiers of each group (closest to the vehicle first) get a line-of-sight check.\nHigher = more accurate in big groups, costs more CPU.\nEvery member counts, not only the group leader.</English>
+            <English>How many soldiers of each group (closest to the vehicle first) get a line-of-sight check.\nHigher = more accurate in big groups, costs more CPU.</English>
         </Key>
         <Key ID="STR_root_ads_main_maxRange">
             <English>Maximum spotting range (m)</English>
@@ -1142,37 +1163,37 @@
             <English>Warn when identified</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyCompromised_desc">
-            <English>Hint when an enemy group identifies you. Per player.</English>
+            <English>Hint when an enemy group identifies you.</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyCover">
             <English>Show cover changes</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyCover_desc">
-            <English>Hint when you gain or lose cover. Per player.</English>
+            <English>Hint when you gain or lose cover.</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyInspect">
             <English>Inspection hint</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyInspect_desc">
-            <English>Hint while an enemy patrol is inspecting your vehicle. Per player.</English>
+            <English>Hint while an enemy patrol is inspecting your vehicle.</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyTruce">
             <English>Safe zone truce hints</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyTruce_desc">
-            <English>Hints when a truce starts, ends, is about to run out or is broken. Per player.</English>
+            <English>Hints when a truce starts, ends, is about to run out or is broken.</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyWatched">
             <English>Warn when watched</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyWatched_desc">
-            <English>Hint when an enemy group becomes suspicious of you. Per player.</English>
+            <English>Hint when an enemy group becomes suspicious of you.</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyZeus">
             <English>Zeus messages</English>
         </Key>
         <Key ID="STR_root_ads_main_notifyZeus_desc">
-            <English>Curators get messages for identifications, bulletins, pursuits and truce breaks. Per player.</English>
+            <English>Curators get messages for identifications, bulletins, pursuits and truce breaks.</English>
         </Key>
         <Key ID="STR_root_ads_main_nvgDayMult">
             <English>Night vision in daylight</English>
@@ -1573,12 +1594,6 @@
         <Key ID="STR_root_ads_main_stationaryTime_desc">
             <English>How long you must stay parked near a group before the loitering penalty is at its maximum.\nLower = parking near the enemy becomes suspicious sooner.</English>
         </Key>
-        <Key ID="STR_root_ads_main_statusAction">
-            <English>ACE self-action: cover status</English>
-        </Key>
-        <Key ID="STR_root_ads_main_statusAction_desc">
-            <English>Adds 'Check cover status' to the ACE self-interaction menu while in a vehicle. Per player.</English>
-        </Key>
         <Key ID="STR_root_ads_main_statusActive">
             <English>active</English>
         </Key>
@@ -1630,11 +1645,29 @@
         <Key ID="STR_root_ads_main_statusWanted">
             <English>Wanted by: %1</English>
         </Key>
+        <Key ID="STR_root_ads_main_stopFleeDistance">
+            <English>Pulling away counts as fleeing (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopFleeDistance_desc">
+            <English>Getting this much farther from the pursuers than the closest they came counts as fleeing the stop:\nthey radio an alert and suspicion builds normally again.\nExample: 150 = they closed to 40 m, you are now 190 m ahead.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopFreeze">
+            <English>Hold suspicion during a stop request</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopFreeze_desc">
+            <English>A vehicle patrol that starts following you stops judging you: suspicion is held at the follow threshold\nwhile they follow and signal you to pull over. It builds normally again once you refuse (the time to stop runs out),\npull away from them or open fire / ram anyone. Stopping lets them inspect you instead.\nOff = suspicion keeps building while they follow (they usually identify you before you can react).</English>
+        </Key>
         <Key ID="STR_root_ads_main_stopSignalHorn">
             <English>Stop signal: horn</English>
         </Key>
         <Key ID="STR_root_ads_main_stopSignalHorn_desc">
             <English>Pursuing vehicles honk to make you stop.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopSignalInterval">
+            <English>Signal every (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopSignalInterval_desc">
+            <English>How often the pursuers repeat the signal: two honks and three flashes of the headlights each time.\nLower = more insistent. Example: 4 with a 30 s time to stop = about 7 signals.</English>
         </Key>
         <Key ID="STR_root_ads_main_stopSignalLights">
             <English>Stop signal: flashing lights</English>
@@ -1642,11 +1675,17 @@
         <Key ID="STR_root_ads_main_stopSignalLights_desc">
             <English>Pursuing vehicles flash their headlights to make you stop.</English>
         </Key>
+        <Key ID="STR_root_ads_main_stopSignalRange">
+            <English>Signal to stop within (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_stopSignalRange_desc">
+            <English>A pursuing vehicle starts honking and flashing its lights once it is this close. The time to stop starts then.\nExample: 150 = the signal starts while they are still a few car lengths behind.</English>
+        </Key>
         <Key ID="STR_root_ads_main_stopTimeout">
             <English>Time to stop (s)</English>
         </Key>
         <Key ID="STR_root_ads_main_stopTimeout_desc">
-            <English>Not stopping within this long after the signal counts as refusing: they radio an alert.</English>
+            <English>How long the pursuers keep signalling. Not stopping by then counts as refusing: they radio an alert\nand suspicion builds normally again.</English>
         </Key>
         <Key ID="STR_root_ads_main_suspiciousThreshold">
             <English>Suspicious at (%)</English>

@@ -16,7 +16,7 @@
 
 params ["_grp", ["_force", false]];
 
-if (!_force && {!MSET(debugPublish)} && {time < (_grp getVariable [QGVAR(nextPub), 0])}) exitWith {};
+if (!_force && {!(MSET(debugPublish) && DEBUG_OK)} && {time < (_grp getVariable [QGVAR(nextPub), 0])}) exitWith {};
 _grp setVariable [QGVAR(nextPub), time + 15];
 
 private _pub = (values (_grp getVariable [QGVAR(data), createHashMap])) apply {

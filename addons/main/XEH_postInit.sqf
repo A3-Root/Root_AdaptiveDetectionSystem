@@ -14,6 +14,8 @@
 [QGVAR(pursuitAlert), FUNC(onPursuitAlert)] call CBA_fnc_addEventHandler;
 [QGVAR(startPursuit), { params ["_grp", "_unit"]; if (local _grp) then { [_grp, _unit, true] call FUNC(pursuitStart); }; }] call CBA_fnc_addEventHandler;
 [QGVAR(stopPursuit), { params ["_grp"]; if (local _grp) then { [_grp, "called off (Zeus/API)"] call FUNC(pursuitEnd); }; }] call CBA_fnc_addEventHandler;
+[QGVAR(engineOn), { params ["_veh"]; if (local _veh) then { _veh engineOn true; }; }] call CBA_fnc_addEventHandler;
+[QGVAR(signalBurst), FUNC(signalBurst)] call CBA_fnc_addEventHandler;
 [QGVAR(gearRefChanged), { { _x setVariable [QGVAR(gearRefCache), nil]; } forEach allGroups; }] call CBA_fnc_addEventHandler;
 
 // Server is the authority for shared mission state (zones, overrides, burned vehicles, wanted units)
@@ -59,7 +61,15 @@ if (hasInterface) then {
 
     call FUNC(initPlayer);
     [FUNC(ramCheck), 0.2] call CBA_fnc_addPerFrameHandler;
-    addMissionEventHandler ["Draw3D", { if (GVAR(debugOverlay)) then { call FUNC(debugDraw) }; }];
+    addMissionEventHandler ["Draw3D", { if (GVAR(debugOverlay) && {DEBUG_OK}) then { call FUNC(debugDraw) }; }];
+
+    // the server decides who may use the debug options (admins / Zeus / everyone)
+    [{
+        private _ok = call FUNC(debugAllowed);
+        if (_ok isEqualTo GVAR(debugOK)) exitWith {};
+        GVAR(debugOK) = _ok;
+        diag_log text format ["[RADS] debug options %1 for this player by the server ('Who may use debug' = %2)", ["blocked", "allowed"] select _ok, MSET(debugClients)];
+    }, 2] call CBA_fnc_addPerFrameHandler;
 };
 
 [FUNC(tick), 0] call CBA_fnc_addPerFrameHandler;

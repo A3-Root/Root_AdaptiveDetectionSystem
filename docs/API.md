@@ -23,7 +23,7 @@ Every function can be called from any machine. State-changing calls forward them
 | `root_ads_fnc_collectSideGear` | `[side, apply = false]` → seven comma-separated strings | Everything that side's AI wear now; `apply` sets it as the reference. |
 | `root_ads_fnc_startPursuit` | `[groupOrUnit, target]` | Chase (foot) or follow, stop and inspect (mounted). Sent to the group's owner. |
 | `root_ads_fnc_stopPursuit` | `[groupOrUnit]` | The group returns to its own waypoints. |
-| `root_ads_fnc_getPursuit` | `[groupOrUnit]` → `[target, phase]` | Phase `"CHASE"` / `"FOLLOW"` / `"INSPECT"`, known where the group is local. |
+| `root_ads_fnc_getPursuit` | `[groupOrUnit]` → `[target, phase, heldAt]` | Phase `"CHASE"` / `"FOLLOW"` / `"INSPECT"`, known where the group is local. `heldAt` = suspicion held during a stop request, -1 = not held. |
 | `root_ads_fnc_getConvoy` | `[vehicle]` → vehicles | The convoy of covered vehicles it travels in (itself when alone). |
 | `root_ads_fnc_forceCompromise` | `[unit, sides = [], radius = -1, centre = []]` | |
 | `root_ads_fnc_restoreCover` | `[unit, clearBulletins = true]` | Every hostile group forgets the unit. |

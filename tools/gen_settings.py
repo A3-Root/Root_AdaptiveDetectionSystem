@@ -65,10 +65,10 @@ check("coverWest", "BLUFOR can go undercover", tip(
     "Off = BLUFOR is always detected normally."), True)
 check("coverEast", "OPFOR can go undercover", tip(
     "OPFOR players can hide their identity inside vehicles.",
-    "Turn on when OPFOR is the player side."), False)
+    "Turn on when OPFOR is the player side."), True)
 check("coverGuer", "INDFOR can go undercover", tip(
     "Independent players can hide their identity inside vehicles.",
-    "Turn on when INDFOR is the player side."), False)
+    "Turn on when INDFOR is the player side."), True)
 check("coverAIPassengers", "Cover AI passengers", tip(
     "AI soldiers of a covered side riding with an undercover player are undercover too.",
     "Off = enemy AI shoot at the vehicle because of the AI passenger."), True)
@@ -86,8 +86,7 @@ slider("maxRange", "Maximum spotting range (m)", tip(
     "Example: 800 = a sniper team 1 km away ignores you."), 50, 3000, 800)
 slider("maxObservers", "Observers checked per group", tip(
     "How many soldiers of each group (closest to the vehicle first) get a line-of-sight check.",
-    "Higher = more accurate in big groups, costs more CPU.",
-    "Every member counts, not only the group leader."), 1, 12, 4)
+    "Higher = more accurate in big groups, costs more CPU."), 1, 12, 4)
 
 # ======================================================================= 02 Who and what gets cover
 cat("eligibility", "Who and What Gets Cover")
@@ -103,7 +102,7 @@ lst("allowHostileVeh", "Own-side vehicles give cover", tip(
     "Example: BLUFOR players in an unarmed BLUFOR Hunter at an OPFOR checkpoint."),
     [0, 1, 2], [("Never", "Your own side's vehicles are recognised and attacked on sight."),
                 ("Unarmed vehicles only", "Trucks and unarmed cars can bluff their way through, gun trucks, APCs and tanks cannot."),
-                ("All vehicles", "Even armed vehicles, tanks and APCs start undercover (not recommended for assaults).")], 1)
+                ("All vehicles", "Even armed vehicles, tanks and APCs start undercover (not recommended for assaults).")], 2)
 check("allowAir", "Aircraft give cover", tip(
     "Helicopters and planes can disguise the people inside.",
     "Off = aircraft never give cover."), True)
@@ -113,7 +112,7 @@ check("allowBoats", "Boats give cover", tip(
 lst("openVehicleMode", "Open vehicles (quads, bikes...)", tip(
     "What happens in vehicles where everyone can see you (quad bikes, motorbikes, open boats)."),
     [0, 1], [("Cover, but easy to spot", "You get cover, but suspicion builds faster (see 'Open vehicle multiplier')."),
-             ("No cover", "Riding an open vehicle never hides you.")], 0)
+             ("No cover", "Riding an open vehicle never hides you.")], 1)
 edit("openVehicleClasses", "Open vehicle classes", tip(
     "Comma-separated vehicle classes treated as open vehicles. Child classes are included.",
     "Example: Quadbike_01_base_F,Motorcycle"),
@@ -144,7 +143,7 @@ slider("combatWindow", "Combat window (s)", tip(
     "A group you fought within this many seconds keeps fighting you after you get in."), 0, 180, 20)
 slider("seedFactor", "Earlier knowledge becomes suspicion", tip(
     "Share of a group's earlier (non-witness) knowledge of you that turns into starting suspicion when you get in.",
-    "0 = a clean slate every time. 1 = what they knew carries over fully."), 0, 1, 0.6, 0, True)
+    "0 = a clean slate every time. 1 = what they knew carries over fully."), 0, 1, 0.497727, 0, True)
 slider("searchingBuildMult", "Searching groups build faster", tip(
     "Suspicion speed for groups that are already SEARCHING for you. " + MULT), 1, 5, 1.5, 2)
 slider("coverGraceTime", "Entry sync delay (s)", tip(
@@ -180,10 +179,10 @@ slider("instantRange", "Face-to-face range (m)", tip(
     "Higher = the face-to-face bonus starts farther away."), 0, 100, 6, 1)
 slider("instantMult", "Face-to-face multiplier", tip(
     "How much faster suspicion builds inside face-to-face range. " + MULT,
-    "Example: 4 = a guard at your window is four times as effective."), 1, 10, 4, 1)
+    "Example: 4 = a guard at your window is four times as effective."), 1, 10, 2, 1)
 slider("minCloseExposure", "Face-to-face minimum visibility", tip(
     "How well a guard at face-to-face range sees you even through a closed body (they can lean in).",
-    "0 = a closed hull fully protects. 1 = always seen perfectly up close."), 0, 1, 0.4, 0, True)
+    "0 = a closed hull fully protects. 1 = always seen perfectly up close."), 0, 1, 0.25, 0, True)
 check("hullBlocks", "Vehicle body blocks sight", tip(
     "Line of sight respects the vehicle itself: glass lets some sight through, doors and roof block it.",
     "Off = only terrain and buildings block sight, the vehicle is see-through."), True)
@@ -210,17 +209,17 @@ slider("fovAngle", "Field of view (deg)", tip(
     "Example: 140 = roughly what a person takes in without turning their head."), 30, 360, 140)
 slider("peripheralMult", "Peripheral vision", tip(
     "How well a soldier notices you outside their field of view.",
-    "0 = not at all. 1 = as well as looking straight at you."), 0, 1, 0.15, 0, True)
+    "0 = not at all. 1 = as well as looking straight at you."), 0, 1, 0.10247, 0, True)
 slider("behSafe", "Relaxed AI (SAFE / CARELESS)", tip(
     "Suspicion speed for relaxed soldiers. " + MULT,
     "Example: 0.7 = bored sentries are slower to notice."), 0, 3, 0.7, 2)
 slider("behAware", "Alert AI (AWARE)", tip("Suspicion speed for alert soldiers. " + MULT), 0, 3, 1, 2)
 slider("behCombat", "Fighting AI (COMBAT)", tip(
     "Suspicion speed for soldiers in combat. " + MULT,
-    "Lower = they are busy with the fight and pay less attention to traffic."), 0, 3, 0.5, 2)
+    "Lower = they are busy with the fight and pay less attention to traffic."), 0, 3, 1.125, 2)
 slider("behStealth", "Sneaking AI (STEALTH)", tip(
     "Suspicion speed for soldiers in stealth mode. " + MULT,
-    "Higher = they are watching carefully."), 0, 3, 1.2, 2)
+    "Higher = they are watching carefully."), 0, 3, 1.25, 2)
 slider("skillInfluence", "AI skill influence", tip(
     "How much the AI's spotting skills change suspicion speed.",
     "0 = skill does not matter. 1 = a skilled spotter is up to twice as fast, a poor one much slower."), 0, 1, 0.5, 0, True)
@@ -237,19 +236,19 @@ slider("vehOpticsMult", "Gunner / commander optics range", tip(
     "Each vehicle can set its own value (Vehicle Disguise module / setVehicleMode)."), 0.25, 5, 1.5, 2)
 slider("vehDriverOpticsMult", "Driver's view range", tip(
     "Range multiplier for AI driving a vehicle (hatch closed). 1 = like the naked eye.",
-    "Lower = a driver behind a vision block sees less."), 0.25, 5, 1, 2)
+    "Lower = a driver behind a vision block sees less."), 0.25, 5, 0.580277, 2)
 
 # ======================================================================= 05 Light and weather
 cat("environment", "Light and Weather")
 slider("nightMult", "Darkness", tip(
     "How well the AI sees into vehicles in full darkness (scaled smoothly by sun and moon light).",
-    "0 = blind at night. 1 = night makes no difference."), 0, 1, 0.45, 0, True)
+    "0 = blind at night. 1 = night makes no difference."), 0, 1, 0.353623, 0, True)
 slider("nvgNightMult", "Darkness with night vision", tip(
     "Same as Darkness, for AI wearing night vision goggles."), 0, 1, 0.85, 0, True)
 slider("fogInfluence", "Fog", tip(
     "How much fog hides you. 0 = fog does nothing. 1 = thick fog hides you completely."), 0, 1, 0.6, 0, True)
 slider("rainInfluence", "Rain", tip(
-    "How much rain hides you. 0 = rain does nothing. 1 = heavy rain hides you completely."), 0, 1, 0.3, 0, True)
+    "How much rain hides you. 0 = rain does nothing. 1 = heavy rain hides you completely."), 0, 1, 0.44832, 0, True)
 
 # ======================================================================= 06 Seats and vehicle type
 cat("seats", "Seats and Vehicle Type")
@@ -258,25 +257,25 @@ slider("seatCargo", "Passenger seat", tip(
     "Suspicion speed for passengers. " + MULT, "Lower = passengers in the back are harder to make out."), 0, 3, 0.7, 2)
 slider("seatTurret", "Gunner / commander seat", tip("Suspicion speed for gunners and commanders inside. " + MULT), 0, 3, 1.1, 2)
 slider("seatTurnedOut", "Turned out (head out of the hatch)", tip(
-    "Suspicion speed when turned out. " + MULT, "Higher = sticking your head out is a giveaway."), 0, 5, 2, 2)
+    "Suspicion speed when turned out. " + MULT, "Higher = sticking your head out is a giveaway."), 0, 5, 2.5, 2)
 slider("seatFFV", "Firing from vehicle seat", tip(
     "Suspicion speed in seats where you hold your weapon out of the window. " + MULT), 0, 5, 2.5, 2)
 slider("openVehicleMult", "Open vehicle multiplier", tip(
-    "Suspicion speed on quads, bikes and other open vehicles (when they give cover). " + MULT), 1, 10, 2.5, 2)
+    "Suspicion speed on quads, bikes and other open vehicles (when they give cover). " + MULT), 1, 10, 2.99684, 2)
 slider("fastSpeed", "Fast drive-by speed (km/h)", tip(
     "Above this speed the AI only get a short glimpse of you.",
-    "Example: 50 = passing at 60 km/h is much safer than crawling past."), 10, 200, 50)
+    "Example: 50 = passing at 60 km/h is much safer than crawling past."), 10, 200, 70.1479)
 slider("fastMult", "Fast drive-by multiplier", tip(
-    "Suspicion speed above the fast drive-by speed. 1 = no protection. 0.4 = 40% speed."), 0, 1, 0.4, 0, True)
+    "Suspicion speed above the fast drive-by speed. 1 = no protection. 0.4 = 40% speed."), 0, 1, 0.0983531, 0, True)
 slider("altitudeFalloff", "Aircraft altitude falloff (m)", tip(
     "Aircraft above this height get proportionally less attention.",
-    "Example: 60 = at 120 m suspicion builds half as fast."), 10, 1000, 60)
+    "Example: 60 = at 120 m suspicion builds half as fast."), 10, 1000, 200)
 slider("damageInfluence", "Damaged vehicle influence", tip(
     "Visibly damaged vehicles (broken glass, bullet holes, burning) build suspicion faster:",
     "multiplier = 1 + visible damage x this. 0 = damage does not matter."), 0, 5, 2, 2)
 slider("damageVisibleAt", "Suspicious on sight from damage", tip(
     "A vehicle with at least this much visible damage makes the group SUSPICIOUS the moment they see it.",
-    "100% = off."), 0, 1, 0.15, 0, True)
+    "100% = off."), 0, 1, 0.254808, 0, True)
 slider("damageFloorScale", "Damage suspicion floor", tip(
     "How far above 'Suspicious at' heavy damage pushes suspicion straight away.",
     "0 = only to the suspicious level. 100% = up to just below identification for a wreck."), 0, 1, 0.6, 0, True)
@@ -287,7 +286,7 @@ slider("mixedCrewMult", "Mixed crew multiplier", tip(
 cat("faction", "Vehicle Faction")
 slider("sameFactionVehMult", "Their own faction's vehicle", tip(
     "Suspicion speed in a vehicle of the exact faction watching you (CSAT truck at a CSAT checkpoint). " + MULT,
-    "Lower = they expect their own vehicles and barely look twice."), 0, 3, 0.6, 2)
+    "Lower = they expect their own vehicles and barely look twice."), 0, 3, 0.5, 2)
 slider("friendlyVehMult", "Their side, other faction", tip(
     "Suspicion speed in a vehicle of the same side but another faction. " + MULT), 0, 3, 0.8, 2)
 slider("civVehMult", "Civilian vehicle", tip("Suspicion speed in a civilian vehicle. " + MULT), 0, 3, 1, 2)
@@ -314,9 +313,9 @@ check("armoredAutoDetect", "Detect armored seats automatically", tip(
 slider("armoredHullMult", "Armored hull visibility", tip(
     "How much of the vehicle's visibility counts while the crew sits behind armor.",
     "Lower = armored vehicles are harder to see through. 1 = no protection.",
-    "Example: 0.25 = a BMP that gives itself away builds suspicion about a quarter as fast as a car."), 0, 1, 0.25, 0, True)
+    "Example: 0.25 = a BMP that gives itself away builds suspicion about a quarter as fast as a car."), 0, 1, 0.0489455, 0, True)
 slider("armoredCloseMult", "Armored face-to-face", tip(
-    "Scales 'Face-to-face minimum visibility' for armored seats (a guard at the hull still cannot see in well)."), 0, 1, 0.5, 0, True)
+    "Scales 'Face-to-face minimum visibility' for armored seats (a guard at the hull still cannot see in well)."), 0, 1, 0.14776, 0, True)
 check("armoredDrivingOnly", "Armored: only behaviour gives it away", tip(
     "On = a closed armored vehicle driven calmly builds no suspicion at all (nobody can see in) and old suspicion fades.",
     "It only builds while it gives itself away: speeding or off-road near them, lights off at night, honking,",
@@ -337,11 +336,11 @@ lst("gearCompareMode", "How gear is judged", tip(
                 ("Both, always", "Strict: both multipliers always apply, enemy fatigues count twice.")], 2)
 slider("uniformCivMult", "Civilian clothes", tip("Suspicion speed wearing civilian clothes. " + MULT), 0, 3, 0.6, 2)
 slider("uniformObserverMult", "Their side's uniform", tip(
-    "Suspicion speed wearing a uniform of the watching side or its allies. " + MULT), 0, 3, 0.5, 2)
+    "Suspicion speed wearing a uniform of the watching side or its allies. " + MULT), 0, 3, 0.295059, 2)
 slider("uniformHostileMult", "Enemy military uniform", tip(
     "Suspicion speed wearing a military uniform of a side they are at war with (your own fatigues). " + MULT), 0, 5, 1.6, 2)
-slider("helmetMult", "Ballistic helmet", tip("Suspicion speed wearing an armored helmet. " + MULT), 0, 3, 1.25, 2)
-slider("vestMult", "Armored vest", tip("Suspicion speed wearing an armored vest. " + MULT), 0, 3, 1.2, 2)
+slider("helmetMult", "Ballistic helmet", tip("Suspicion speed wearing an armored helmet. " + MULT), 0, 3, 0.99911, 2)
+slider("vestMult", "Armored vest", tip("Suspicion speed wearing an armored vest. " + MULT), 0, 3, 0.99911, 2)
 slider("nvgDayMult", "Night vision in daylight", tip("Suspicion speed with NVGs on the head during the day. " + MULT), 0, 3, 1.3, 2)
 slider("weaponVisibleMult", "Visible weapon", tip(
     "Suspicion speed when a rifle or launcher can be seen (turned out, firing seat, open vehicle). " + MULT), 0, 5, 1.5, 2)
@@ -358,11 +357,11 @@ lst("gearRefSource", "Gear reference source", tip(
                 ("List, else group, else side", "The list when one exists, otherwise the group, otherwise every unit of that side (recommended).")], 2)
 check("gearRefAutoCollect", "Collect enemy gear at mission start", tip(
     "10 s after the mission starts, every side without a Gear Reference list gets one built from what its AI wear.",
-    "Off = use the group's own kit until a list is set."), False)
+    "Off = use the group's own kit until a list is set."), True)
 slider("gearMatchMult", "Same item as theirs", tip(
-    "Suspicion speed for each visible item that is exactly what they wear. " + MULT), 0.1, 2, 0.85, 2)
+    "Suspicion speed for each visible item that is exactly what they wear. " + MULT), 0.1, 2, 0.498087, 2)
 slider("gearSimilarMult", "Same item, other camo", tip(
-    "Suspicion speed for each item of the same model but another variant (other camo). " + MULT), 0.1, 3, 1, 2)
+    "Suspicion speed for each item of the same model but another variant (other camo). " + MULT), 0.1, 3, 0.75, 2)
 slider("gearMismatchMult", "Item they never wear", tip(
     "Suspicion speed for each visible item that none of them wears. " + MULT,
     "Example: 1.15 with three wrong items = about 1.5x."), 0.5, 5, 1.15, 2)
@@ -377,15 +376,15 @@ slider("gearMatchMax", "Matching highest multiplier", tip("Item matching never r
 check("gearVoidsCover", "Military gear blows cover", tip(
     "Units wearing the gear ticked below get no cover in vehicles at all (normal detection).",
     "On foot always uses normal detection anyway."), False)
-check("gearVoidUniform", "...own military uniform", tip("Wearing a military uniform of a covered side (e.g. BLUFOR fatigues)."), True)
-check("gearVoidHelmet", "...ballistic helmet", tip("Wearing armored headgear."), True)
-check("gearVoidVest", "...armored vest", tip("Wearing an armored vest."), True)
-check("gearVoidWeapon", "...visible weapon", tip("Carrying a rifle or launcher in a seat that shows it (turned out, firing seat, open vehicle)."), True)
+check("gearVoidUniform", "...own military uniform", tip("Wearing a military uniform of a covered side (e.g. BLUFOR fatigues)."), False)
+check("gearVoidHelmet", "...ballistic helmet", tip("Wearing armored headgear."), False)
+check("gearVoidVest", "...armored vest", tip("Wearing an armored vest."), False)
+check("gearVoidWeapon", "...visible weapon", tip("Carrying a rifle or launcher in a seat that shows it (turned out, firing seat, open vehicle)."), False)
 
 # ======================================================================= 10 Driving behaviour
 cat("driving", "Driving Behaviour")
 slider("speedingSpeed", "Speeding near AI (km/h)", tip(
-    "Driving faster than this within 100 m of a group is suspicious."), 10, 200, 70)
+    "Driving faster than this within 100 m of a group is suspicious."), 10, 200, 99.8745)
 slider("speedingMult", "Speeding multiplier", tip("Suspicion speed while speeding near a group. " + MULT), 1, 5, 1.3, 2)
 slider("offroadMult", "Off-road approach", tip("Suspicion speed driving off-road within 150 m of a group. " + MULT), 1, 5, 1.2, 2)
 slider("lightsOffMult", "Lights off at night", tip("Suspicion speed driving at night with headlights off. " + MULT), 1, 5, 1.4, 2)
@@ -398,13 +397,13 @@ check("metaDetect", "Catch hidden-crew tricks", tip(
     "Close to a group, a vehicle in plain view whose crew is hidden (reversing up to a checkpoint,",
     "parking rear-on) still builds suspicion through the vehicle itself. Armored vehicles are exempt."), True)
 slider("metaRange", "Hidden-crew range (m)", tip(
-    "Hidden-crew tricks are only judged within this distance of a soldier."), 10, 500, 100)
+    "Hidden-crew tricks are only judged within this distance of a soldier."), 10, 500, 40.0359)
 slider("metaMaxSpeed", "Hidden-crew top speed (km/h)", tip(
     "Only vehicles slower than this are checked for hidden-crew tricks. A car driving past",
     "whose crew happens to be out of sight is not a trick."), 3, 60, 15)
 check("hiddenCrewAny", "Any hidden crew counts", tip(
     "Off = only reversing up and parking rear-on are caught.",
-    "On = also a slow vehicle close by whose crew is hidden any other way (tinted or blocked windows)."), False)
+    "On = also a slow vehicle close by whose crew is hidden any other way (tinted or blocked windows)."), True)
 slider("hiddenCrewMult", "Hidden crew", tip(
     "How much of the vehicle's visibility counts when the crew cannot be seen at all.",
     "0 = a hidden crew is perfectly safe. 1 = as if they could see you."), 0, 2, 0.6, 2)
@@ -434,7 +433,7 @@ check("firedLOS", "Seen shooting = identified", tip(
     "Any group with line of sight to the shooter (within spotting range) identifies them."), True)
 slider("heatDuration", "Heat after shooting (s)", tip(
     "After firing you cannot regain cover for this long. 0 = off.",
-    "Example: 120 = jumping into another car right after a firefight does not work for 2 minutes."), 0, 1800, 120)
+    "Example: 120 = jumping into another car right after a firefight does not work for 2 minutes."), 0, 1800, 30)
 check("damageBlows", "Hurting AI blows cover", tip(
     "When a covered unit (or its vehicle) hurts an AI soldier, that soldier's group reacts."), True)
 check("damageNeedsLOS", "Victims must see the attacker", tip(
@@ -443,12 +442,12 @@ check("damageNeedsLOS", "Victims must see the attacker", tip(
 slider("damageSuspicion", "Unseen attack suspicion (%)", tip(
     "Suspicion given to a group hurt by an attacker it did not see."), 0, 99, 70)
 check("vehicleAttackedBlows", "AI shooting your vehicle = identified", tip(
-    "If enemy AI shoot a covered vehicle anyway (it looked dangerous), they identify its occupants."), False)
+    "If enemy AI shoot a covered vehicle anyway (it looked dangerous), they identify its occupants."), True)
 check("compromiseCrew", "Identify the whole crew", tip(
-    "Identifying one person in a vehicle identifies everyone undercover in it."), True)
+    "Identifying one person in a vehicle identifies everyone undercover in it."), False)
 slider("revealKA", "Knowledge on identification", tip(
     "How much the AI know about you once identified (0-4, the engine's knowsAbout).",
-    "4 = they know exactly where you are."), 0.5, 4, 4, 2)
+    "4 = they know exactly where you are."), 0.5, 4, 3, 2)
 
 # ======================================================================= 12 Safe zones and truce
 cat("truce", "Safe Zones and Truce")
@@ -460,7 +459,7 @@ slider("truceMaxStay", "Allowed stay (s)", tip(
     "How long players may stay in a safe zone before the truce ends. 0 = no limit.",
     "Each zone can set its own value in the Zone module."), 0, 7200, 0)
 slider("truceWarn", "Warning before the end (s)", tip(
-    "Players get a warning this long before their allowed stay runs out."), 0, 600, 60)
+    "Players get a warning this long before their allowed stay runs out."), 0, 600, 0)
 check("truceCareless", "AI relax inside safe zones", tip(
     "AI groups standing in a safe zone are CARELESS and hold fire until the truce is broken."), True)
 lst("truceBreakScope", "Who loses the truce", tip(
@@ -469,8 +468,8 @@ lst("truceBreakScope", "Who loses the truce", tip(
                 ("The offender's group", "The offender's whole player group loses it."),
                 ("Everyone in the zone", "All players in that zone lose it.")], 1)
 check("truceBreakOnAim", "Aiming at AI breaks the truce", tip(
-    "Pointing a weapon at an AI soldier for the time below breaks the truce."), False)
-slider("truceAimTime", "Aiming time (s)", tip("How long aiming at an AI soldier is tolerated."), 1, 30, 3)
+    "Pointing a weapon at an AI soldier for the time below breaks the truce."), True)
+slider("truceAimTime", "Aiming time (s)", tip("How long aiming at an AI soldier is tolerated."), 1, 30, 9.82227)
 slider("truceCooldown", "Truce cooldown (s)", tip(
     "After a break, the players who lost the truce cannot get it back for this long, even by leaving and re-entering."), 0, 3600, 300)
 slider("truceExitGrace", "Exit grace (s)", tip(
@@ -489,7 +488,7 @@ slider("recoverThreshold", "Calm at (%)", tip(
 slider("memoryTime", "Memory after leaving the vehicle (s)", tip(
     "Suspicion is remembered this long after you get out, so getting out and back in does not reset it."), 0, 3600, 600)
 slider("exitRevealThreshold", "Getting out in view reveals at (%)", tip(
-    "Getting out of the vehicle in view of a group at or above this suspicion reveals you to it."), 0, 100, 50)
+    "Getting out of the vehicle in view of a group at or above this suspicion reveals you to it."), 0, 100, 74.8879)
 lst("targetAge", "Age knowledge after losing contact", tip(
     "Optionally ages what EVERY side knows about an identified unit after it breaks contact (setTargetAge)."),
     ["\"\"", "\"ACTUAL\"", "\"5 MIN\"", "\"10 MIN\"", "\"15 MIN\"", "\"30 MIN\"", "\"60 MIN\"", "\"UNKNOWN\""],
@@ -506,10 +505,10 @@ lst("shareMode", "On identification, nearby groups...", tip(
 slider("shareRadius", "Share radius (m)", tip(
     "Friendly groups within this distance of any member of the identifying group get the information."), 0, 3000, 300)
 slider("shareDelay", "Share delay (s)", tip(
-    "Time before the information arrives. Killing the whole group first stops it."), 0, 120, 5)
-slider("shareKA", "Shared knowledge", tip("How much receiving groups learn about the position (0-4) on a full share."), 0.1, 4, 1.5, 2)
-slider("shareSuspicion", "Shared suspicion (%)", tip("Starting suspicion for groups that start searching."), 0, 99, 60)
-check("shareNeedsRadio", "Sharing needs a radio", tip("The identifying group needs a soldier with a radio to share."), False)
+    "Time before the information arrives. Killing the whole group first stops it."), 0, 120, 10.3202)
+slider("shareKA", "Shared knowledge", tip("How much receiving groups learn about the position (0-4) on a full share."), 0.1, 4, 2, 2)
+slider("shareSuspicion", "Shared suspicion (%)", tip("Starting suspicion for groups that start searching."), 0, 99, 49.6826)
+check("shareNeedsRadio", "Sharing needs a radio", tip("The identifying group needs a soldier with a radio to share."), True)
 slider("shareInstantRadius", "Right next to it (m)", tip(
     "Groups this close to an identifying group see the reaction and identify at once. 0 = off."), 0, 1000, 150)
 check("shareEscalate", "Suspicious groups confirm", tip(
@@ -531,14 +530,14 @@ slider("syncInterval", "Sync every (s)", tip(
 slider("syncFactor", "Synced share", tip(
     "Share of the sender's suspicion the receivers take. 1 = the same level. 0.5 = half."), 0, 1, 1, 0, True)
 slider("syncMin", "Sync from (%)", tip("Suspicion below this is not passed on."), 0, 99, 10)
-check("syncNeedsRadio", "Sync needs a radio", tip("The sending group needs a soldier with a radio."), False)
+check("syncNeedsRadio", "Sync needs a radio", tip("The sending group needs a soldier with a radio."), True)
 check("syncCanIdentify", "Synced suspicion can identify", tip(
     "Off = synced suspicion stops just below 'Identified at', the receivers still need their own look."), False)
 check("syncRespectSig", "Changing looks shakes it off", tip(
     "Synced suspicion only sticks while you still have the same vehicle and kit the sender saw."), True)
 slider("appearanceChangeKeep", "Suspicion kept after changing looks", tip(
     "When a group sees you again in another vehicle or kit, it keeps this share of its suspicion.",
-    "1 = changing makes no difference. 0 = a complete fresh start."), 0, 1, 0.5, 0, True)
+    "1 = changing makes no difference. 0 = a complete fresh start."), 0, 1, 0.353623, 0, True)
 
 # ======================================================================= 15 Radio bulletins
 cat("radio", "Radio Bulletins")
@@ -576,7 +575,7 @@ cat("convoy", "Convoys")
 check("convoyEnabled", "Recognise convoys", tip(
     "Undercover vehicles driving close together in the same direction count as one convoy."), True)
 slider("convoyGap", "Convoy gap (m)", tip(
-    "Vehicles within this distance of each other (chains count) form a convoy."), 10, 300, 60)
+    "Vehicles within this distance of each other (chains count) form a convoy."), 10, 300, 100)
 slider("convoyFormTime", "Convoy forms after (s)", tip(
     "Vehicles must stay together this long before they count as a convoy (two cars meeting at a junction do not)."), 0, 120, 10)
 slider("convoyBuildPerVeh", "Extra suspicion per vehicle in view", tip(
@@ -605,7 +604,7 @@ slider("pursuitMaxGroups", "Pursuers per target", tip(
 slider("pursuitMaxStart", "Start distance (m)", tip("Only groups within this distance start a pursuit."), 50, 3000, 600)
 slider("pursuitMaxTime", "Give up after (s)", tip("A pursuit that has not led to a stop is abandoned after this long."), 30, 1800, 180)
 slider("pursuitMaxDist", "Give up beyond (m)", tip(
-    "A pursuit is abandoned once the group is this far from where it started."), 100, 10000, 1500)
+    "A pursuit is abandoned once the group is this far from where it started."), 100, 10000, 1000)
 slider("pursuitLead", "Aim ahead (s)", tip(
     "Pursuers head for where the vehicle will be in this many seconds."), 0, 10, 2, 1)
 check("leashEnabled", "Roam limit", tip(
@@ -620,12 +619,28 @@ slider("leashGiveUp", "Give up beyond the limit after (s)", tip(
     "You stay beyond their roam limit this long and they give up (and alert, see 'Alert when you get away')."), 1, 300, 15)
 slider("footGiveUpDist", "Foot patrols give up at (m)", tip(
     "A foot patrol gives up once the vehicle is this far away (they cannot catch a car)."), 50, 2000, 300)
-slider("followDistance", "Signal to stop within (m)", tip(
-    "A pursuing vehicle signals you to stop once it is this close."), 10, 200, 40)
+check("stopFreeze", "Hold suspicion during a stop request", tip(
+    "A vehicle patrol that starts following you stops judging you: suspicion is held at the follow threshold",
+    "while they follow and signal you to pull over. It builds normally again once you refuse (the time to stop runs out),",
+    "pull away from them or open fire / ram anyone. Stopping lets them inspect you instead.",
+    "Off = suspicion keeps building while they follow (they usually identify you before you can react)."), True)
+slider("stopSignalRange", "Signal to stop within (m)", tip(
+    "A pursuing vehicle starts honking and flashing its lights once it is this close. The time to stop starts then.",
+    "Example: 150 = the signal starts while they are still a few car lengths behind."), 20, 500, 150)
+slider("followDistance", "Inspect when stopped within (m)", tip(
+    "Stopping while the pursuers are this close starts the inspection. Stopped farther away, they drive up first."), 10, 200, 40)
+slider("stopSignalInterval", "Signal every (s)", tip(
+    "How often the pursuers repeat the signal: two honks and three flashes of the headlights each time.",
+    "Lower = more insistent. Example: 4 with a 30 s time to stop = about 7 signals."), 2, 20, 4)
 check("stopSignalHorn", "Stop signal: horn", tip("Pursuing vehicles honk to make you stop."), True)
 check("stopSignalLights", "Stop signal: flashing lights", tip("Pursuing vehicles flash their headlights to make you stop."), True)
 slider("stopTimeout", "Time to stop (s)", tip(
-    "Not stopping within this long after the signal counts as refusing: they radio an alert."), 5, 300, 30)
+    "How long the pursuers keep signalling. Not stopping by then counts as refusing: they radio an alert",
+    "and suspicion builds normally again."), 5, 300, 30)
+slider("stopFleeDistance", "Pulling away counts as fleeing (m)", tip(
+    "Getting this much farther from the pursuers than the closest they came counts as fleeing the stop:",
+    "they radio an alert and suspicion builds normally again.",
+    "Example: 150 = they closed to 40 m, you are now 190 m ahead."), 50, 2000, 150)
 slider("refuseSuspBonus", "Refusing to stop adds (%)", tip("Suspicion added to the pursuers when you refuse to stop."), 0, 99, 20)
 check("alertOnEscape", "Alert when you get away", tip(
     "When a pursuit is given up (you were too fast or too far), the pursuers alert the area too."), True)
@@ -661,7 +676,7 @@ check("lambsHuntOnCompromise", "LAMBS: hunt when identified", tip(
 # ======================================================================= 18 Informants, theft, ramming, plates
 cat("misc", "Informants, Theft, Ramming, Plates")
 check("informantsEnabled", "Civilian informants", tip(
-    "Civilians who see a soldier get into a vehicle or a hostile act may report it."), False)
+    "Civilians who see a soldier get into a vehicle or a hostile act may report it."), True)
 slider("informantChance", "Informant chance", tip("Chance per civilian group that witnesses it."), 0, 1, 0.15, 0, True)
 slider("informantDelay", "Informant delay (s)", tip("Time to make the report. Cancelled if the informant dies."), 0, 600, 45)
 slider("informantRange", "Informant range (m)", tip("How far away a civilian can witness from."), 10, 1000, 200)
@@ -670,7 +685,7 @@ check("theftEnabled", "Stolen vehicles are known", tip(
 slider("theftRadius", "Theft witness radius (m)", tip("Owners within this distance always notice the theft."), 0, 500, 50)
 check("ramDetect", "Detect ramming", tip("Driving into or over enemy soldiers alerts their group at once."), True)
 slider("ramSpeed", "Ramming from (km/h)", tip("Minimum speed for contact to count as ramming."), 1, 60, 5)
-slider("ramSuspicion", "Ramming suspicion (%)", tip("Suspicion given to the rammed group (at least SUSPICIOUS)."), 0, 99, 50)
+slider("ramSuspicion", "Ramming suspicion (%)", tip("Suspicion given to the rammed group (at least SUSPICIOUS)."), 0, 99, 75)
 check("ramCompromise", "Ramming = identified", tip(
     "Ramming or running over a soldier, or ramming their vehicle, gets everyone undercover in your vehicle",
     "identified by that group at once. Off = the group only becomes SUSPICIOUS (see Ramming suspicion)."), True)
@@ -681,7 +696,7 @@ check("swapForgive", "Fresh vehicle after being identified", tip(
     "An identified unit that switches to another vehicle unseen is only suspected again, not identified.",
     "The old vehicle stays known."), True)
 slider("swapMinUnseen", "Unseen before switching (s)", tip(
-    "The group must not have seen you for this long (and must not see you now) when you switch."), 0, 300, 2)
+    "The group must not have seen you for this long (and must not see you now) when you switch."), 0, 300, 15)
 slider("swapBaseSuspicion", "Suspicion after switching (%)", tip("Starting suspicion after the first switch."), 0, 99, 30)
 slider("swapPenalty", "Repeat switch penalty (%)", tip(
     "Extra starting suspicion for every earlier switch. Once it reaches 'Identified at', switching no longer works."), 0, 100, 30)
@@ -695,50 +710,54 @@ check("plateCombat", "Reported plate = COMBAT", tip("A group that reads a report
 # ======================================================================= 19 AI reactions
 cat("ai", "AI Reactions")
 check("aiAware", "Suspicious groups go alert", tip(
-    "SAFE / CARELESS groups switch to AWARE while suspicious, and back when calm."), False)
+    "SAFE / CARELESS groups switch to AWARE while suspicious, and back when calm."), True)
 check("aiGlance", "AI glance at new vehicles", tip(
     "The soldier who first notices your vehicle glances at it (they turn their head, so they see more)."), True)
 check("aiLook", "Suspicious AI keep looking", tip(
     "Once suspicious, the best placed soldier keeps looking at your vehicle until the group calms down."), True)
 check("aiWatch", "Suspicious groups watch you", tip(
-    "Every soldier of a suspicious group turns to watch the vehicle (stronger than looking)."), False)
-check("aiCombatOnIdentify", "Identifying groups go COMBAT", tip("Groups that identify you switch to COMBAT."), False)
+    "Every soldier of a suspicious group turns to watch the vehicle (stronger than looking)."), True)
+check("aiCombatOnIdentify", "Identifying groups go COMBAT", tip("Groups that identify you switch to COMBAT."), True)
 
 # ======================================================================= 20 Notifications
 cat("notify", "Notifications")
-check("notifyCover", "Show cover changes", tip("Hint when you gain or lose cover. Per player."), True, False)
-check("notifyWatched", "Warn when watched", tip("Hint when an enemy group becomes suspicious of you. Per player."), True, False)
-check("notifyCompromised", "Warn when identified", tip("Hint when an enemy group identifies you. Per player."), True, False)
-check("notifyTruce", "Safe zone truce hints", tip("Hints when a truce starts, ends, is about to run out or is broken. Per player."), True, False)
-check("notifyInspect", "Inspection hint", tip("Hint while an enemy patrol is inspecting your vehicle. Per player."), True, False)
-check("notifyZeus", "Zeus messages", tip("Curators get messages for identifications, bulletins, pursuits and truce breaks. Per player."), True, False)
+check("notifyCover", "Show cover changes", tip("Hint when you gain or lose cover."), False)
+check("notifyWatched", "Warn when watched", tip("Hint when an enemy group becomes suspicious of you."), False)
+check("notifyCompromised", "Warn when identified", tip("Hint when an enemy group identifies you."), False)
+check("notifyTruce", "Safe zone truce hints", tip("Hints when a truce starts, ends, is about to run out or is broken."), False)
+check("notifyInspect", "Inspection hint", tip("Hint while an enemy patrol is inspecting your vehicle."), False)
+check("notifyZeus", "Zeus messages", tip("Curators get messages for identifications, bulletins, pursuits and truce breaks."), True)
 check("allowWatchedHints", "Allow suspicion feedback", tip(
-    "Server permission for the watched / identified hints and the ACE status readout.",
-    "Off = players get no hints about how suspicious the AI are."), True)
+    "Server permission for the watched / identified hints.",
+    "Off = players get no hints about how suspicious the AI are."), False)
 
 # ======================================================================= 21 Debug
 cat("debug", "Debug")
+lst("debugClients", "Who may use debug", tip(
+    "Server permission for the per-player debug options below (log, overlay, live publishing).",
+    "The server and headless clients always may. Players outside this list have them switched off",
+    "whatever they set, so nobody can watch AI suspicion on their own."),
+    [0, 1, 2], [("Logged-in admins", "Only the logged-in admin (and the host in a hosted game / singleplayer)."),
+                ("Admins and Zeus", "Logged-in admins and players with a Zeus (curator) slot."),
+                ("Everyone", "Every player may use them. Testing only.")], 1)
 check("debugLog", "Debug log", tip(
     "Writes every RADS decision to the RPT of the machine that owns the AI (server / headless client) and of the player:",
-    "identifications with full history, state changes, ramming, hits, shots, shares, syncs, truces, pursuits, cover changes."), False)
+    "identifications with full history, state changes, ramming, hits, shots, shares, syncs, truces, pursuits, cover changes."), True, glob=False)
 lst("debugDetail", "Debug log detail", tip("What is logged besides events and identification reports."),
     [0, 1, 2], [("Events and reports", ""),
                 ("Also big jumps", "An evaluation that adds a lot of suspicion is logged on its own."),
-                ("Every evaluation", "Very verbose.")], 1)
-slider("debugJump", "Big jump from (%)", tip("With 'Also big jumps', an evaluation adding at least this much is logged."), 1, 100, 8)
-slider("debugHistory", "History length", tip("Evaluations kept per group and unit and printed with every report."), 1, 60, 15)
+                ("Every evaluation", "Very verbose.")], 2, glob=False)
+slider("debugJump", "Big jump from (%)", tip("With 'Also big jumps', an evaluation adding at least this much is logged."), 1, 100, 8, glob=False)
+slider("debugHistory", "History length", tip("Evaluations kept per group and unit and printed with every report."), 1, 60, 15, glob=False)
 check("debugPublish", "Publish suspicion live", tip(
-    "Group owners broadcast suspicion every evaluation so overlays and Zeus Inspect stay live. Costs network traffic."), False)
+    "Group owners broadcast suspicion every evaluation so overlays and Zeus Inspect stay live. Costs network traffic."), True, glob=False)
 check("debugOverlay", "Debug overlay", tip(
-    "Draws every nearby group's suspicion of you over its closest member (needs 'Publish suspicion live'). Per player."), False, False)
-check("showZoneMarkers", "Show zone markers", tip("Creates map markers for detection zones (visible to everyone)."), False)
+    "Draws every nearby group's suspicion of you over its closest member (needs 'Publish suspicion live'). Per player."), True, False)
+check("showZoneMarkers", "Show zone markers", tip("Creates map markers for detection zones (visible to everyone)."), True)
 
 # ---------------------------------------------------------------- strings used by code (not settings)
 EXTRA = {
     "cat": "RADS - Adaptive Detection",
-    "statusAction": "ACE self-action: cover status",
-    "statusAction_desc": "Adds 'Check cover status' to the ACE self-interaction menu while in a vehicle. Per player.",
-    "checkCover": "Check cover status",
     "undercover": "Undercover",
     "coverLost": "Cover lost",
     "watchedTitle": "You are being watched",
@@ -899,8 +918,8 @@ def build_md():
         "<!-- generated by tools/gen_settings.py -->",
         "",
         "All settings live under **Addon Options > RADS - Adaptive Detection**. Every value is read live, so a change made "
-        "mid-mission applies at the next evaluation. Settings marked *per player* are client settings; all others are mission/server "
-        "settings that the server can force. Hover a setting in game for the same explanation; the reset button shows its default.",
+        "mid-mission applies at the next evaluation. All settings are server settings: only the server (or a logged-in admin) can change "
+        "them and clients cannot override them. The only exception is the debug options marked *per player*, and players can only use those when the server's 'Who may use debug' allows it. Hover a setting in game for the same explanation; the reset button shows its default.",
         "",
         "Runtime overrides from the Zeus/3DEN **Detection Settings** modules or `root_ads_fnc_setOverride` take precedence over these "
         "values until cleared. Variable names are `root_ads_main_<name>`.",
@@ -913,9 +932,6 @@ def build_md():
             name = e["title"] + ("" if e["glob"] else " *(per player)*")
             desc = e["tip"].replace(NL, " ")
             out.append(f"| {name} | `{e['name']}` | {doc_default(e)} | {doc_range(e)} | {desc} |")
-    out += ["", "## ACE compatibility (only with ACE loaded)", "",
-            "| Setting | Name | Default | Range / options | What it does |", "|---|---|---|---|---|",
-            f"| {EXTRA['statusAction']} *(per player)* | `root_ads_compat_ace_statusAction` | on |  | {EXTRA['statusAction_desc']} |"]
     return "\n".join(out) + "\n"
 
 

@@ -62,12 +62,13 @@ EDEN_SETTINGS = [
     "shareMode", "shareRadius",
     "bulletinEnabled", "bulletinChance", "bulletinRange", "burnDuration", "wantedDuration",
     "informantsEnabled", "theftEnabled",
-    "aiAware", "aiWatch", "aiGlance", "aiLook",
+    "aiAware", "aiWatch", "aiGlance", "aiLook", "debugClients",
 ]
 EDEN_PURSUIT = [
     "syncEnabled", "syncRadius", "syncDelay", "syncFactor", "syncMin", "syncCanIdentify", "syncRespectSig", "appearanceChangeKeep",
     "pursuitEnabled", "followEnabled", "followThreshold", "pursuitMaxGroups", "pursuitMaxTime",
     "leashEnabled", "leashFoot", "leashVehicle", "leashGiveUp",
+    "stopFreeze", "stopSignalRange", "stopSignalInterval", "stopFleeDistance",
     "followDistance", "stopTimeout", "stopSignalHorn", "stopSignalLights", "alertRadius", "alertSuspicion",
     "inspectTime", "inspectMult", "inspectClearSusp", "fleeDistance", "fleeBulletin", "fleeBurn",
     "lambsDisableDuringPursuit", "lambsHuntOnCompromise",

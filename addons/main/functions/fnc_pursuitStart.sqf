@@ -75,8 +75,35 @@ private _pursuit = createHashMapFromArray [
     ["inspectPos", []],
     ["nextMove", 0],
     ["lights", false],
-    ["nextHorn", 0]
+    ["nextSignal", 0],
+    ["signals", 0],
+    ["minDist", 1e10],
+    ["freeze", -1],
+    ["unfrozen", ""]
 ];
+
+if (_mounted) then {
+    // the engine may be off at a checkpoint
+    if (!isEngineOn _aiVeh) then {
+        if (local _aiVeh) then { _aiVeh engineOn true; } else { [QGVAR(engineOn), [_aiVeh], _aiVeh] call CBA_fnc_targetEvent; };
+    };
+
+    // Stop request: suspicion is held while they follow and signal, until refused, fled or a hostile act
+    if (MSET(stopFreeze)) then {
+        private _entry = ([_grp] call FUNC(getData)) getOrDefault [hashValue _unit, []];
+        if (_entry isNotEqualTo [] && {(_entry select D_STATE) != ST_COMPROMISED}) then {
+            private _threshold = _grp getVariable [QGVAR(followThreshold), -1];
+            if (_threshold < 0) then { _threshold = MSET(followThreshold); };
+            private _hold = (_entry select D_SUSP) min _threshold;
+            if ((_entry select D_SUSP) > _hold) then {
+                if (RADS_DEBUG) then { [_entry, format ["t=%1 STOP REQUEST suspicion %2 -> %3 (held at the follow threshold)", CBA_missionTime toFixed 1, (_entry select D_SUSP) toFixed 1, _hold toFixed 1]] call FUNC(debugHistory); };
+                _entry set [D_SUSP, _hold];
+                [_grp, true] call FUNC(publishData);
+            };
+            _pursuit set ["freeze", _hold];
+        };
+    };
+};
 
 // LAMBS danger.fsm would take over the group the moment it gets nervous
 if (MSET(lambsDisableDuringPursuit) && {isClass (configFile >> "CfgPatches" >> "lambs_danger")}) then {

@@ -43,6 +43,7 @@ if (MSET(ramCompromise)) exitWith {
 
 private _entry = [_grp, _unit, false] call FUNC(classify);
 if ((_entry select D_STATE) == ST_COMPROMISED) exitWith {};
+if ((_grp getVariable [QGVAR(pursuitTarget), objNull]) == _unit) then { [_grp, "hostile act (rammed)"] call FUNC(pursuitUnfreeze); };
 
 _entry set [D_SUSP, ((_entry select D_SUSP) max MSET(ramSuspicion)) min (MSET(identifyThreshold) - 1)];
 _entry set [D_LASTEXP, time];

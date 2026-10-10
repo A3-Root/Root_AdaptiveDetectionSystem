@@ -7,7 +7,4 @@ MVAR(coverConditions) pushBack {
     !(_unit getVariable ["ace_captives_isHandcuffed", false]) && {!(_unit getVariable ["ace_captives_isSurrendering", false])}
 };
 
-// Titles live in the main stringtable so the category lines up with the main settings
-[QGVAR(statusAction), "CHECKBOX", ["STR_root_ads_main_statusAction", "STR_root_ads_main_statusAction_desc"], ["STR_root_ads_main_cat", "STR_root_ads_main_cat_notify"], true, false] call CBA_fnc_addSetting;
-
 ADDON = true;
