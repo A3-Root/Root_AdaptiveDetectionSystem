@@ -126,25 +126,47 @@ if (_visible && _hull == "armored" && {MSET(armoredDrivingOnly)}) then {
     };
 };
 
-// Being inspected: standing next to them is the point of a stop, so that alone builds nothing.
-// What still gives them away: an exposed or turned-out occupant, a weapon or turret pointed at
-// them, visible damage, an uncovered occupant, a weapon light, honking.
+// Being inspected (by anyone), and for a short grace after a clean inspection (that vehicle only):
+// standing next to them is the point of a stop, so that alone builds nothing, for every group.
+// What still gives them away: an exposed or turned-out occupant, wrong gear on show, shots fired,
+// a weapon or turret pointed at them, visible damage, an uncovered occupant, a weapon light,
+// honking. During the grace any of those, an identified occupant or a change of occupants ends
+// the grace for everyone, and suspicion builds at once.
 private _inspectCalm = false;
+([_veh] call FUNC(vehicleCalm)) params ["_calmMode", "_calmLeft", "_calmCrew"];
 private _inspection = _grp getVariable QGVAR(pursuit);
-if (_visible && {MSET(inspectCalm)} && {!isNil "_inspection"} && {(_inspection get "phase") == "INSPECT"} && {(_inspection get "target") == _unit}) then {
+private _inspecting = !isNil "_inspection" && {(_inspection get "phase") in ["INSPECT", "CLEARED"]} && {(_inspection get "target") == _unit};
+if (_visible && {MSET(inspectCalm)} && {_inspecting || {_calmMode in ["inspect", "cleared"]}}) then {
     private _acts = [];
-    if (([_unit, _veh] call FUNC(seatFactor)) select 1) then { _acts pushBack "exposed"; };
+    ([_unit, _veh] call FUNC(seatFactor)) params ["", "_exposedSeat"];
+    if (_exposedSeat) then { _acts pushBack "exposed"; };
+    if ((crew _veh) findIf {(_x getVariable [QGVAR(heatUntil), -1]) > CBA_missionTime} > -1) then { _acts pushBack "shotsFired"; };
+    if (_hull == "" && {(_observer distance _veh) <= MSET(gearVisibleRange)} && {(([_unit, _grp, _exposedSeat] call FUNC(gearFactor)) select 0) > 1.1}) then { _acts pushBack "wrongGear"; };
     if ((_parts param [8, 1]) > 1) then { _acts pushBack "aiming"; };
     if (([_veh] call FUNC(visibleDamage)) >= MSET(damageVisibleAt)) then { _acts pushBack "damaged"; };
     if (((crew _veh) findIf {alive _x && {!(_x getVariable [QGVAR(cover), false])} && {[_side, _x] call FUNC(isHostile)}}) > -1) then { _acts pushBack "uncoveredOccupant"; };
     private _weapon = currentWeapon _unit;
     if (_weapon != "" && {(_unit isFlashlightOn _weapon) || {_unit isIRLaserOn _weapon}}) then { _acts pushBack "weaponLight"; };
     if (CBA_missionTime - (_veh getVariable [QGVAR(hornTime), -100]) < 10) then { _acts pushBack "horn"; };
+    if (_calmMode == "cleared") then {
+        private _data = [_grp] call FUNC(getData);
+        if ((crew _veh) findIf {((_data getOrDefault [hashValue _x, []]) param [D_STATE, ST_UNAWARE]) == ST_COMPROMISED} > -1) then { _acts pushBack "occupantIdentified"; };
+        if (((crew _veh) apply {hashValue _x}) findIf {!(_x in _calmCrew)} > -1) then { _acts pushBack "newOccupant"; };
+    };
     if (_acts isEqualTo []) then {
         _visible = false;
         _inspectCalm = true;
     } else {
         if (_dbg) then { _factors pushBack format ["inspectionGivenAway[%1]", _acts joinString ","]; };
+        // the vehicle seemed fine, but it is not: grace over for everyone, cleared holds lifted
+        if (_calmMode == "cleared") then {
+            _veh setVariable [QGVAR(calm), ["failed", CBA_missionTime + MSET(inspectCooldown), []], true];
+            {
+                private _crewEntry = ([_grp] call FUNC(getData)) getOrDefault [hashValue _x, []];
+                if (_crewEntry isNotEqualTo []) then { _crewEntry set [D_CLEARED, 0]; };
+            } forEach (crew _veh);
+            if (RADS_DEBUG) then { ["INSPECT", format ["%1 sees %2 give itself away %3 s after the clearance (%4): grace over, suspicion builds", groupId _grp, typeOf _veh, round (MSET(inspectClearGrace) - _calmLeft), _acts joinString ", "], _grp, _unit] call FUNC(debugLog); };
+        };
     };
 };
 
@@ -326,7 +348,12 @@ if (_visible) then {
 } else {
     // an inspection that finds nothing neither builds nor calms them: the clearance does that
     if (!_inspectCalm) then { _susp = _susp - MSET(decayRate) * _zoneDecay * _dt; };
-    if (_armoredCalm && {abs speed _veh < 3} && {(_observer distance _veh) < (MSET(identifyRange) * 3)}) then {
+    // parked near them counts as loitering even when nothing gives it away yet (armored calm, or
+    // too faint to build on its own), as long as one of them is close enough to notice it
+    if (abs speed _veh < 3 && {
+        (!isNull _observer && {(_observer distance _veh) < (MSET(identifyRange) * 3)})
+        || {(([_grp, _veh] call FUNC(groupNearest)) select 1) <= MSET(nearAwareRange)}
+    }) then {
         _entry set [D_STATIONARY, (_entry select D_STATIONARY) + _dt];
     } else {
         _entry set [D_STATIONARY, ((_entry select D_STATIONARY) - 2 * _dt) max 0];
@@ -334,7 +361,8 @@ if (_visible) then {
     if (_dbg) then {
         private _why = switch (true) do {
             case (_safe): { " (safe zone)" };
-            case (_inspectCalm): { format [" (inspection: vehicle and occupants in order, held | %1)", call _fnc_observerText] };
+            case (_inspectCalm && _calmMode == "cleared"): { format [" (%1 just cleared: paused for %2 s more | %3)", typeOf _veh, ceil _calmLeft, call _fnc_observerText] };
+            case (_inspectCalm): { format [" (%1 under inspection%2: vehicle and occupants in order, held | %3)", typeOf _veh, [" by another group", ""] select _inspecting, call _fnc_observerText] };
             case (_armoredCalm): { format [" (armored, driven calmly: nothing to judge | %1)", call _fnc_observerText] };
             default { "" };
         };
@@ -345,9 +373,9 @@ if (_visible) then {
 // a calm armored vehicle stays in view (no new "pass" when it gives itself away)
 _entry set [D_VISIBLE, _visible || _armoredCalm || _inspectCalm];
 _susp = (_susp max 0) min 100;
-// never below the starting suspicion set on these AI
+// never below the starting suspicion set on these AI, unless an inspection cleared the unit
 private _start = [_grp] call FUNC(startSuspicion);
-if (_susp < _start) then {
+if (_susp < _start && {time >= (_entry select D_CLEARED)}) then {
     _susp = _start;
     if (_dbg && {MSET(debugDetail) >= 2}) then { [format ["t=%1 held at starting suspicion %2", CBA_missionTime toFixed 1, _start toFixed 1], true] call _fnc_record; };
 };
@@ -359,7 +387,14 @@ if (_susp >= MSET(identifyThreshold)) exitWith {
 
 private _newState = _state;
 if (_susp >= MSET(suspiciousThreshold)) then {
-    if (_state == ST_UNAWARE) then { _newState = ST_SUSPICIOUS; };
+    if (_state == ST_UNAWARE) then {
+        // recently cleared: calm until something new gives the unit away
+        if ([_grp, _entry] call FUNC(clearedHold)) then {
+            if (_dbg && {MSET(debugDetail) >= 2}) then { [format ["t=%1 cleared by an inspection: stays calm at %2 (%3 s left)", CBA_missionTime toFixed 1, _susp toFixed 1, round ((_entry select D_CLEARED) - time)], true] call _fnc_record; };
+        } else {
+            _newState = ST_SUSPICIOUS;
+        };
+    };
 } else {
     if (_susp < MSET(recoverThreshold)) then { _newState = ST_UNAWARE; };
 };

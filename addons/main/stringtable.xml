@@ -55,6 +55,12 @@
         <Key ID="STR_root_ads_main_alertRadius_desc">
             <English>Groups and outposts within this distance of the pursuers hear their alerts.</English>
         </Key>
+        <Key ID="STR_root_ads_main_alertRecall">
+            <English>Stopping calls off the alert</English>
+        </Key>
+        <Key ID="STR_root_ads_main_alertRecall_desc">
+            <English>When a vehicle that 'refused to stop' does stop for the inspection after all, groups the refusal\nalert put in SEARCHING go back to how they were (if nothing else happened meanwhile).</English>
+        </Key>
         <Key ID="STR_root_ads_main_alertSuspicion">
             <English>Alert suspicion (%)</English>
         </Key>
@@ -913,6 +919,18 @@
         <Key ID="STR_root_ads_main_hiddenCrewMult_desc">
             <English>How much of the vehicle's visibility counts when the crew cannot be seen at all.\n0 = a hidden crew is perfectly safe. 1 = as if they could see you.</English>
         </Key>
+        <Key ID="STR_root_ads_main_hornEscalate">
+            <English>Repeated honking multiplier</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornEscalate_desc">
+            <English>Each further honk heard within the window adds this many times more than the one before.\nExample: 5% and 1.8 -&gt; 5, 9, 16, 29 ... 1 = every honk adds the same.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornMaxSusp">
+            <English>Honking suspicion cap (%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornMaxSusp_desc">
+            <English>Honking alone never takes suspicion above this, and never identifies anyone.</English>
+        </Key>
         <Key ID="STR_root_ads_main_hornMult">
             <English>Honking</English>
         </Key>
@@ -923,13 +941,25 @@
             <English>Honking heard within (m)</English>
         </Key>
         <Key ID="STR_root_ads_main_hornRange_desc">
-            <English>How far away enemy groups hear your horn.</English>
+            <English>How far away enemy groups hear your horn (no line of sight needed, mounted crews too).</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornSearchCount">
+            <English>Honks before they search</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornSearchCount_desc">
+            <English>After this many honks in one series the group starts SEARCHING for the vehicle. 0 = never.</English>
         </Key>
         <Key ID="STR_root_ads_main_hornSuspicion">
             <English>Honking adds (%)</English>
         </Key>
         <Key ID="STR_root_ads_main_hornSuspicion_desc">
             <English>Every honk (at most one every 2 s) adds this much suspicion of everyone undercover in your vehicle\nto enemy groups within earshot. They hear it: no line of sight needed. 0 = off.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornWindow">
+            <English>Repeated honking window (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_hornWindow_desc">
+            <English>Honks this close together count as one series. Quiet for longer and the series starts over.</English>
         </Key>
         <Key ID="STR_root_ads_main_hostileVehMult">
             <English>Enemy side's vehicle</English>
@@ -989,13 +1019,25 @@
             <English>Inspection judges the vehicle, not the wait</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectCalm_desc">
-            <English>During an inspection, standing next to them builds no suspicion: that is the point of a stop.\nOnly what they find counts: a turned-out or exposed occupant, a weapon or turret pointed at them,\nvisible damage, an uncovered occupant, a weapon light or honking. Off = suspicion builds face to face as usual.</English>
+            <English>During an inspection, standing there builds no suspicion with any group: that is the point of a stop.\nOnly what they find counts: a turned-out or exposed occupant, a weapon or turret pointed at them,\nvisible damage, an uncovered occupant, a weapon light or honking. Off = suspicion builds face to face as usual.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectClearGrace">
+            <English>Cleared: suspicion paused for (s)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectClearGrace_desc">
+            <English>Right after a clean inspection, every group's suspicion of the inspected vehicle (anyone in it)\nneither builds nor drops for this long, so waiting to drive off is not suspicious. Other vehicles,\nor you in another vehicle, build as usual. Ends at once (suspicion builds, 'cleared' calm lifted) on\na give-away: turning out, wrong gear on show, shooting, aiming, honking, a weapon light, an\nuncovered occupant, an identified occupant or someone new getting in. 0 = off.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectClearMargin">
+            <English>Cleared: suspicious again after (+%)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_inspectClearMargin_desc">
+            <English>While cleared, they only turn suspicious again once suspicion climbs this far above the level\nthey cleared you at (something new gave you away). Example: cleared at 20, 15 -&gt; suspicious at 35.</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectClearReduce">
             <English>Clean inspection lowers suspicion by (%)</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectClearReduce_desc">
-            <English>Passing an inspection cleanly lowers that group's suspicion by this much (and never leaves it above\n'Cleared suspicion'). Nearby friendly groups get the same value through the sync.\nExample: 25 with 60% suspicion -&gt; 35%, then capped at 'Cleared suspicion'.</English>
+            <English>Passing an inspection cleanly lowers that group's suspicion by this much (and never leaves it above\n'Cleared suspicion', also below a starting suspicion). Nearby friendly groups calm down too.\nExample: 25 with 60% suspicion -&gt; 35%, then capped at 'Cleared suspicion'.</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectClearSusp">
             <English>Cleared suspicion (%)</English>
@@ -1007,7 +1049,7 @@
             <English>Cleared for (s)</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectCooldown_desc">
-            <English>After passing an inspection that group will not pursue you again for this long.</English>
+            <English>After passing an inspection, for this long: that group and the groups it told will not pursue you,\nstay calm (no searching), share no new suspicion and ignore the starting suspicion set on them.</English>
         </Key>
         <Key ID="STR_root_ads_main_inspectDismount">
             <English>Inspectors</English>
@@ -1188,6 +1230,12 @@
         </Key>
         <Key ID="STR_root_ads_main_mixedCrewMult_desc">
             <English>Suspicion speed for each uncovered person in the vehicle (when 'Uncovered people' = Faster suspicion). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_nearAwareRange">
+            <English>Notices anything this close (m)</English>
+        </Key>
+        <Key ID="STR_root_ads_main_nearAwareRange_desc">
+            <English>Within this distance the field of view does not matter: a vehicle parked right beside a soldier or\na vehicle crew is noticed even outside their view cone. 0 = off (peripheral vision only).</English>
         </Key>
         <Key ID="STR_root_ads_main_nightMult">
             <English>Darkness</English>
@@ -1830,6 +1878,12 @@
         </Key>
         <Key ID="STR_root_ads_main_syncRespectSig_desc">
             <English>Synced suspicion only sticks while you still have the same vehicle and kit the sender saw.</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncStartSusp">
+            <English>Share starting suspicion</English>
+        </Key>
+        <Key ID="STR_root_ads_main_syncStartSusp_desc">
+            <English>Off = a group's starting suspicion (Starting Suspicion module / API) stays its own: only what it\nbuilt on top by watching is passed on. On = the full value is passed on, so neighbours inherit it.</English>
         </Key>
         <Key ID="STR_root_ads_main_targetAge">
             <English>Age knowledge after losing contact</English>

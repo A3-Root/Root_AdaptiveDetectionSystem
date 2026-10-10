@@ -26,6 +26,12 @@ if (_pfh >= 0) then { [_pfh] call CBA_fnc_removePerFrameHandler; };
 [_grp, false] call FUNC(pursuitSignal);
 [_grp, "remove"] call FUNC(pursuitWaypoint);
 
+// inspection broken off (fled, identified, lost): the vehicle loses its calm for everyone
+private _inspectVeh = _pursuit getOrDefault ["inspectVeh", objNull];
+if (!isNull _inspectVeh && {(_pursuit get "phase") == "INSPECT"} && {(([_inspectVeh] call FUNC(vehicleCalm)) select 0) == "inspect"}) then {
+    _inspectVeh setVariable [QGVAR(calm), nil, true];
+};
+
 // back in the vehicle (fighting dismounts stay out, except the crew: see below)
 private _inspectors = (_pursuit get "inspectors") select {alive _x};
 private _unit = _pursuit get "target";

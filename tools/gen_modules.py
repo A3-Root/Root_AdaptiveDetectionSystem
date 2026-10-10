@@ -58,7 +58,7 @@ EDEN_SETTINGS = [
     "armoredDetect", "armoredHullMult", "armoredDrivingOnly", "vehOpticsEnabled", "vehOpticsMult",
     "gearCompareMode", "gearRefSource",
     "metaDetect", "metaMaxSpeed", "hiddenCrewAny", "reverseMult", "rearFacingMult",
-    "ramRepeatCount", "ramRepeatWindow", "ramCompromise", "ramBurn", "hornSuspicion", "hornRange",
+    "ramRepeatCount", "ramRepeatWindow", "ramCompromise", "ramBurn", "hornSuspicion", "hornEscalate", "hornWindow", "hornMaxSusp", "hornSearchCount", "hornRange", "nearAwareRange",
     "convoyMode", "convoySpillSusp",
     "shareMode", "shareRadius",
     "bulletinEnabled", "bulletinChance", "bulletinRange", "burnDuration", "wantedDuration",
@@ -66,12 +66,12 @@ EDEN_SETTINGS = [
     "aiAware", "aiWatch", "aiGlance", "aiLook", "debugClients",
 ]
 EDEN_PURSUIT = [
-    "syncEnabled", "syncRadius", "syncDelay", "syncFactor", "syncMin", "syncCanIdentify", "syncRespectSig", "appearanceChangeKeep",
+    "syncEnabled", "syncRadius", "syncDelay", "syncFactor", "syncMin", "syncStartSusp", "syncCanIdentify", "syncRespectSig", "appearanceChangeKeep",
     "pursuitEnabled", "followEnabled", "followThreshold", "pursuitMaxGroups", "pursuitMaxTime",
     "leashEnabled", "leashFoot", "leashVehicle", "leashGiveUp",
     "stopFreeze", "stopSignalRange", "stopSignalInterval", "stopFleeDistance",
     "followDistance", "stopTimeout", "stopSignalHorn", "stopSignalLights", "alertRadius", "alertSuspicion",
-    "pursuitCooldown", "inspectCalm", "inspectTime", "inspectMult", "inspectClearReduce", "inspectClearSusp", "inspectDismount", "inspectRemount", "fleeDistance", "fleeBulletin", "fleeBurn",
+    "pursuitCooldown", "inspectCalm", "inspectTime", "inspectMult", "inspectClearReduce", "inspectClearSusp", "inspectDismount", "inspectRemount", "inspectCooldown", "alertRecall", "inspectClearGrace", "inspectClearMargin", "fleeDistance", "fleeBulletin", "fleeBurn",
     "lambsDisableDuringPursuit", "lambsHuntOnCompromise",
     "truceEnabled", "truceMaxStay", "truceWarn", "truceCareless", "truceBreakScope", "truceBreakOnAim", "truceCooldown",
 ]

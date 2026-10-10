@@ -76,6 +76,7 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 |---|---|---|---|---|
 | Field of view (deg) | `fovAngle` | 140 | 30 - 360 | Width of the cone a soldier is really looking at. Outside it only peripheral vision applies. Example: 140 = roughly what a person takes in without turning their head. |
 | Peripheral vision | `peripheralMult` | 10% | 0-100% | How well a soldier notices you outside their field of view. 0 = not at all. 1 = as well as looking straight at you. |
+| Notices anything this close (m) | `nearAwareRange` | 20 | 0 - 100 | Within this distance the field of view does not matter: a vehicle parked right beside a soldier or a vehicle crew is noticed even outside their view cone. 0 = off (peripheral vision only). |
 | Relaxed AI (SAFE / CARELESS) | `behSafe` | 0.7 | 0 - 3 | Suspicion speed for relaxed soldiers. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. Example: 0.7 = bored sentries are slower to notice. |
 | Alert AI (AWARE) | `behAware` | 1 | 0 - 3 | Suspicion speed for alert soldiers. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Fighting AI (COMBAT) | `behCombat` | 1.125 | 0 - 3 | Suspicion speed for soldiers in combat. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. Lower = they are busy with the fight and pay less attention to traffic. |
@@ -175,7 +176,11 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Lights off at night | `lightsOffMult` | 1.4 | 1 - 5 | Suspicion speed driving at night with headlights off. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Honking | `hornMult` | 1.5 | 1 - 5 | Suspicion speed for 10 s after honking near them. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Honking adds (%) | `hornSuspicion` | 5 | 0 - 50 | Every honk (at most one every 2 s) adds this much suspicion of everyone undercover in your vehicle to enemy groups within earshot. They hear it: no line of sight needed. 0 = off. |
-| Honking heard within (m) | `hornRange` | 60 | 0 - 500 | How far away enemy groups hear your horn. |
+| Repeated honking multiplier | `hornEscalate` | 1.8 | 1 - 5 | Each further honk heard within the window adds this many times more than the one before. Example: 5% and 1.8 -> 5, 9, 16, 29 ... 1 = every honk adds the same. |
+| Repeated honking window (s) | `hornWindow` | 30 | 5 - 300 | Honks this close together count as one series. Quiet for longer and the series starts over. |
+| Honking suspicion cap (%) | `hornMaxSusp` | 95 | 0 - 99 | Honking alone never takes suspicion above this, and never identifies anyone. |
+| Honks before they search | `hornSearchCount` | 3 | 0 - 20 | After this many honks in one series the group starts SEARCHING for the vehicle. 0 = never. |
+| Honking heard within (m) | `hornRange` | 150 | 0 - 500 | How far away enemy groups hear your horn (no line of sight needed, mounted crews too). |
 | Aiming at the AI | `aimMult` | 2.5 | 1 - 10 | Suspicion speed while your weapon or turret points at a soldier. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
 | Aiming cone (deg) | `aimAngle` | 8 | 1 - 45 | How close to a soldier your weapon must point to count as aiming at them (half-angle). |
 | Weapon light / laser at night | `lightMult` | 2 | 1 - 5 | Suspicion speed with a weapon light or laser on at night. 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
@@ -255,6 +260,7 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Synced share | `syncFactor` | 100% | 0-100% | Share of the sender's suspicion the receivers take. 1 = the same level. 0.5 = half. |
 | Sync from (%) | `syncMin` | 10 | 0 - 99 | Suspicion below this is not passed on. |
 | Sync needs a radio | `syncNeedsRadio` | on |  | The sending group needs a soldier with a radio. |
+| Share starting suspicion | `syncStartSusp` | off |  | Off = a group's starting suspicion (Starting Suspicion module / API) stays its own: only what it built on top by watching is passed on. On = the full value is passed on, so neighbours inherit it. |
 | Synced suspicion can identify | `syncCanIdentify` | off |  | Off = synced suspicion stops just below 'Identified at', the receivers still need their own look. |
 | Changing looks shakes it off | `syncRespectSig` | on |  | Synced suspicion only sticks while you still have the same vehicle and kit the sender saw. |
 | Suspicion kept after changing looks | `appearanceChangeKeep` | 35% | 0-100% | When a group sees you again in another vehicle or kit, it keeps this share of its suspicion. 1 = changing makes no difference. 0 = a complete fresh start. |
@@ -325,13 +331,16 @@ Multipliers: 1.0 = no change, 2.0 = suspicion builds twice as fast, 0.5 = half a
 | Alert suspicion (%) | `alertSuspicion` | 60 | 0 - 99 | Groups hearing an alert start SEARCHING with at least this suspicion. |
 | Inspect within (m) | `inspectRange` | 30 | 5 - 100 | A foot patrol starts its inspection when your vehicle stops within this distance. |
 | Inspection length (s) | `inspectTime` | 30 | 5 - 300 | How long the inspection lasts. Survive it without being identified and you are cleared. |
-| Inspection judges the vehicle, not the wait | `inspectCalm` | on |  | During an inspection, standing next to them builds no suspicion: that is the point of a stop. Only what they find counts: a turned-out or exposed occupant, a weapon or turret pointed at them, visible damage, an uncovered occupant, a weapon light or honking. Off = suspicion builds face to face as usual. |
+| Inspection judges the vehicle, not the wait | `inspectCalm` | on |  | During an inspection, standing there builds no suspicion with any group: that is the point of a stop. Only what they find counts: a turned-out or exposed occupant, a weapon or turret pointed at them, visible damage, an uncovered occupant, a weapon light or honking. Off = suspicion builds face to face as usual. |
 | Inspection multiplier | `inspectMult` | 1.5 | 0.1 - 5 | Suspicion speed while being inspected, once something gives you away (on top of face-to-face). 1.0 = no change, 2.0 = twice as fast, 0.5 = half as fast. |
-| Clean inspection lowers suspicion by (%) | `inspectClearReduce` | 25 | 0 - 100 | Passing an inspection cleanly lowers that group's suspicion by this much (and never leaves it above 'Cleared suspicion'). Nearby friendly groups get the same value through the sync. Example: 25 with 60% suspicion -> 35%, then capped at 'Cleared suspicion'. |
+| Clean inspection lowers suspicion by (%) | `inspectClearReduce` | 25 | 0 - 100 | Passing an inspection cleanly lowers that group's suspicion by this much (and never leaves it above 'Cleared suspicion', also below a starting suspicion). Nearby friendly groups calm down too. Example: 25 with 60% suspicion -> 35%, then capped at 'Cleared suspicion'. |
 | Cleared suspicion (%) | `inspectClearSusp` | 15 | 0 - 99 | Highest suspicion left after passing an inspection. 99 = only the reduction above applies. |
 | Inspectors | `inspectDismount` | 2 | 1 - 10 | How many of a vehicle patrol get out to inspect, in this order: passengers, other crew without a weapon, the commander, the driver. Gunners never leave their weapon. |
 | Crew remount before engaging | `inspectRemount` | on |  | If you flee or get identified during an inspection, dismounted driver / commander / turret crew run back to their own seats first, then the vehicle goes after you. Passengers fight on foot. Off = everyone stays where they are and fights. |
-| Cleared for (s) | `inspectCooldown` | 300 | 0 - 3600 | After passing an inspection that group will not pursue you again for this long. |
+| Stopping calls off the alert | `alertRecall` | on |  | When a vehicle that 'refused to stop' does stop for the inspection after all, groups the refusal alert put in SEARCHING go back to how they were (if nothing else happened meanwhile). |
+| Cleared for (s) | `inspectCooldown` | 300 | 0 - 3600 | After passing an inspection, for this long: that group and the groups it told will not pursue you, stay calm (no searching), share no new suspicion and ignore the starting suspicion set on them. |
+| Cleared: suspicion paused for (s) | `inspectClearGrace` | 15 | 0 - 120 | Right after a clean inspection, every group's suspicion of the inspected vehicle (anyone in it) neither builds nor drops for this long, so waiting to drive off is not suspicious. Other vehicles, or you in another vehicle, build as usual. Ends at once (suspicion builds, 'cleared' calm lifted) on a give-away: turning out, wrong gear on show, shooting, aiming, honking, a weapon light, an uncovered occupant, an identified occupant or someone new getting in. 0 = off. |
+| Cleared: suspicious again after (+%) | `inspectClearMargin` | 15 | 0 - 100 | While cleared, they only turn suspicious again once suspicion climbs this far above the level they cleared you at (something new gave you away). Example: cleared at 20, 15 -> suspicious at 35. |
 | Fleeing distance (m) | `fleeDistance` | 25 | 5 - 200 | Driving more than this far from where you stopped, during the inspection, counts as fleeing. |
 | Fleeing speed (km/h) | `fleeSpeed` | 15 | 3 - 100 | Driving faster than this during the inspection counts as fleeing. |
 | Fleeing sends a bulletin | `fleeBulletin` | Always | Never / By chance / Always | Fleeing a stop gets you identified on the spot. Should they also radio a bulletin? |

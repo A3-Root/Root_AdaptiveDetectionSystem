@@ -12,6 +12,8 @@
 [QGVAR(honked), FUNC(onHonked)] call CBA_fnc_addEventHandler;
 [QGVAR(truceBroken), FUNC(onTruceBroken)] call CBA_fnc_addEventHandler;
 [QGVAR(syncSusp), FUNC(onSyncSuspicion)] call CBA_fnc_addEventHandler;
+[QGVAR(inspectCleared), FUNC(onInspectCleared)] call CBA_fnc_addEventHandler;
+[QGVAR(alertRecall), FUNC(onAlertRecall)] call CBA_fnc_addEventHandler;
 [QGVAR(pursuitAlert), FUNC(onPursuitAlert)] call CBA_fnc_addEventHandler;
 [QGVAR(startPursuit), { params ["_grp", "_unit"]; if (local _grp) then { [_grp, _unit, true] call FUNC(pursuitStart); }; }] call CBA_fnc_addEventHandler;
 [QGVAR(stopPursuit), { params ["_grp"]; if (local _grp) then { [_grp, "called off (Zeus/API)"] call FUNC(pursuitEnd); }; }] call CBA_fnc_addEventHandler;

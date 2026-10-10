@@ -25,6 +25,7 @@ deleteVehicle _logic;
     "syncFactor",
     "syncMin",
     "syncNeedsRadio",
+    "syncStartSusp",
     "syncCanIdentify",
     "syncRespectSig",
     "appearanceChangeKeep",

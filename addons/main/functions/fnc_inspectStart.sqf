@@ -25,6 +25,12 @@ _pursuit set ["phase", "INSPECT"];
 [_grp, "stopped for the inspection (judged face to face now)"] call FUNC(pursuitUnfreeze);
 _pursuit set ["phaseStart", time];
 _pursuit set ["inspectPos", getPosATL _veh];
+_pursuit set ["inspectVeh", _veh];
+// stopped after all: a "refused to stop" alert about anyone in it is called off
+if (MSET(alertRecall)) then { [QGVAR(alertRecall), [_veh, _grp]] call CBA_fnc_globalEvent; };
+
+// every group around holds still on this vehicle while it is inspected (give-aways still count)
+_veh setVariable [QGVAR(calm), ["inspect", 1e10, []], true];
 _pursuit set ["nextMove", 0];
 
 private _inspectors = [];

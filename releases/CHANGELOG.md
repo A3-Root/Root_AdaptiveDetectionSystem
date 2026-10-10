@@ -1,5 +1,59 @@
 # Changelog
 
+## Lean On The Horn (v1.0.0.19)
+
+### Added
+- Repeated honking escalates: each honk in a series adds more (x1.8), capped at 95%, never identifies. SEARCHING after 3 honks. Settings: multiplier, window, cap, honks before search.
+- "Stopping calls off the alert" setting: a "refused to stop" vehicle that stops for the inspection after all puts alerted groups back how they were.
+- "Notices anything this close" setting (20 m): field of view ignored right beside a soldier or crew.
+
+### Fixed
+- Parking alongside a vehicle crew (outside their view cone) built no suspicion and no loitering, ever.
+
+## One Stop, One Verdict (v1.0.0.18)
+
+### Added
+- "Share starting suspicion" setting (default off): a starting suspicion stays with its own group, only suspicion built on top is synced.
+
+### Fixed
+- Starting suspicion synced to neighbours, making unrelated groups suspicious and chase.
+- "Refused to stop" fired while the vehicle was already stopping, alerting every group into SEARCHING.
+- Second group inspecting the same vehicle called driving off after a clearance "fleeing" and identified it. One inspection per vehicle now; a clearance ends every other pursuit or inspection of it.
+
+## Benefit of the Doubt (v1.0.0.17)
+
+### Changed
+- Vehicle under inspection: idle/proximity build paused for every group, not only the inspectors.
+- Post-inspection grace applies to every group, for that vehicle only.
+
+### Fixed
+- Grace now ends at once on a give-away: identified or uncovered occupant, someone new getting in, wrong gear, shots, aiming, turning out, horn, weapon light. Cleared calm is lifted too.
+
+## Grace Period Per Vehicle (v1.0.0.16)
+
+### Changed
+- Post-inspection pause now covers only the inspected vehicle (all its occupants); other vehicles build as usual.
+
+## Grace Period (v1.0.0.15)
+
+### Added
+- "Cleared: suspicion paused for (s)" setting (default 15): after a clean inspection the inspecting group's suspicion holds still, unless the players give themselves away.
+- Wrong gear on show and shots fired now count as give-aways during inspections too.
+
+## Cleared Means Calm (v1.0.0.14)
+
+### Added
+- "Cleared: suspicious again after (+%)" setting (default 15): cleared groups stay calm until suspicion climbs this far above the cleared level.
+- RPT logs honks nobody hears, with the closest hostile group's distance.
+
+### Changed
+- Clean inspection now also lowers suspicion below a starting suspicion, for the "Cleared for" time.
+- All-clear calms every friendly group in sync range, not only those more suspicious; no new suspicion shared while cleared.
+- Horn heard within 150 m by default (was 60).
+
+### Fixed
+- Neighbours turned SUSPICIOUS right after a clean inspection (start-suspicion floor re-synced).
+
 ## Inspection Crews (v1.0.0.13)
 
 ### Added

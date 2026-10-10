@@ -101,13 +101,15 @@ _grp setVariable [QGVAR(ignoredVehs), _wantVehs];
 if (MSET(syncEnabled) && {time >= (_grp getVariable [QGVAR(nextSync), 0])}) then {
     _grp setVariable [QGVAR(nextSync), time + MSET(syncInterval)];
     private _min = MSET(syncMin);
+    // a starting suspicion is this group's own jumpiness, not something it saw: only the excess goes out
+    private _start = [0, [_grp] call FUNC(startSuspicion)] select !MSET(syncStartSusp);
     private _batch = [];
     {
         private _entry = _y;
-        private _susp = _entry select D_SUSP;
+        private _susp = (_entry select D_SUSP) - _start;
         private _sent = _entry select D_SYNCSENT;
         if (_susp < _sent - 10) then { _entry set [D_SYNCSENT, _susp]; _sent = _susp; };
-        if ((_entry select D_STATE) != ST_COMPROMISED && _susp >= _min && {_susp >= _sent + 2} && {alive (_entry select D_UNIT)}) then {
+        if ((_entry select D_STATE) != ST_COMPROMISED && _susp >= _min && {_susp >= _sent + 2} && {alive (_entry select D_UNIT)} && {!([_grp, _entry] call FUNC(clearedHold))}) then {
             _entry set [D_SYNCSENT, _susp];
             _batch pushBack [_entry select D_UNIT, _susp, [_entry select D_UNIT] call FUNC(appearanceSig)];
         };

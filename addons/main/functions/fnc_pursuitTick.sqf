@@ -91,6 +91,16 @@ if !(_phase in ["INSPECT", "CLEARED"]) then {
 };
 if (isNil {_grp getVariable QGVAR(pursuit)}) exitWith {};
 
+// another group inspects (or just cleared) that vehicle: one inspection at a time, the inspectors
+// handle flight and identification
+if (_phase in ["CHASE", "FOLLOW"]) then {
+    private _calm = ([_veh] call FUNC(vehicleCalm)) select 0;
+    if (_calm in ["inspect", "cleared"]) exitWith {
+        [_grp, format ["another group %1 the vehicle", ["just cleared", "inspects"] select (_calm == "inspect")]] call FUNC(pursuitEnd);
+    };
+};
+if (isNil {_grp getVariable QGVAR(pursuit)}) exitWith {};
+
 switch (_phase) do {
     case "CHASE": {
         [_grp, "move", _lead] call FUNC(pursuitWaypoint);
@@ -150,7 +160,8 @@ switch (_phase) do {
 
             if (_distance <= MSET(followDistance) && _speed < 3) then { _pursuit set ["stopped", (_pursuit get "stopped") + 1]; } else { _pursuit set ["stopped", 0]; };
             private _clock = _pursuit getOrDefault ["clockStart", -1];
-            if (_refuse == "" && _clock >= 0 && {(time - _clock) > MSET(stopTimeout)}) then {
+            // not while it is stopping or stopped: the inspection starts after a few still seconds
+            if (_refuse == "" && _clock >= 0 && {(time - _clock) > MSET(stopTimeout)} && {(_pursuit get "stopped") == 0 && _speed >= 5}) then {
                 _refuse = format ["did not stop within %1 s", round MSET(stopTimeout)];
             };
         } else {

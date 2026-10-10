@@ -32,6 +32,8 @@ if (!_forced) then {
         case (_aiVeh isKindOf "StaticWeapon"): { "manning a static weapon" };
         case (_aiVeh isKindOf "Air" || {_aiVeh isKindOf "Ship"}): { "aircraft and boats do not pursue" };
         case ((([_grp, vehicle _unit] call FUNC(groupNearest)) select 1) > MSET(pursuitMaxStart)): { "too far away to start" };
+        case ((([vehicle _unit] call FUNC(vehicleCalm)) select 0) == "inspect"): { "another group inspects it" };
+        case ((([vehicle _unit] call FUNC(vehicleCalm)) select 0) == "cleared"): { "another group just cleared it" };
         case (({(_x getVariable [QGVAR(pursuitTarget), objNull]) == _unit} count allGroups) >= MSET(pursuitMaxGroups)): { "enough groups already pursue" };
         default { "" };
     };

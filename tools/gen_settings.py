@@ -210,6 +210,9 @@ slider("fovAngle", "Field of view (deg)", tip(
 slider("peripheralMult", "Peripheral vision", tip(
     "How well a soldier notices you outside their field of view.",
     "0 = not at all. 1 = as well as looking straight at you."), 0, 1, 0.10247, 0, True)
+slider("nearAwareRange", "Notices anything this close (m)", tip(
+    "Within this distance the field of view does not matter: a vehicle parked right beside a soldier or",
+    "a vehicle crew is noticed even outside their view cone. 0 = off (peripheral vision only)."), 0, 100, 20)
 slider("behSafe", "Relaxed AI (SAFE / CARELESS)", tip(
     "Suspicion speed for relaxed soldiers. " + MULT,
     "Example: 0.7 = bored sentries are slower to notice."), 0, 3, 0.7, 2)
@@ -392,7 +395,16 @@ slider("hornMult", "Honking", tip("Suspicion speed for 10 s after honking near t
 slider("hornSuspicion", "Honking adds (%)", tip(
     "Every honk (at most one every 2 s) adds this much suspicion of everyone undercover in your vehicle",
     "to enemy groups within earshot. They hear it: no line of sight needed. 0 = off."), 0, 50, 5)
-slider("hornRange", "Honking heard within (m)", tip("How far away enemy groups hear your horn."), 0, 500, 60)
+slider("hornEscalate", "Repeated honking multiplier", tip(
+    "Each further honk heard within the window adds this many times more than the one before.",
+    "Example: 5% and 1.8 -> 5, 9, 16, 29 ... 1 = every honk adds the same."), 1, 5, 1.8, 2)
+slider("hornWindow", "Repeated honking window (s)", tip(
+    "Honks this close together count as one series. Quiet for longer and the series starts over."), 5, 300, 30)
+slider("hornMaxSusp", "Honking suspicion cap (%)", tip(
+    "Honking alone never takes suspicion above this, and never identifies anyone."), 0, 99, 95)
+slider("hornSearchCount", "Honks before they search", tip(
+    "After this many honks in one series the group starts SEARCHING for the vehicle. 0 = never."), 0, 20, 3)
+slider("hornRange", "Honking heard within (m)", tip("How far away enemy groups hear your horn (no line of sight needed, mounted crews too)."), 0, 500, 150)
 slider("aimMult", "Aiming at the AI", tip("Suspicion speed while your weapon or turret points at a soldier. " + MULT), 1, 10, 2.5, 2)
 slider("aimAngle", "Aiming cone (deg)", tip(
     "How close to a soldier your weapon must point to count as aiming at them (half-angle)."), 1, 45, 8)
@@ -535,6 +547,9 @@ slider("syncFactor", "Synced share", tip(
     "Share of the sender's suspicion the receivers take. 1 = the same level. 0.5 = half."), 0, 1, 1, 0, True)
 slider("syncMin", "Sync from (%)", tip("Suspicion below this is not passed on."), 0, 99, 10)
 check("syncNeedsRadio", "Sync needs a radio", tip("The sending group needs a soldier with a radio."), True)
+check("syncStartSusp", "Share starting suspicion", tip(
+    "Off = a group's starting suspicion (Starting Suspicion module / API) stays its own: only what it",
+    "built on top by watching is passed on. On = the full value is passed on, so neighbours inherit it."), False)
 check("syncCanIdentify", "Synced suspicion can identify", tip(
     "Off = synced suspicion stops just below 'Identified at', the receivers still need their own look."), False)
 check("syncRespectSig", "Changing looks shakes it off", tip(
@@ -660,14 +675,14 @@ slider("inspectRange", "Inspect within (m)", tip(
 slider("inspectTime", "Inspection length (s)", tip(
     "How long the inspection lasts. Survive it without being identified and you are cleared."), 5, 300, 30)
 check("inspectCalm", "Inspection judges the vehicle, not the wait", tip(
-    "During an inspection, standing next to them builds no suspicion: that is the point of a stop.",
+    "During an inspection, standing there builds no suspicion with any group: that is the point of a stop.",
     "Only what they find counts: a turned-out or exposed occupant, a weapon or turret pointed at them,",
     "visible damage, an uncovered occupant, a weapon light or honking. Off = suspicion builds face to face as usual."), True)
 slider("inspectMult", "Inspection multiplier", tip(
     "Suspicion speed while being inspected, once something gives you away (on top of face-to-face). " + MULT), 0.1, 5, 1.5, 2)
 slider("inspectClearReduce", "Clean inspection lowers suspicion by (%)", tip(
     "Passing an inspection cleanly lowers that group's suspicion by this much (and never leaves it above",
-    "'Cleared suspicion'). Nearby friendly groups get the same value through the sync.",
+    "'Cleared suspicion', also below a starting suspicion). Nearby friendly groups calm down too.",
     "Example: 25 with 60% suspicion -> 35%, then capped at 'Cleared suspicion'."), 0, 100, 25)
 slider("inspectClearSusp", "Cleared suspicion (%)", tip(
     "Highest suspicion left after passing an inspection. 99 = only the reduction above applies."), 0, 99, 15)
@@ -678,8 +693,21 @@ check("inspectRemount", "Crew remount before engaging", tip(
     "If you flee or get identified during an inspection, dismounted driver / commander / turret crew",
     "run back to their own seats first, then the vehicle goes after you. Passengers fight on foot.",
     "Off = everyone stays where they are and fights."), True)
+check("alertRecall", "Stopping calls off the alert", tip(
+    "When a vehicle that 'refused to stop' does stop for the inspection after all, groups the refusal",
+    "alert put in SEARCHING go back to how they were (if nothing else happened meanwhile)."), True)
 slider("inspectCooldown", "Cleared for (s)", tip(
-    "After passing an inspection that group will not pursue you again for this long."), 0, 3600, 300)
+    "After passing an inspection, for this long: that group and the groups it told will not pursue you,",
+    "stay calm (no searching), share no new suspicion and ignore the starting suspicion set on them."), 0, 3600, 300)
+slider("inspectClearGrace", "Cleared: suspicion paused for (s)", tip(
+    "Right after a clean inspection, every group's suspicion of the inspected vehicle (anyone in it)",
+    "neither builds nor drops for this long, so waiting to drive off is not suspicious. Other vehicles,",
+    "or you in another vehicle, build as usual. Ends at once (suspicion builds, 'cleared' calm lifted) on",
+    "a give-away: turning out, wrong gear on show, shooting, aiming, honking, a weapon light, an",
+    "uncovered occupant, an identified occupant or someone new getting in. 0 = off."), 0, 120, 15)
+slider("inspectClearMargin", "Cleared: suspicious again after (+%)", tip(
+    "While cleared, they only turn suspicious again once suspicion climbs this far above the level",
+    "they cleared you at (something new gave you away). Example: cleared at 20, 15 -> suspicious at 35."), 0, 100, 15)
 slider("fleeDistance", "Fleeing distance (m)", tip(
     "Driving more than this far from where you stopped, during the inspection, counts as fleeing."), 5, 200, 25)
 slider("fleeSpeed", "Fleeing speed (km/h)", tip(

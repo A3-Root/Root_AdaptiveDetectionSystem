@@ -172,7 +172,12 @@ class CfgVehicles {
             ATTR_TRI_RAW(ROOT_ADS_S_ramCompromise,"$STR_root_ads_main_ramCompromise","$STR_root_ads_main_ramCompromise_desc");
             ATTR_TRI_RAW(ROOT_ADS_S_ramBurn,"$STR_root_ads_main_ramBurn","$STR_root_ads_main_ramBurn_desc");
             ATTR_NUM_RAW(ROOT_ADS_S_hornSuspicion,"$STR_root_ads_main_hornSuspicion","$STR_root_ads_main_hornSuspicion_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_hornEscalate,"$STR_root_ads_main_hornEscalate","$STR_root_ads_main_hornEscalate_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_hornWindow,"$STR_root_ads_main_hornWindow","$STR_root_ads_main_hornWindow_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_hornMaxSusp,"$STR_root_ads_main_hornMaxSusp","$STR_root_ads_main_hornMaxSusp_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_hornSearchCount,"$STR_root_ads_main_hornSearchCount","$STR_root_ads_main_hornSearchCount_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_hornRange,"$STR_root_ads_main_hornRange","$STR_root_ads_main_hornRange_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_nearAwareRange,"$STR_root_ads_main_nearAwareRange","$STR_root_ads_main_nearAwareRange_desc",-1);
             class ROOT_ADS_S_convoyMode: Combo {
                 property = "ROOT_ADS_S_convoyMode";
                 displayName = "$STR_root_ads_main_convoyMode";
@@ -240,6 +245,7 @@ class CfgVehicles {
             ATTR_NUM_RAW(ROOT_ADS_S_syncDelay,"$STR_root_ads_main_syncDelay","$STR_root_ads_main_syncDelay_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_syncFactor,"$STR_root_ads_main_syncFactor","$STR_root_ads_main_syncFactor_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_syncMin,"$STR_root_ads_main_syncMin","$STR_root_ads_main_syncMin_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_syncStartSusp,"$STR_root_ads_main_syncStartSusp","$STR_root_ads_main_syncStartSusp_desc");
             ATTR_TRI_RAW(ROOT_ADS_S_syncCanIdentify,"$STR_root_ads_main_syncCanIdentify","$STR_root_ads_main_syncCanIdentify_desc");
             ATTR_TRI_RAW(ROOT_ADS_S_syncRespectSig,"$STR_root_ads_main_syncRespectSig","$STR_root_ads_main_syncRespectSig_desc");
             ATTR_NUM_RAW(ROOT_ADS_S_appearanceChangeKeep,"$STR_root_ads_main_appearanceChangeKeep","$STR_root_ads_main_appearanceChangeKeep_desc",-1);
@@ -270,6 +276,10 @@ class CfgVehicles {
             ATTR_NUM_RAW(ROOT_ADS_S_inspectClearSusp,"$STR_root_ads_main_inspectClearSusp","$STR_root_ads_main_inspectClearSusp_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_inspectDismount,"$STR_root_ads_main_inspectDismount","$STR_root_ads_main_inspectDismount_desc",-1);
             ATTR_TRI_RAW(ROOT_ADS_S_inspectRemount,"$STR_root_ads_main_inspectRemount","$STR_root_ads_main_inspectRemount_desc");
+            ATTR_NUM_RAW(ROOT_ADS_S_inspectCooldown,"$STR_root_ads_main_inspectCooldown","$STR_root_ads_main_inspectCooldown_desc",-1);
+            ATTR_TRI_RAW(ROOT_ADS_S_alertRecall,"$STR_root_ads_main_alertRecall","$STR_root_ads_main_alertRecall_desc");
+            ATTR_NUM_RAW(ROOT_ADS_S_inspectClearGrace,"$STR_root_ads_main_inspectClearGrace","$STR_root_ads_main_inspectClearGrace_desc",-1);
+            ATTR_NUM_RAW(ROOT_ADS_S_inspectClearMargin,"$STR_root_ads_main_inspectClearMargin","$STR_root_ads_main_inspectClearMargin_desc",-1);
             ATTR_NUM_RAW(ROOT_ADS_S_fleeDistance,"$STR_root_ads_main_fleeDistance","$STR_root_ads_main_fleeDistance_desc",-1);
             class ROOT_ADS_S_fleeBulletin: Combo {
                 property = "ROOT_ADS_S_fleeBulletin";

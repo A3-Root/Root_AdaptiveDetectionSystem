@@ -48,6 +48,7 @@ private _minClose = MSET(minCloseExposure);
 private _ignoreHull = !MSET(hullBlocks);
 private _halfFov = MSET(fovAngle) / 2;
 private _peripheral = MSET(peripheralMult);
+private _nearAware = MSET(nearAwareRange);
 private _skillInfluence = MSET(skillInfluence);
 private _night = MSET(nightMult);
 private _nvgNight = MSET(nvgNightMult);
@@ -129,7 +130,8 @@ private _bestParts = [];
         private _toTarget = _eye vectorFromTo _target;
         private _facing = if (_observerVeh == _observer) then { eyeDirection _observer } else { vectorDir _observerVeh };
         private _angle = acos ((((vectorNormalized _facing) vectorDotProduct _toTarget) min 1) max -1);
-        private _fov = [_peripheral, 1] select (_angle <= _halfFov);
+        // right beside them nobody needs to look: a vehicle parked alongside is noticed anyway
+        private _fov = [_peripheral, 1] select (_angle <= _halfFov || _distance <= _nearAware);
 
         // Telling who sits in a vehicle gets hard fast with distance: full inside close range,
         // then (closeRange / distance) ^ exponent, e.g. 40 m close range, exponent 1.5 -> 0.09 at 200 m

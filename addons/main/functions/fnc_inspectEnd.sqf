@@ -24,13 +24,27 @@ if (isNil "_pursuit") exitWith {};
 private _unit = _pursuit get "target";
 private _entry = ([_grp] call FUNC(getData)) getOrDefault [hashValue _unit, []];
 if (_entry isNotEqualTo [] && {(_entry select D_STATE) != ST_COMPROMISED}) then {
-    // a clean inspection lowers suspicion by a set amount, and never leaves it above the cleared level
+    // A clean inspection lowers suspicion by a set amount, never leaves it above the cleared level and
+    // overrides a starting suspicion for the cooldown (clearedHold keeps them calm meanwhile)
     private _clear = MSET(inspectClearSusp);
     private _before = _entry select D_SUSP;
-    _entry set [D_SUSP, (((_before - MSET(inspectClearReduce)) min _clear) max 0) max ([_grp] call FUNC(startSuspicion))];
-    if (RADS_DEBUG) then { [_entry, format ["t=%1 INSPECTION %2: suspicion %3 -> %4 (lowered by %5, at most %6)", CBA_missionTime toFixed 1, _outcome, _before toFixed 1, (_entry select D_SUSP) toFixed 1, MSET(inspectClearReduce), _clear]] call FUNC(debugHistory); };
-    _entry set [D_SYNCSENT, _entry select D_SUSP];
+    private _after = ((_before - MSET(inspectClearReduce)) min _clear) max 0;
+    _entry set [D_SUSP, _after];
+    if (RADS_DEBUG) then { [_entry, format ["t=%1 INSPECTION %2: suspicion %3 -> %4 (lowered by %5, at most %6, paused %10 s, starting suspicion %7 ignored for %8 s, suspicious again at %9)", CBA_missionTime toFixed 1, _outcome, _before toFixed 1, _after toFixed 1, MSET(inspectClearReduce), _clear, [_grp] call FUNC(startSuspicion), MSET(inspectCooldown), (_after + MSET(inspectClearMargin)) toFixed 1, MSET(inspectClearGrace)]] call FUNC(debugHistory); };
+    _entry set [D_SYNCSENT, _after];
     _entry set [D_CLEARED, time + MSET(inspectCooldown)];
+    private _levels = _grp getVariable [QGVAR(clearedLevel), createHashMap];
+    _levels set [hashValue _unit, _after];
+    _grp setVariable [QGVAR(clearedLevel), _levels];
+    // A short pause right after for the inspected vehicle only (anyone in it, every group): waiting
+    // to drive off is not suspicious. Other vehicles, or the same people in another one, build as
+    // usual; a give-away or a change of occupants breaks it (processEntry).
+    private _inspected = vehicle _unit;
+    if (MSET(inspectClearGrace) > 0) then {
+        _inspected setVariable [QGVAR(calm), ["cleared", CBA_missionTime + MSET(inspectClearGrace), (crew _inspected) apply {hashValue _x}], true];
+    } else {
+        _inspected setVariable [QGVAR(calm), nil, true];
+    };
     [_grp, _entry, ST_UNAWARE, format ["inspection passed (%1)", _outcome]] call FUNC(setState);
     [_grp, _entry, false] call FUNC(behaviourHooks);
     [_grp, true] call FUNC(publishData);
@@ -39,6 +53,10 @@ if (_entry isNotEqualTo [] && {(_entry select D_STATE) != ST_COMPROMISED}) then 
         [_grp, [[_unit, _entry select D_SUSP, [_unit] call FUNC(appearanceSig)]], true] call FUNC(syncSuspicion);
     };
 };
+
+// everyone else after that vehicle accepts the result (an inspection still running there would
+// otherwise call the players driving off "fleeing")
+[QGVAR(inspectCleared), [vehicle _unit, _grp]] call CBA_fnc_globalEvent;
 
 { [QGVAR(inspected), [_grp, false], _x] call CBA_fnc_targetEvent; } forEach ((crew vehicle _unit) select {isPlayer _x});
 

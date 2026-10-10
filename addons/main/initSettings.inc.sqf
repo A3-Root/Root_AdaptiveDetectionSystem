@@ -78,6 +78,7 @@
 // ---------------------------------------------------------------- 05 What the AI Can See
 [QGVAR(fovAngle), "SLIDER", [LSTRING(fovAngle), LSTRING(fovAngle_desc)], SUB_OBSERVERS, [30, 360, 140, 0], true] call CBA_fnc_addSetting;
 [QGVAR(peripheralMult), "SLIDER", [LSTRING(peripheralMult), LSTRING(peripheralMult_desc)], SUB_OBSERVERS, [0, 1, 0.10247, 0, true], true] call CBA_fnc_addSetting;
+[QGVAR(nearAwareRange), "SLIDER", [LSTRING(nearAwareRange), LSTRING(nearAwareRange_desc)], SUB_OBSERVERS, [0, 100, 20, 0], true] call CBA_fnc_addSetting;
 [QGVAR(behSafe), "SLIDER", [LSTRING(behSafe), LSTRING(behSafe_desc)], SUB_OBSERVERS, [0, 3, 0.7, 2], true] call CBA_fnc_addSetting;
 [QGVAR(behAware), "SLIDER", [LSTRING(behAware), LSTRING(behAware_desc)], SUB_OBSERVERS, [0, 3, 1, 2], true] call CBA_fnc_addSetting;
 [QGVAR(behCombat), "SLIDER", [LSTRING(behCombat), LSTRING(behCombat_desc)], SUB_OBSERVERS, [0, 3, 1.125, 2], true] call CBA_fnc_addSetting;
@@ -159,7 +160,11 @@
 [QGVAR(lightsOffMult), "SLIDER", [LSTRING(lightsOffMult), LSTRING(lightsOffMult_desc)], SUB_DRIVING, [1, 5, 1.4, 2], true] call CBA_fnc_addSetting;
 [QGVAR(hornMult), "SLIDER", [LSTRING(hornMult), LSTRING(hornMult_desc)], SUB_DRIVING, [1, 5, 1.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(hornSuspicion), "SLIDER", [LSTRING(hornSuspicion), LSTRING(hornSuspicion_desc)], SUB_DRIVING, [0, 50, 5, 0], true] call CBA_fnc_addSetting;
-[QGVAR(hornRange), "SLIDER", [LSTRING(hornRange), LSTRING(hornRange_desc)], SUB_DRIVING, [0, 500, 60, 0], true] call CBA_fnc_addSetting;
+[QGVAR(hornEscalate), "SLIDER", [LSTRING(hornEscalate), LSTRING(hornEscalate_desc)], SUB_DRIVING, [1, 5, 1.8, 2], true] call CBA_fnc_addSetting;
+[QGVAR(hornWindow), "SLIDER", [LSTRING(hornWindow), LSTRING(hornWindow_desc)], SUB_DRIVING, [5, 300, 30, 0], true] call CBA_fnc_addSetting;
+[QGVAR(hornMaxSusp), "SLIDER", [LSTRING(hornMaxSusp), LSTRING(hornMaxSusp_desc)], SUB_DRIVING, [0, 99, 95, 0], true] call CBA_fnc_addSetting;
+[QGVAR(hornSearchCount), "SLIDER", [LSTRING(hornSearchCount), LSTRING(hornSearchCount_desc)], SUB_DRIVING, [0, 20, 3, 0], true] call CBA_fnc_addSetting;
+[QGVAR(hornRange), "SLIDER", [LSTRING(hornRange), LSTRING(hornRange_desc)], SUB_DRIVING, [0, 500, 150, 0], true] call CBA_fnc_addSetting;
 [QGVAR(aimMult), "SLIDER", [LSTRING(aimMult), LSTRING(aimMult_desc)], SUB_DRIVING, [1, 10, 2.5, 2], true] call CBA_fnc_addSetting;
 [QGVAR(aimAngle), "SLIDER", [LSTRING(aimAngle), LSTRING(aimAngle_desc)], SUB_DRIVING, [1, 45, 8, 0], true] call CBA_fnc_addSetting;
 [QGVAR(lightMult), "SLIDER", [LSTRING(lightMult), LSTRING(lightMult_desc)], SUB_DRIVING, [1, 5, 2, 2], true] call CBA_fnc_addSetting;
@@ -227,6 +232,7 @@
 [QGVAR(syncFactor), "SLIDER", [LSTRING(syncFactor), LSTRING(syncFactor_desc)], SUB_SHARE, [0, 1, 1, 0, true], true] call CBA_fnc_addSetting;
 [QGVAR(syncMin), "SLIDER", [LSTRING(syncMin), LSTRING(syncMin_desc)], SUB_SHARE, [0, 99, 10, 0], true] call CBA_fnc_addSetting;
 [QGVAR(syncNeedsRadio), "CHECKBOX", [LSTRING(syncNeedsRadio), LSTRING(syncNeedsRadio_desc)], SUB_SHARE, true, true] call CBA_fnc_addSetting;
+[QGVAR(syncStartSusp), "CHECKBOX", [LSTRING(syncStartSusp), LSTRING(syncStartSusp_desc)], SUB_SHARE, false, true] call CBA_fnc_addSetting;
 [QGVAR(syncCanIdentify), "CHECKBOX", [LSTRING(syncCanIdentify), LSTRING(syncCanIdentify_desc)], SUB_SHARE, false, true] call CBA_fnc_addSetting;
 [QGVAR(syncRespectSig), "CHECKBOX", [LSTRING(syncRespectSig), LSTRING(syncRespectSig_desc)], SUB_SHARE, true, true] call CBA_fnc_addSetting;
 [QGVAR(appearanceChangeKeep), "SLIDER", [LSTRING(appearanceChangeKeep), LSTRING(appearanceChangeKeep_desc)], SUB_SHARE, [0, 1, 0.353623, 0, true], true] call CBA_fnc_addSetting;
@@ -294,7 +300,10 @@
 [QGVAR(inspectClearSusp), "SLIDER", [LSTRING(inspectClearSusp), LSTRING(inspectClearSusp_desc)], SUB_PURSUIT, [0, 99, 15, 0], true] call CBA_fnc_addSetting;
 [QGVAR(inspectDismount), "SLIDER", [LSTRING(inspectDismount), LSTRING(inspectDismount_desc)], SUB_PURSUIT, [1, 10, 2, 0], true] call CBA_fnc_addSetting;
 [QGVAR(inspectRemount), "CHECKBOX", [LSTRING(inspectRemount), LSTRING(inspectRemount_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
+[QGVAR(alertRecall), "CHECKBOX", [LSTRING(alertRecall), LSTRING(alertRecall_desc)], SUB_PURSUIT, true, true] call CBA_fnc_addSetting;
 [QGVAR(inspectCooldown), "SLIDER", [LSTRING(inspectCooldown), LSTRING(inspectCooldown_desc)], SUB_PURSUIT, [0, 3600, 300, 0], true] call CBA_fnc_addSetting;
+[QGVAR(inspectClearGrace), "SLIDER", [LSTRING(inspectClearGrace), LSTRING(inspectClearGrace_desc)], SUB_PURSUIT, [0, 120, 15, 0], true] call CBA_fnc_addSetting;
+[QGVAR(inspectClearMargin), "SLIDER", [LSTRING(inspectClearMargin), LSTRING(inspectClearMargin_desc)], SUB_PURSUIT, [0, 100, 15, 0], true] call CBA_fnc_addSetting;
 [QGVAR(fleeDistance), "SLIDER", [LSTRING(fleeDistance), LSTRING(fleeDistance_desc)], SUB_PURSUIT, [5, 200, 25, 0], true] call CBA_fnc_addSetting;
 [QGVAR(fleeSpeed), "SLIDER", [LSTRING(fleeSpeed), LSTRING(fleeSpeed_desc)], SUB_PURSUIT, [3, 100, 15, 0], true] call CBA_fnc_addSetting;
 [QGVAR(fleeBulletin), "LIST", [LSTRING(fleeBulletin), LSTRING(fleeBulletin_desc)], SUB_PURSUIT, [[0, 1, 2], [[LSTRING(fleeBulletin_opt0)], [LSTRING(fleeBulletin_opt1), LSTRING(fleeBulletin_opt1_desc)], [LSTRING(fleeBulletin_opt2), LSTRING(fleeBulletin_opt2_desc)]], 2], true] call CBA_fnc_addSetting;
@@ -398,6 +407,7 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["sameVehicleInstant", ["CHECKBOX"]],
     ["fovAngle", ["SLIDER", 30, 360, 0, false]],
     ["peripheralMult", ["SLIDER", 0, 1, 0, true]],
+    ["nearAwareRange", ["SLIDER", 0, 100, 0, false]],
     ["behSafe", ["SLIDER", 0, 3, 2, false]],
     ["behAware", ["SLIDER", 0, 3, 2, false]],
     ["behCombat", ["SLIDER", 0, 3, 2, false]],
@@ -467,6 +477,10 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["lightsOffMult", ["SLIDER", 1, 5, 2, false]],
     ["hornMult", ["SLIDER", 1, 5, 2, false]],
     ["hornSuspicion", ["SLIDER", 0, 50, 0, false]],
+    ["hornEscalate", ["SLIDER", 1, 5, 2, false]],
+    ["hornWindow", ["SLIDER", 5, 300, 0, false]],
+    ["hornMaxSusp", ["SLIDER", 0, 99, 0, false]],
+    ["hornSearchCount", ["SLIDER", 0, 20, 0, false]],
     ["hornRange", ["SLIDER", 0, 500, 0, false]],
     ["aimMult", ["SLIDER", 1, 10, 2, false]],
     ["aimAngle", ["SLIDER", 1, 45, 0, false]],
@@ -527,6 +541,7 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["syncFactor", ["SLIDER", 0, 1, 0, true]],
     ["syncMin", ["SLIDER", 0, 99, 0, false]],
     ["syncNeedsRadio", ["CHECKBOX"]],
+    ["syncStartSusp", ["CHECKBOX"]],
     ["syncCanIdentify", ["CHECKBOX"]],
     ["syncRespectSig", ["CHECKBOX"]],
     ["appearanceChangeKeep", ["SLIDER", 0, 1, 0, true]],
@@ -588,7 +603,10 @@ GVAR(settingMeta) = createHashMapFromArray [
     ["inspectClearSusp", ["SLIDER", 0, 99, 0, false]],
     ["inspectDismount", ["SLIDER", 1, 10, 0, false]],
     ["inspectRemount", ["CHECKBOX"]],
+    ["alertRecall", ["CHECKBOX"]],
     ["inspectCooldown", ["SLIDER", 0, 3600, 0, false]],
+    ["inspectClearGrace", ["SLIDER", 0, 120, 0, false]],
+    ["inspectClearMargin", ["SLIDER", 0, 100, 0, false]],
     ["fleeDistance", ["SLIDER", 5, 200, 0, false]],
     ["fleeSpeed", ["SLIDER", 3, 100, 0, false]],
     ["fleeBulletin", ["LIST", [0, 1, 2], [LSTRING(fleeBulletin_opt0), LSTRING(fleeBulletin_opt1), LSTRING(fleeBulletin_opt2)]]],

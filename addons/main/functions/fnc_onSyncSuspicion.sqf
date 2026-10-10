@@ -49,14 +49,18 @@ private _from = [groupId _source, "?"] select (isNull _source);
                     private _own = _entry select D_SUSP;
                     if (_state != ST_COMPROMISED) then {
                         if (_clear) then {
-                            if (_own > _susp) then {
-                                _entry set [D_SUSP, _susp];
-                                _entry set [D_SYNCSENT, _susp];
-                                _entry set [D_CLEARED, time + MSET(inspectCooldown)];
-                                if (_state != ST_UNAWARE) then { [_grp, _entry, ST_UNAWARE, format ["all-clear from %1 (inspection passed)", _from]] call FUNC(setState); };
-                                [_grp, _entry, false] call FUNC(behaviourHooks);
-                                [_grp, true] call FUNC(publishData);
-                            };
+                            // everyone told stays calm for the cooldown, including groups that had not noticed the unit yet
+                            private _level = _own min _susp;
+                            _entry set [D_SUSP, _level];
+                            _entry set [D_SYNCSENT, _level];
+                            _entry set [D_CLEARED, time + MSET(inspectCooldown)];
+                            private _levels = _grp getVariable [QGVAR(clearedLevel), createHashMap];
+                            _levels set [hashValue _unit, _level];
+                            _grp setVariable [QGVAR(clearedLevel), _levels];
+                            if (RADS_DEBUG) then { [_entry, format ["t=%1 ALL-CLEAR from %2: suspicion %3 -> %4, calm for %5 s", CBA_missionTime toFixed 1, _from, _own toFixed 1, _level toFixed 1, MSET(inspectCooldown)]] call FUNC(debugHistory); };
+                            if (_state != ST_UNAWARE) then { [_grp, _entry, ST_UNAWARE, format ["all-clear from %1 (inspection passed)", _from]] call FUNC(setState); };
+                            [_grp, _entry, false] call FUNC(behaviourHooks);
+                            [_grp, true] call FUNC(publishData);
                         } else {
                             private _new = (_susp * _factor) min _cap;
                             if (_new > _own) then {

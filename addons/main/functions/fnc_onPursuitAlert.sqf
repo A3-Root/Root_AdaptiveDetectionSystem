@@ -38,10 +38,17 @@ private _covered = _unit getVariable [QGVAR(cover), false];
         && {[_grp, _pos, _radius] call FUNC(groupInRange)}
         && {[_side, _unit] call FUNC(isHostile)}
     ) then {
-        if (_setAware && {behaviour (leader _grp) in ["SAFE", "CARELESS"]} && {isNil {_grp getVariable QGVAR(truceSaved)}}) then { _grp setBehaviour "AWARE"; };
+        private _behaviour = behaviour (leader _grp);
+        if (_setAware && {_behaviour in ["SAFE", "CARELESS"]} && {isNil {_grp getVariable QGVAR(truceSaved)}}) then { _grp setBehaviour "AWARE"; };
         if (_covered) then {
             private _entry = [_grp, _unit, false] call FUNC(classify);
             if ((_entry select D_STATE) != ST_COMPROMISED) then {
+                // remembered so a "refused to stop" that stops after all can be called off (onAlertRecall)
+                private _saved = _grp getVariable [QGVAR(alertSaved), createHashMap];
+                if (((_saved getOrDefault [hashValue _unit, [0, 0, "", -1e10]]) select 3) < time - 120) then {
+                    _saved set [hashValue _unit, [_entry select D_SUSP, _entry select D_STATE, _behaviour, time, _reason]];
+                    _grp setVariable [QGVAR(alertSaved), _saved];
+                };
                 _entry set [D_SUSP, ((_entry select D_SUSP) max _floor) min (MSET(identifyThreshold) - 1)];
                 _entry set [D_SIG, [_unit] call FUNC(appearanceSig)];
                 [_grp, _entry, ST_SEARCHING, format ["alert from %1: %2", [groupId _source, "?"] select (isNull _source), _reason]] call FUNC(setState);
